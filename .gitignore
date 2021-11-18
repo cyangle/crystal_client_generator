@@ -1,0 +1,5 @@
+/tmp
+/out/*
+!/out/.keep
+/local/*
+!/local/.keep
