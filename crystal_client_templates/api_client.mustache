@@ -139,7 +139,8 @@ module {{moduleName}}
         form_or_body = form_params
       end
 
-      request = Crest::Request.new(http_method,
+      request = Crest::Request.new(
+        http_method,
         build_request_url(path, operation),
         params: query_params,
         headers: header_params,
@@ -194,7 +195,8 @@ module {{moduleName}}
         form_or_body = form_params
       end
 
-      request = Crest::Request.new(http_method,
+      request = Crest::Request.new(
+        http_method,
         build_request_url(path, operation),
         params: query_params,
         headers: header_params,

@@ -43,15 +43,18 @@ module {{moduleName}}
     def {{operationId}}_with_http_info({{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}{{paramName}} : {{{dataType}}}{{#isNullable}} | Null{{/isNullable}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}{{paramName}} : {{{dataType}}}?{{#isNullable}} | Null{{/isNullable}}{{^defaultValue}} = nil{{/defaultValue}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalParams}})
 {{>partial_api_shared}}
 
-      data, status_code, headers = @api_client.call_api(:"{{httpMethod}}",
-                                                        local_var_path,
-                                                        "{{classname}}.{{operationId}}",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        form_params)
+      data, status_code, headers = @api_client.call_api(
+        :"{{httpMethod}}",
+        local_var_path,
+        "{{classname}}.{{operationId}}",
+        return_type,
+        post_body,
+        auth_names,
+        header_params,
+        query_params,
+        form_params
+      )
+
       if @api_client.config.debugging
         Log.debug {"API called: {{classname}}#{{operationId}}\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
@@ -73,15 +76,17 @@ module {{moduleName}}
     def {{operationId}}({{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}{{paramName}} : {{{dataType}}}{{#isNullable}} | Null{{/isNullable}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}{{paramName}} : {{{dataType}}}?{{#isNullable}} | Null{{/isNullable}}{{^defaultValue}} = nil{{/defaultValue}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalParams}}{{#hasParams}}, {{/hasParams}}&block : Crest::Response ->)
 {{>partial_api_shared}}
 
-      @api_client.call_api(:"{{httpMethod}}",
-                           local_var_path,
-                           "{{classname}}.{{operationId}}",
-                           return_type,
-                           post_body,
-                           auth_names,
-                           header_params,
-                           query_params,
-                           form_params) do |response|
+      @api_client.call_api(
+        :"{{httpMethod}}",
+        local_var_path,
+        "{{classname}}.{{operationId}}",
+        return_type,
+        post_body,
+        auth_names,
+        header_params,
+        query_params,
+        form_params
+      ) do |response|
         block.call(response)
       end
     end

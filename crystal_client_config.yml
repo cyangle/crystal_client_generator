@@ -1,1 +1,3 @@
 templateDir: crystal_client_templates
+files:
+  .ameba.yml: {}

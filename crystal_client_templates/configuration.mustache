@@ -187,7 +187,7 @@ module {{moduleName}}
     def base_url(operation = Nil)
       # TODO revise below to support operation-level server setting
       #index = server_operation_index.fetch(operation, server_index)
-      return "#{scheme}://#{[host, base_path].join("/").gsub(/\/+/, "/")}".sub(/\/+\z/, "") #if index == Nil
+      "#{scheme}://#{[host, base_path].join("/").gsub(/\/+/, "/")}".sub(/\/+\z/, "") #if index == Nil
 
       #server_url(index, server_operation_variables.fetch(operation, server_variables), operation_server_settings[operation])
     end
@@ -352,14 +352,14 @@ module {{moduleName}}
       # go through variable and assign a value
       server["variables"].each do |name, variable|
         if variables.has_key?(name)
-          if (!server["variables"][name].has_key?("enum_values") || server["variables"][name]["enum_values"].includes?(variables[name]))
+          if (!variable.has_key?("enum_values") || variable["enum_values"].includes?(variables[name]))
             url.gsub! "{" + name.to_s + "}", variables[name]
           else
-            raise ArgumentError.new("The variable `#{name}` in the server URL has invalid value #{variables[name]}. Must be #{server["variables"][name]["enum_values"]}.")
+            raise ArgumentError.new("The variable `#{name}` in the server URL has invalid value #{variables[name]}. Must be #{variable["enum_values"]}.")
           end
         else
           # use default value
-          url.gsub! "{" + name.to_s + "}", server["variables"][name]["default_value"]
+          url.gsub! "{" + name.to_s + "}", variable["default_value"]
         end
       end
 
