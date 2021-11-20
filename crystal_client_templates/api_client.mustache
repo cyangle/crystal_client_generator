@@ -18,7 +18,7 @@ module {{moduleName}}
     def initialize(@config = Configuration.default)
       @user_agent = "{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/#{VERSION}/crystal{{/httpUserAgent}}"
       @default_headers = {
-        "User-Agent" => @user_agent
+        "User-Agent" => @user_agent,
       }
     end
 
@@ -38,7 +38,6 @@ module {{moduleName}}
       (mime == "*/*") || !(mime =~ /Application\/.*json(?!p)(;.*)?/i).nil?
     end
 
-
     def build_request_url(path : String, operation : String)
       # Add leading and trailing slashes to path
       path = "/#{path}".gsub(/\/+/, "/")
@@ -55,9 +54,12 @@ module {{moduleName}}
         auth_setting = @config.auth_settings[auth_name]
         next unless auth_setting
         case auth_setting["in"]
-        when "header" then header_params[auth_setting["key"]] = auth_setting["value"]
-        when "query"  then query_params[auth_setting["key"]] = auth_setting["value"]
-        else raise ArgumentError.new("Authentication token must be in `query` of `header`")
+        when "header"
+          header_params[auth_setting["key"]] = auth_setting["value"]
+        when "query"
+          query_params[auth_setting["key"]] = auth_setting["value"]
+        else
+          raise ArgumentError.new("Authentication token must be in `query` of `header`")
         end
       end
     end
@@ -74,7 +76,7 @@ module {{moduleName}}
     # @param [Array] accepts array for Accept
     # @return [String] the Accept header (e.g. application/json)
     def select_header_accept(accepts) : String
-      #return nil if accepts.nil? || accepts.empty?
+      # return nil if accepts.nil? || accepts.empty?
       # use JSON when present, otherwise use all of the provided
       json_accept = accepts.find { |s| json_mime?(s) }
       if json_accept.nil?
@@ -120,13 +122,13 @@ module {{moduleName}}
     # @return [Array<(Object, Integer, Hash)>] an array of 3 elements:
     #   the data deserialized from response body (could be nil), response status code and response headers.
     def call_api(http_method : Symbol, path : String, operation : String, return_type : String?, post_body : String?, auth_names = [] of String, header_params = {} of String => String, query_params = {} of String => String, form_params = {} of String => (String | Array(String) | ::File))
-      #ssl_options = {
-      #  "ca_file" => @config.ssl_ca_file,
-      #  "verify" => @config.ssl_verify,
-      #  "verify_mode" => @config.ssl_verify_mode,
-      #  "client_cert" => @config.ssl_client_cert,
-      #  "client_key" => @config.ssl_client_key
-      #}
+      # ssl_options = {
+      #   "ca_file" => @config.ssl_ca_file,
+      #   "verify" => @config.ssl_verify,
+      #   "verify_mode" => @config.ssl_verify_mode,
+      #   "client_cert" => @config.ssl_client_cert,
+      #   "client_key" => @config.ssl_client_key
+      # }
 
       update_params_for_auth! header_params, query_params, auth_names
 
@@ -144,7 +146,7 @@ module {{moduleName}}
         build_request_url(path, operation),
         params: query_params,
         headers: header_params,
-        #cookies: cookie_params, # TODO add cookies support
+        # cookies: cookie_params, # TODO add cookies support
         form: form_or_body,
         logging: @config.debugging,
         handle_errors: false
@@ -153,18 +155,19 @@ module {{moduleName}}
       response = request.execute
 
       if @config.debugging
-        Log.debug {"HTTP response body ~BEGIN~\n#{response.body}\n~END~\n"}
+        Log.debug { "HTTP response body ~BEGIN~\n#{response.body}\n~END~\n" }
       end
 
       if !response.success?
         if response.status == 0
           # Errors from libcurl will be made visible here
-          raise ApiError.new(code: 0,
-                            message: response.body)
+          raise ApiError.new(code: 0, message: response.body)
         else
-          raise ApiError.new(code: response.status_code,
-                            response_headers: response.headers,
-                            message: response.body)
+          raise ApiError.new(
+            code: response.status_code,
+            response_headers: response.headers,
+            message: response.body
+          )
         end
       end
 
@@ -176,13 +179,13 @@ module {{moduleName}}
     # @return [Array<(Object, Integer, Hash)>] an array of 3 elements:
     #   the data deserialized from response body (could be nil), response status code and response headers.
     def call_api(http_method : Symbol, path : String, operation : String, return_type : String?, post_body : String?, auth_names = [] of String, header_params = {} of String => String, query_params = {} of String => String, form_params = {} of String => (String | Array(String) | ::File), &block : Crest::Response ->) : Nil
-      #ssl_options = {
-      #  "ca_file" => @config.ssl_ca_file,
-      #  "verify" => @config.ssl_verify,
-      #  "verify_mode" => @config.ssl_verify_mode,
-      #  "client_cert" => @config.ssl_client_cert,
-      #  "client_key" => @config.ssl_client_key
-      #}
+      # ssl_options = {
+      #   "ca_file" => @config.ssl_ca_file,
+      #   "verify" => @config.ssl_verify,
+      #   "verify_mode" => @config.ssl_verify_mode,
+      #   "client_cert" => @config.ssl_client_cert,
+      #   "client_key" => @config.ssl_client_key
+      # }
 
       update_params_for_auth! header_params, query_params, auth_names
 
@@ -200,7 +203,7 @@ module {{moduleName}}
         build_request_url(path, operation),
         params: query_params,
         headers: header_params,
-        #cookies: cookie_params, # TODO add cookies support
+        # cookies: cookie_params, # TODO add cookies support
         form: form_or_body,
         logging: @config.debugging,
         handle_errors: false

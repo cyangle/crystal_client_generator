@@ -11,6 +11,7 @@ module {{moduleName}}
       @api_client = api_client
     end
 {{#operation}}
+
     {{#summary}}
     # {{{.}}}
     {{/summary}}
@@ -56,7 +57,7 @@ module {{moduleName}}
       )
 
       if @api_client.config.debugging
-        Log.debug {"API called: {{classname}}#{{operationId}}\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
+        Log.debug { "API called: {{classname}}#{{operationId}}\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}" }
       end
       return {{#returnType}}{{{.}}}.from_nason(data){{/returnType}}{{^returnType}}nil{{/returnType}}, status_code, headers
     end
@@ -90,9 +91,6 @@ module {{moduleName}}
         block.call(response)
       end
     end
-{{^-last}}
-
-{{/-last}}
 {{/operation}}
   end
 {{/operations}}

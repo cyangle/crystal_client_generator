@@ -272,7 +272,7 @@
     def ==(o)
       return true if self.same?(o)
       self.class == o.class{{#vars}} &&
-          {{name}} == o.{{name}}{{/vars}}{{#parent}} && super(o){{/parent}}
+        {{name}} == o.{{name}}{{/vars}}{{#parent}} && super(o){{/parent}}
     end
 
     # @see the `==` method

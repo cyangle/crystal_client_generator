@@ -10,10 +10,10 @@ module {{moduleName}}
     #   ApiError.new(message: "message")
     #   ApiError.new(code: 500, response_headers: {}, message: "")
     #   ApiError.new(code: 404, message: "Not Found")
-    def initialize(@code , @message, @response_headers)
+    def initialize(@code, @message, @response_headers)
     end
 
-    def initialize(@code , @message)
+    def initialize(@code, @message)
     end
 
     # Override to_s to display a friendly error message

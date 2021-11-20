@@ -12,8 +12,8 @@ require "../spec_helper"
       api_instance.should be_a({{moduleName}}::{{classname}})
     end
   end
-
 {{#operation}}
+
   # unit tests for {{operationId}}
   {{#summary}}
   # {{.}}
@@ -30,7 +30,6 @@ require "../spec_helper"
       # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
     end
   end
-
 {{/operation}}
 end
 {{/operations}}

@@ -9,14 +9,14 @@ require "../spec_helper"
 {{#model}}
 describe {{moduleName}}::{{classname}} do
 {{^oneOf}}
-
   describe "test an instance of {{classname}}" do
     it "should create an instance of {{classname}}" do
-      #instance = {{moduleName}}::{{classname}}.new
-      #expect(instance).to be_instance_of({{moduleName}}::{{classname}})
+      # instance = {{moduleName}}::{{classname}}.new
+      # expect(instance).to be_instance_of({{moduleName}}::{{classname}})
     end
   end
 {{#vars}}
+
   describe "test attribute '{{{name}}}'" do
     it "should work" do
       {{#isEnum}}
@@ -31,7 +31,6 @@ describe {{moduleName}}::{{classname}} do
       {{/isEnum}}
     end
   end
-
 {{/vars}}
 {{/oneOf}}
 {{#oneOf}}

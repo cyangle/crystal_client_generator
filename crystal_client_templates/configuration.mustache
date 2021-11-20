@@ -77,16 +77,16 @@ module {{moduleName}}
     # @return [true, false]
     property client_side_validation : Bool
 
-    ### TLS/SSL setting
+    # ## TLS/SSL setting
     # Set this to false to skip verifying SSL certificate when calling API from https server.
     # Default to true.
     #
     # @note Do NOT set it to false in production code, otherwise you would face multiple types of cryptographic attacks.
     #
     # @return [true, false]
-    #TODO attr_accessor :verify_ssl
+    # TODO attr_accessor :verify_ssl
 
-    ### TLS/SSL setting
+    # ## TLS/SSL setting
     # Set this to false to skip verifying SSL host name
     # Default to true.
     #
@@ -95,7 +95,7 @@ module {{moduleName}}
     # @return [true, false]
     # TODO attr_accessor :verify_ssl_host
 
-    ### TLS/SSL setting
+    # ## TLS/SSL setting
     # Set this to customize the certificate file to verify the peer.
     #
     # @return [String] the path to the certificate file
@@ -104,11 +104,11 @@ module {{moduleName}}
     # https://github.com/typhoeus/typhoeus/blob/master/lib/typhoeus/easy_factory.rb#L145
     # TODO attr_accessor :ssl_ca_cert
 
-    ### TLS/SSL setting
+    # ## TLS/SSL setting
     # Client certificate file (for client certificate)
     # TODO attr_accessor :cert_file
 
-    ### TLS/SSL setting
+    # ## TLS/SSL setting
     # Client private key file (for client certificate)
     # TODO attr_accessor :key_file
 
@@ -117,7 +117,7 @@ module {{moduleName}}
     #
     # @see The params_encoding option of Ethon. Related source code:
     # https://github.com/typhoeus/ethon/blob/master/lib/ethon/easy/queryable.rb#L96
-    #property params_encoding : String?
+    # property params_encoding : String?
 
     # Create a new `Configuration`.
     def initialize
@@ -134,9 +134,9 @@ module {{moduleName}}
       @client_side_validation = true
       @verify_ssl = true
       @verify_ssl_host = true
-      #@params_encoding = nil
-      #@cert_file = nil
-      #@key_file = nil
+      # @params_encoding = nil
+      # @cert_file = nil
+      # @key_file = nil
       @debugging = false
       @username = nil
       @password = nil
@@ -186,10 +186,10 @@ module {{moduleName}}
     # Returns base URL for specified operation based on server settings
     def base_url(operation = Nil)
       # TODO revise below to support operation-level server setting
-      #index = server_operation_index.fetch(operation, server_index)
-      "#{scheme}://#{[host, base_path].join("/").gsub(/\/+/, "/")}".sub(/\/+\z/, "") #if index == Nil
+      # index = server_operation_index.fetch(operation, server_index)
+      "#{scheme}://#{[host, base_path].join("/").gsub(/\/+/, "/")}".sub(/\/+\z/, "") # if index == Nil
 
-      #server_url(index, server_operation_variables.fetch(operation, server_variables), operation_server_settings[operation])
+      # server_url(index, server_operation_variables.fetch(operation, server_variables), operation_server_settings[operation])
     end
 
     # Gets API key (with prefix if set).
@@ -213,39 +213,39 @@ module {{moduleName}}
 {{#authMethods}}
 {{#isApiKey}}
         "{{name}}" => {
-          "type" => "api_key",
-          "in" => {{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}},
-          "key" => "{{keyParamName}}",
-          "value" => api_key_with_prefix("{{keyParamName}}")
+          "type"  => "api_key",
+          "in"    => {{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}},
+          "key"   => "{{keyParamName}}",
+          "value" => api_key_with_prefix("{{keyParamName}}"),
         },
 {{/isApiKey}}
 {{#isBasic}}
 {{#isBasicBasic}}
         "{{name}}" => {
-          "type" => "basic",
-          "in" => "header",
-          "key" => "Authorization",
-          "value" => basic_auth_token
+          "type"  => "basic",
+          "in"    => "header",
+          "key"   => "Authorization",
+          "value" => basic_auth_token,
         },
 {{/isBasicBasic}}
 {{#isBasicBearer}}
         "{{name}}" => {
-          "type" => "bearer",
-          "in" => "header",
+          "type"   => "bearer",
+          "in"     => "header",
           {{#bearerFormat}}
-          format: "{{{.}}}",
+          "format" => "{{{.}}}",
           {{/bearerFormat}}
-          "key" => "Authorization",
-          "value" => "Bearer #{access_token}"
+          "key"    => "Authorization",
+          "value"  => "Bearer #{access_token}",
         },
 {{/isBasicBearer}}
 {{/isBasic}}
 {{#isOAuth}}
         "{{name}}" => {
-          "type" => "oauth2",
-          "in" => "header",
-          "key" => "Authorization",
-          "value" => "Bearer #{access_token}"
+          "type"  => "oauth2",
+          "in"    => "header",
+          "key"   => "Authorization",
+          "value" => "Bearer #{access_token}",
         },
 {{/isOAuth}}
 {{/authMethods}}
@@ -257,7 +257,7 @@ module {{moduleName}}
       [
       {{#servers}}
         {
-          "url" => "{{{url}}}",
+          "url"         => "{{{url}}}",
           "description" => "{{{description}}}{{^description}}No description provided{{/description}}",
           {{#variables}}
           {{#-first}}
@@ -275,12 +275,9 @@ module {{moduleName}}
                 ]
                 {{/-last}}
                 {{/enumValues}}
-              }{{^-last}},{{/-last}}
-            {{#-last}}
-            }
-            {{/-last}}
+              },
           {{/variables}}
-        }{{^-last}},{{/-last}}
+        },
       {{/servers}}
       ]
     end
