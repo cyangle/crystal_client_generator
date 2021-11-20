@@ -26,7 +26,7 @@ Example command to generate google_drive library with api spec file `example_api
 ./bin/generate.sh \
   -i example_api_specs/google-drive-api-v3-oas3.json \
   -o out/google_drive \
-  --additional-properties=shardName=google_drive,moduleName=GoogleDrive
+  --additional-properties=shardName=google_drive,moduleName=GoogleDrive,shardLicense=MIT,shardVersion=3.0.0,shardAuthors=cyangle,shardDescription=Google\ Drive\ V3\ API\ Client
 ```
 
 The generated code would be written to `out/google_drive`.
