@@ -61,7 +61,7 @@
       when /\AHash<(?<k_type>.+?), (?<v_type>.+)>\z/
         k_type = Regexp.last_match[:k_type]
         v_type = Regexp.last_match[:v_type]
-        ({} of Symbol => String).tap do |hash|
+        ({} of String => String).tap do |hash|
           value.each do |k, v|
             hash[_deserialize(k_type, k)] = _deserialize(v_type, v)
           end
@@ -88,7 +88,7 @@
     # Returns the object in the form of hash
     # @return [Hash] Returns the object in the form of hash
     def to_hash
-      hash = {{^parent}}{} of Symbol => String{{/parent}}{{#parent}}super{{/parent}}
+      hash = {{^parent}}{} of String => String{{/parent}}{{#parent}}super{{/parent}}
       self.class.attribute_map.each_pair do |attr, param|
         value = self.send(attr)
         if value.nil?
@@ -109,7 +109,7 @@
       if value.is_a?(Array)
         value.compact.map { |v| _to_hash(v) }
       elsif value.is_a?(Hash)
-        ({} of Symbol => String).tap do |hash|
+        ({} of String => String).tap do |hash|
           value.each { |k, v| hash[k] = _to_hash(v) }
         end
       elsif value.respond_to? :to_hash

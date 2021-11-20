@@ -9,7 +9,7 @@
       def openapi_one_of
         [
       {{/-first}}
-          :'{{{.}}}'{{^-last}},{{/-last}}
+          {{{.}}}{{^-last}},{{/-last}}
       {{#-last}}
         ]
       end
@@ -20,7 +20,7 @@
       {{#propertyName}}
       # Discriminator's property name (OpenAPI v3)
       def openapi_discriminator_name
-        :'{{{.}}}'
+        "{{{.}}}"
       end
 
       {{/propertyName}}
@@ -30,7 +30,7 @@
       def openapi_discriminator_mapping
         {
       {{/-first}}
-          :'{{{mappingName}}}' => :'{{{modelName}}}'{{^-last}},{{/-last}}
+          "{{{mappingName}}}" => {{{modelName}}}{{^-last}},{{/-last}}
       {{#-last}}
         }
       end
@@ -109,7 +109,7 @@
             return data.map { |item| find_and_cast_into_type(sub_type, item) }
           end
         when /\AHash<String, (?<sub_type>.+)>\z/ # "type: object" with "additionalProperties: { ... }"
-          if data.instance_of?(Hash) && data.keys.all? { |k| k.instance_of?(Symbol) || k.instance_of?(String) }
+          if data.instance_of?(Hash) && data.keys.all? { |k| k.instance_of?(String) || k.instance_of?(String) }
             sub_type = Regexp.last_match[:sub_type]
             return data.each_with_object({}) { |(k, v), hsh| hsh[k] = find_and_cast_into_type(sub_type, v) }
           end

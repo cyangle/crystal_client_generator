@@ -17,7 +17,7 @@ require '{{{gemName}}}'
 {{#-first}}
 # [
 {{/-first}}
-#   :'{{{.}}}'{{^-last}},{{/-last}}
+#   {{{.}}}{{^-last}},{{/-last}}
 {{#-last}}
 # ]
 {{/-last}}
@@ -36,7 +36,7 @@ Returns the discriminator's property name.
 require '{{{gemName}}}'
 
 {{moduleName}}::{{classname}}.openapi_discriminator_name
-# => :'{{{.}}}'
+# => "{{{.}}}"
 ```
 {{/propertyName}}
 {{#mappedModels}}
@@ -55,7 +55,7 @@ require '{{{gemName}}}'
 # =>
 # {
 {{/-first}}
-#   :'{{{mappingName}}}' => :'{{{modelName}}}'{{^-last}},{{/-last}}
+#   "{{{mappingName}}}" => {{{modelName}}}{{^-last}},{{/-last}}
 {{#-last}}
 # }
 {{/-last}}
