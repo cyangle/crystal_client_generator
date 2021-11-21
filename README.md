@@ -30,3 +30,9 @@ Example command to generate google_drive library with api spec file `example_api
 ```
 
 The generated code would be written to `out/google_drive`.
+
+## JSON (de)serialization
+
+The generated code uses shard [nason](https://github.com/cyangle/nason) to (de)serialize from/to JSON.
+
+The main difference between nason and standard library json is that it treats `null` value as of struct `Null` instead of `Nil`.
