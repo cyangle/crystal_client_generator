@@ -19,13 +19,13 @@
       {{#isEnum}}
       {{#collectionFormat}}
       allowable_values = [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
-      if @api_client.config.client_side_validation && {{{paramName}}}.present? && !{{{paramName}}}.all? { |item| allowable_values.includes?(item) }
+      if @api_client.config.client_side_validation && !{{{paramName}}}.nil? && !{{{paramName}}}.null? && !{{{paramName}}}.all? { |item| allowable_values.includes?(item) }
         raise ArgumentError.new("invalid value for \"{{{paramName}}}\", must include one of #{allowable_values}")
       end
       {{/collectionFormat}}
       {{^collectionFormat}}
       allowable_values = [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
-      if @api_client.config.client_side_validation && {{{paramName}}}.present? && !allowable_values.includes?({{{paramName}}})
+      if @api_client.config.client_side_validation && !{{{paramName}}}.nil? && !{{{paramName}}}.null? && !allowable_values.includes?({{{paramName}}})
         raise ArgumentError.new("invalid value for \"{{{paramName}}}\", must be one of #{allowable_values}")
       end
       {{/collectionFormat}}
@@ -57,20 +57,20 @@
 
       {{/minimum}}
       {{#pattern}}
-      pattern = Regexp.new({{{pattern}}})
-      if @api_client.config.client_side_validation && {{^required}}{{{paramName}}}.nil? && {{/required}}{{#isNullable}}!@{{{name}}}.null? && {{/isNullable}}{{{paramName}}} !~ pattern
+      pattern = {{{pattern}}}
+      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{#isNullable}}!@{{{name}}}.null? && {{/isNullable}}{{{paramName}}} !~ pattern
         raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, must conform to the pattern #{pattern}.")
       end
 
       {{/pattern}}
       {{#maxItems}}
-      if @api_client.config.client_side_validation && {{^required}}{{{paramName}}}.nil? && {{/required}}{{#isNullable}}!@{{{name}}}.null? && {{/isNullable}}{{{paramName}}}.size > {{{maxItems}}}
+      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{#isNullable}}!@{{{name}}}.null? && {{/isNullable}}{{{paramName}}}.size > {{{maxItems}}}
         raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, number of items must be less than or equal to {{{maxItems}}}.")
       end
 
       {{/maxItems}}
       {{#minItems}}
-      if @api_client.config.client_side_validation && {{^required}}{{{paramName}}}.nil? && {{/required}}{{#isNullable}}!@{{{name}}}.null? && {{/isNullable}}{{{paramName}}}.size < {{{minItems}}}
+      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{#isNullable}}!@{{{name}}}.null? && {{/isNullable}}{{{paramName}}}.size < {{{minItems}}}
         raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, number of items must be greater than or equal to {{{minItems}}}.")
       end
 
@@ -83,7 +83,7 @@
       # query parameters
       query_params = Hash(String, String).new
       {{#queryParams}}
-      query_params["{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, "{{{collectionFormat}}}"){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}.to_s{{/collectionFormat}} if {{{paramName}}}.present?{{#collectionFormat}} && !{{{paramName}}}.empty?{{/collectionFormat}}
+      query_params["{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, "{{{collectionFormat}}}"){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}.to_s{{/collectionFormat}} if !{{{paramName}}}.nil? && !{{{paramName}}}.null?{{#collectionFormat}} && !{{{paramName}}}.empty?{{/collectionFormat}}
       {{/queryParams}}
 
       # header parameters
@@ -97,7 +97,7 @@
       header_params["Content-Type"] = @api_client.select_header_content_type([{{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}])
       {{/hasConsumes}}
       {{#headerParams}}
-      header_params["{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, "{{{collectionFormat}}}"){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}.to_s{{/collectionFormat}} if {{{paramName}}}.present?{{#collectionFormat}} && !{{{paramName}}}.empty?{{/collectionFormat}}
+      header_params["{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, "{{{collectionFormat}}}"){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}.to_s{{/collectionFormat}} if !{{{paramName}}}.nil? && !{{{paramName}}}.null?{{#collectionFormat}} && !{{{paramName}}}.empty?{{/collectionFormat}}
       {{/headerParams}}
 
       # form parameters
@@ -107,7 +107,7 @@
       form_params["{{baseName}}"] = {{paramName}} if {{paramName}}.present?
       {{/isFile}}
       {{^isFile}}
-      form_params["{{baseName}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, "{{{collectionFormat}}}"){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}.to_s{{/collectionFormat}} if {{{paramName}}}.present?{{#collectionFormat}} && !{{{paramName}}}.empty?{{/collectionFormat}}
+      form_params["{{baseName}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, "{{{collectionFormat}}}"){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}.to_s{{/collectionFormat}} if !{{{paramName}}}.nil? && !{{{paramName}}}.null?{{#collectionFormat}} && !{{{paramName}}}.empty?{{/collectionFormat}}
       {{/isFile}}
       {{/formParams}}
 
