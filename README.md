@@ -36,3 +36,8 @@ The generated code would be written to `out/google_drive`.
 The generated code uses shard [nason](https://github.com/cyangle/nason) to (de)serialize from/to JSON.
 
 The main difference between nason and standard library json is that it treats `null` value as of struct `Null` instead of `Nil`.
+
+## SDKs generated with this repo
+
+[Twilio](https://github.com/cyangle/twilio)
+[Google Drive V3](https://github.com/cyangle/google_drive)
