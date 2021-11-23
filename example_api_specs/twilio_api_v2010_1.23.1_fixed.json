@@ -1,7 +1,7 @@
 {
   "components": {
     "schemas": {
-      "api.v2010.account.subresource_uris": {
+      "subresource_uris": {
         "description": "Account Instance Subresources",
         "properties": {
           "usage": {
@@ -12,7 +12,7 @@
         "nullable": true,
         "type": "object"
       },
-      "api.v2010.account.encryption_details": {
+      "encryption_details": {
         "description": "Call recording encryption details",
         "properties": {
           "type": {
@@ -35,7 +35,7 @@
         "nullable": true,
         "type": "object"
       },
-      "api.v2010.account": {
+      "account": {
         "properties": {
           "auth_token": {
             "description": "The authorization token for this account",
@@ -86,7 +86,7 @@
             "type": "string"
           },
           "subresource_uris": {
-            "$ref": "#/components/schemas/api.v2010.account.subresource_uris"
+            "$ref": "#/components/schemas/subresource_uris"
           },
           "type": {
             "description": "The type of this account",
@@ -106,7 +106,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.address": {
+      "address": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that is responsible for the resource",
@@ -195,7 +195,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.address.dependent_phone_number": {
+      "address.dependent_phone_number": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -420,7 +420,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.application": {
+      "application": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -581,7 +581,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.authorized_connect_app": {
+      "authorized_connect_app": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -653,7 +653,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.available_phone_number_country": {
+      "available_phone_number_country": {
         "properties": {
           "beta": {
             "description": "Whether all phone numbers available in the country are new to the Twilio platform.",
@@ -671,7 +671,7 @@
             "type": "string"
           },
           "subresource_uris": {
-            "$ref": "#/components/schemas/api.v2010.account.subresource_uris"
+            "$ref": "#/components/schemas/subresource_uris"
           },
           "uri": {
             "description": "The URI of the Country resource, relative to `https://api.twilio.com`",
@@ -682,7 +682,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.available_phone_number_country.available_phone_number_local": {
+      "available_phone_number_country.available_phone_number_local": {
         "properties": {
           "address_requirements": {
             "description": "The type of Address resource the phone number requires",
@@ -766,7 +766,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.available_phone_number_country.available_phone_number_machine_to_machine": {
+      "available_phone_number_country.available_phone_number_machine_to_machine": {
         "properties": {
           "address_requirements": {
             "description": "The type of Address resource the phone number requires",
@@ -850,7 +850,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.available_phone_number_country.available_phone_number_mobile": {
+      "available_phone_number_country.available_phone_number_mobile": {
         "properties": {
           "address_requirements": {
             "description": "The type of Address resource the phone number requires",
@@ -934,7 +934,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.available_phone_number_country.available_phone_number_national": {
+      "available_phone_number_country.available_phone_number_national": {
         "properties": {
           "address_requirements": {
             "description": "The type of Address resource the phone number requires",
@@ -1018,7 +1018,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.available_phone_number_country.available_phone_number_shared_cost": {
+      "available_phone_number_country.available_phone_number_shared_cost": {
         "properties": {
           "address_requirements": {
             "description": "The type of Address resource the phone number requires",
@@ -1102,7 +1102,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.available_phone_number_country.available_phone_number_toll_free": {
+      "available_phone_number_country.available_phone_number_toll_free": {
         "properties": {
           "address_requirements": {
             "description": "The type of Address resource the phone number requires",
@@ -1186,7 +1186,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.available_phone_number_country.available_phone_number_voip": {
+      "available_phone_number_country.available_phone_number_voip": {
         "properties": {
           "address_requirements": {
             "description": "The type of Address resource the phone number requires",
@@ -1270,7 +1270,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.balance": {
+      "balance": {
         "properties": {
           "account_sid": {
             "description": "Account Sid.",
@@ -1293,7 +1293,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.call": {
+      "call": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created this resource",
@@ -1435,7 +1435,7 @@
             "type": "string"
           },
           "subresource_uris": {
-            "$ref": "#/components/schemas/api.v2010.account.subresource_uris"
+            "$ref": "#/components/schemas/subresource_uris"
           },
           "to": {
             "description": "The phone number, SIP address or Client identifier that received this call. Phone numbers are in E.164 format (e.g., +16175551212). SIP addresses are formatted as `name@company.com`. Client identifiers are formatted `client:name`.",
@@ -1464,7 +1464,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.call.call_event": {
+      "call.call_event": {
         "properties": {
           "request": {
             "description": "Call Request.",
@@ -1507,7 +1507,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.call.call_feedback": {
+      "call.call_feedback": {
         "properties": {
           "account_sid": {
             "description": "The unique sid that identifies this account",
@@ -1563,7 +1563,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.call.call_feedback_summary": {
+      "call.call_feedback_summary": {
         "properties": {
           "account_sid": {
             "description": "The unique sid that identifies this account",
@@ -1657,7 +1657,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.call.call_notification": {
+      "call.call_notification": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -1755,7 +1755,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.call.call_notification-instance": {
+      "call.call_notification-instance": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -1868,7 +1868,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.call.call_recording": {
+      "call.call_recording": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -1925,7 +1925,7 @@
             "description": "How to decrypt the recording.",
             "nullable": true,
             "type": "object",
-            "$ref": "#/components/schemas/api.v2010.account.encryption_details"
+            "$ref": "#/components/schemas/encryption_details"
           },
           "error_code": {
             "description": "More information about why the recording is missing, if status is `absent`.",
@@ -1997,7 +1997,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.call.payments": {
+      "call.payments": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the Payments resource.",
@@ -2044,7 +2044,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.call.siprec": {
+      "call.siprec": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created this resource",
@@ -2093,7 +2093,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.conference": {
+      "conference": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created this resource",
@@ -2169,7 +2169,7 @@
             "type": "string"
           },
           "subresource_uris": {
-            "$ref": "#/components/schemas/api.v2010.account.subresource_uris"
+            "$ref": "#/components/schemas/subresource_uris"
           },
           "uri": {
             "description": "The URI of this resource, relative to `https://api.twilio.com`",
@@ -2179,7 +2179,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.conference.conference_recording": {
+      "conference.conference_recording": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -2236,7 +2236,7 @@
             "description": "How to decrypt the recording.",
             "nullable": true,
             "type": "object",
-            "$ref": "#/components/schemas/api.v2010.account.encryption_details"
+            "$ref": "#/components/schemas/encryption_details"
           },
           "error_code": {
             "description": "More information about why the recording is missing, if status is `absent`.",
@@ -2302,7 +2302,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.conference.participant": {
+      "conference.participant": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -2399,7 +2399,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.connect_app": {
+      "connect_app": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -2484,7 +2484,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.incoming_phone_number": {
+      "incoming_phone_number": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -2768,7 +2768,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.incoming_phone_number.incoming_phone_number_assigned_add_on": {
+      "incoming_phone_number.incoming_phone_number_assigned_add_on": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -2817,7 +2817,7 @@
             "type": "string"
           },
           "subresource_uris": {
-            "$ref": "#/components/schemas/api.v2010.account.subresource_uris"
+            "$ref": "#/components/schemas/subresource_uris"
           },
           "unique_name": {
             "description": "An application-defined string that uniquely identifies the resource",
@@ -2833,7 +2833,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.incoming_phone_number.incoming_phone_number_assigned_add_on.incoming_phone_number_assigned_add_on_extension": {
+      "incoming_phone_number.incoming_phone_number_assigned_add_on.incoming_phone_number_assigned_add_on_extension": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -2896,7 +2896,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.incoming_phone_number.incoming_phone_number_local": {
+      "incoming_phone_number.incoming_phone_number_local": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -3180,7 +3180,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.incoming_phone_number.incoming_phone_number_mobile": {
+      "incoming_phone_number.incoming_phone_number_mobile": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -3464,7 +3464,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.incoming_phone_number.incoming_phone_number_toll_free": {
+      "incoming_phone_number.incoming_phone_number_toll_free": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -3748,7 +3748,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.key": {
+      "key": {
         "properties": {
           "date_created": {
             "description": "The RFC 2822 date and time in GMT that the resource was created",
@@ -3778,7 +3778,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.message": {
+      "message": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -3899,7 +3899,7 @@
             "type": "string"
           },
           "subresource_uris": {
-            "$ref": "#/components/schemas/api.v2010.account.subresource_uris"
+            "$ref": "#/components/schemas/subresource_uris"
           },
           "to": {
             "description": "The phone number that received the message",
@@ -3914,7 +3914,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.message.media": {
+      "message.media": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created this resource",
@@ -3966,7 +3966,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.message.message_feedback": {
+      "message.message_feedback": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -4013,7 +4013,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.new_key": {
+      "new_key": {
         "properties": {
           "date_created": {
             "description": "The RFC 2822 date and time in GMT that the resource was created",
@@ -4048,7 +4048,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.new_signing_key": {
+      "new_signing_key": {
         "properties": {
           "date_created": {
             "description": "The RFC 2822 date and time in GMT that the resource was created",
@@ -4083,7 +4083,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.notification": {
+      "notification": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -4181,7 +4181,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.notification-instance": {
+      "notification-instance": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -4294,7 +4294,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.outgoing_caller_id": {
+      "outgoing_caller_id": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -4343,7 +4343,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.queue": {
+      "queue": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created this resource",
@@ -4402,7 +4402,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.queue.member": {
+      "queue.member": {
         "properties": {
           "call_sid": {
             "description": "The SID of the Call the resource is associated with",
@@ -4445,7 +4445,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.recording": {
+      "recording": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -4502,7 +4502,7 @@
             "description": "How to decrypt the recording.",
             "nullable": true,
             "type": "object",
-            "$ref": "#/components/schemas/api.v2010.account.encryption_details"
+            "$ref": "#/components/schemas/encryption_details"
           },
           "error_code": {
             "description": "More information about why the recording is missing, if status is `absent`.",
@@ -4561,7 +4561,7 @@
             "type": "string"
           },
           "subresource_uris": {
-            "$ref": "#/components/schemas/api.v2010.account.subresource_uris"
+            "$ref": "#/components/schemas/subresource_uris"
           },
           "uri": {
             "description": "The URI of the resource, relative to `https://api.twilio.com`",
@@ -4572,7 +4572,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.recording.recording_add_on_result": {
+      "recording.recording_add_on_result": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -4648,12 +4648,12 @@
             "type": "string"
           },
           "subresource_uris": {
-            "$ref": "#/components/schemas/api.v2010.account.subresource_uris"
+            "$ref": "#/components/schemas/subresource_uris"
           }
         },
         "type": "object"
       },
-      "api.v2010.account.recording.recording_add_on_result.recording_add_on_result_payload": {
+      "recording.recording_add_on_result.recording_add_on_result_payload": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -4726,12 +4726,12 @@
             "type": "string"
           },
           "subresource_uris": {
-            "$ref": "#/components/schemas/api.v2010.account.subresource_uris"
+            "$ref": "#/components/schemas/subresource_uris"
           }
         },
         "type": "object"
       },
-      "api.v2010.account.recording.recording_transcription": {
+      "recording.recording_transcription": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -4818,7 +4818,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.short_code": {
+      "short_code": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created this resource",
@@ -4910,7 +4910,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.signing_key": {
+      "signing_key": {
         "properties": {
           "date_created": {
             "format": "date-time-rfc-2822",
@@ -4936,11 +4936,11 @@
         },
         "type": "object"
       },
-      "api.v2010.account.sip": {
+      "sip": {
         "properties": {},
         "type": "object"
       },
-      "api.v2010.account.sip.sip_credential_list": {
+      "sip.sip_credential_list": {
         "properties": {
           "account_sid": {
             "description": "The unique sid that identifies this account",
@@ -4976,7 +4976,7 @@
             "type": "string"
           },
           "subresource_uris": {
-            "$ref": "#/components/schemas/api.v2010.account.subresource_uris"
+            "$ref": "#/components/schemas/subresource_uris"
           },
           "uri": {
             "description": "The URI for this resource",
@@ -4987,7 +4987,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.sip.sip_credential_list.sip_credential": {
+      "sip.sip_credential_list.sip_credential": {
         "properties": {
           "account_sid": {
             "description": "The unique id of the Account that is responsible for this resource.",
@@ -5039,7 +5039,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.sip.sip_domain": {
+      "sip.sip_domain": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -5121,7 +5121,7 @@
             "type": "boolean"
           },
           "subresource_uris": {
-            "$ref": "#/components/schemas/api.v2010.account.subresource_uris"
+            "$ref": "#/components/schemas/subresource_uris"
           },
           "uri": {
             "description": "The URI of the resource, relative to `https://api.twilio.com`",
@@ -5189,15 +5189,15 @@
         },
         "type": "object"
       },
-      "api.v2010.account.sip.sip_domain.sip_auth": {
+      "sip.sip_domain.sip_auth": {
         "properties": {},
         "type": "object"
       },
-      "api.v2010.account.sip.sip_domain.sip_auth.sip_auth_calls": {
+      "sip.sip_domain.sip_auth.sip_auth_calls": {
         "properties": {},
         "type": "object"
       },
-      "api.v2010.account.sip.sip_domain.sip_auth.sip_auth_calls.sip_auth_calls_credential_list_mapping": {
+      "sip.sip_domain.sip_auth.sip_auth_calls.sip_auth_calls_credential_list_mapping": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -5235,7 +5235,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.sip.sip_domain.sip_auth.sip_auth_calls.sip_auth_calls_ip_access_control_list_mapping": {
+      "sip.sip_domain.sip_auth.sip_auth_calls.sip_auth_calls_ip_access_control_list_mapping": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -5273,11 +5273,11 @@
         },
         "type": "object"
       },
-      "api.v2010.account.sip.sip_domain.sip_auth.sip_auth_registrations": {
+      "sip.sip_domain.sip_auth.sip_auth_registrations": {
         "properties": {},
         "type": "object"
       },
-      "api.v2010.account.sip.sip_domain.sip_auth.sip_auth_registrations.sip_auth_registrations_credential_list_mapping": {
+      "sip.sip_domain.sip_auth.sip_auth_registrations.sip_auth_registrations_credential_list_mapping": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -5315,7 +5315,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.sip.sip_domain.sip_credential_list_mapping": {
+      "sip.sip_domain.sip_credential_list_mapping": {
         "properties": {
           "account_sid": {
             "description": "The unique id of the Account that is responsible for this resource.",
@@ -5367,7 +5367,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.sip.sip_domain.sip_ip_access_control_list_mapping": {
+      "sip.sip_domain.sip_ip_access_control_list_mapping": {
         "properties": {
           "account_sid": {
             "description": "The unique id of the Account that is responsible for this resource.",
@@ -5419,7 +5419,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.sip.sip_ip_access_control_list": {
+      "sip.sip_ip_access_control_list": {
         "properties": {
           "account_sid": {
             "description": "The unique sid that identifies this account",
@@ -5455,7 +5455,7 @@
             "type": "string"
           },
           "subresource_uris": {
-            "$ref": "#/components/schemas/api.v2010.account.subresource_uris"
+            "$ref": "#/components/schemas/subresource_uris"
           },
           "uri": {
             "description": "The URI for this resource",
@@ -5466,7 +5466,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.sip.sip_ip_access_control_list.sip_ip_address": {
+      "sip.sip_ip_access_control_list.sip_ip_address": {
         "properties": {
           "account_sid": {
             "description": "The unique id of the Account that is responsible for this resource.",
@@ -5528,7 +5528,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.token": {
+      "token": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -5590,7 +5590,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.transcription": {
+      "transcription": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -5677,11 +5677,11 @@
         },
         "type": "object"
       },
-      "api.v2010.account.usage": {
+      "usage": {
         "properties": {},
         "type": "object"
       },
-      "api.v2010.account.usage.usage_record": {
+      "usage.usage_record": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account accrued the usage",
@@ -5986,7 +5986,7 @@
             "type": "string"
           },
           "subresource_uris": {
-            "$ref": "#/components/schemas/api.v2010.account.subresource_uris"
+            "$ref": "#/components/schemas/subresource_uris"
           },
           "uri": {
             "description": "The URI of the resource, relative to `https://api.twilio.com`",
@@ -6007,7 +6007,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.usage.usage_record.usage_record_all_time": {
+      "usage.usage_record.usage_record_all_time": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account accrued the usage",
@@ -6312,7 +6312,7 @@
             "type": "string"
           },
           "subresource_uris": {
-            "$ref": "#/components/schemas/api.v2010.account.subresource_uris"
+            "$ref": "#/components/schemas/subresource_uris"
           },
           "uri": {
             "description": "The URI of the resource, relative to `https://api.twilio.com`",
@@ -6333,7 +6333,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.usage.usage_record.usage_record_daily": {
+      "usage.usage_record.usage_record_daily": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account accrued the usage",
@@ -6638,7 +6638,7 @@
             "type": "string"
           },
           "subresource_uris": {
-            "$ref": "#/components/schemas/api.v2010.account.subresource_uris"
+            "$ref": "#/components/schemas/subresource_uris"
           },
           "uri": {
             "description": "The URI of the resource, relative to `https://api.twilio.com`",
@@ -6659,7 +6659,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.usage.usage_record.usage_record_last_month": {
+      "usage.usage_record.usage_record_last_month": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account accrued the usage",
@@ -6964,7 +6964,7 @@
             "type": "string"
           },
           "subresource_uris": {
-            "$ref": "#/components/schemas/api.v2010.account.subresource_uris"
+            "$ref": "#/components/schemas/subresource_uris"
           },
           "uri": {
             "description": "The URI of the resource, relative to `https://api.twilio.com`",
@@ -6985,7 +6985,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.usage.usage_record.usage_record_monthly": {
+      "usage.usage_record.usage_record_monthly": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account accrued the usage",
@@ -7290,7 +7290,7 @@
             "type": "string"
           },
           "subresource_uris": {
-            "$ref": "#/components/schemas/api.v2010.account.subresource_uris"
+            "$ref": "#/components/schemas/subresource_uris"
           },
           "uri": {
             "description": "The URI of the resource, relative to `https://api.twilio.com`",
@@ -7311,7 +7311,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.usage.usage_record.usage_record_this_month": {
+      "usage.usage_record.usage_record_this_month": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account accrued the usage",
@@ -7616,7 +7616,7 @@
             "type": "string"
           },
           "subresource_uris": {
-            "$ref": "#/components/schemas/api.v2010.account.subresource_uris"
+            "$ref": "#/components/schemas/subresource_uris"
           },
           "uri": {
             "description": "The URI of the resource, relative to `https://api.twilio.com`",
@@ -7637,7 +7637,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.usage.usage_record.usage_record_today": {
+      "usage.usage_record.usage_record_today": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account accrued the usage",
@@ -7942,7 +7942,7 @@
             "type": "string"
           },
           "subresource_uris": {
-            "$ref": "#/components/schemas/api.v2010.account.subresource_uris"
+            "$ref": "#/components/schemas/subresource_uris"
           },
           "uri": {
             "description": "The URI of the resource, relative to `https://api.twilio.com`",
@@ -7963,7 +7963,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.usage.usage_record.usage_record_yearly": {
+      "usage.usage_record.usage_record_yearly": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account accrued the usage",
@@ -8268,7 +8268,7 @@
             "type": "string"
           },
           "subresource_uris": {
-            "$ref": "#/components/schemas/api.v2010.account.subresource_uris"
+            "$ref": "#/components/schemas/subresource_uris"
           },
           "uri": {
             "description": "The URI of the resource, relative to `https://api.twilio.com`",
@@ -8289,7 +8289,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.usage.usage_record.usage_record_yesterday": {
+      "usage.usage_record.usage_record_yesterday": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account accrued the usage",
@@ -8594,7 +8594,7 @@
             "type": "string"
           },
           "subresource_uris": {
-            "$ref": "#/components/schemas/api.v2010.account.subresource_uris"
+            "$ref": "#/components/schemas/subresource_uris"
           },
           "uri": {
             "description": "The URI of the resource, relative to `https://api.twilio.com`",
@@ -8615,7 +8615,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.usage.usage_trigger": {
+      "usage.usage_trigger": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that this trigger monitors",
@@ -8972,7 +8972,7 @@
         },
         "type": "object"
       },
-      "api.v2010.account.validation_request": {
+      "validation_request": {
         "properties": {
           "account_sid": {
             "description": "The SID of the Account that created the resource",
@@ -9079,7 +9079,7 @@
                   "properties": {
                     "accounts": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account"
+                        "$ref": "#/components/schemas/account"
                       },
                       "type": "array"
                     },
@@ -9091,6 +9091,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -9101,6 +9102,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -9153,7 +9155,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account"
+                  "$ref": "#/components/schemas/account"
                 }
               }
             },
@@ -9244,7 +9246,7 @@
                   "properties": {
                     "addresses": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.address"
+                        "$ref": "#/components/schemas/address"
                       },
                       "type": "array"
                     },
@@ -9256,6 +9258,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -9266,6 +9269,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -9372,7 +9376,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.address"
+                  "$ref": "#/components/schemas/address"
                 }
               }
             },
@@ -9452,7 +9456,7 @@
                   "properties": {
                     "dependent_phone_numbers": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.address.dependent_phone_number"
+                        "$ref": "#/components/schemas/address.dependent_phone_number"
                       },
                       "type": "array"
                     },
@@ -9464,6 +9468,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -9474,6 +9479,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -9595,7 +9601,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.address"
+                  "$ref": "#/components/schemas/address"
                 }
               }
             },
@@ -9689,7 +9695,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.address"
+                  "$ref": "#/components/schemas/address"
                 }
               }
             },
@@ -9765,7 +9771,7 @@
                   "properties": {
                     "applications": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.application"
+                        "$ref": "#/components/schemas/application"
                       },
                       "type": "array"
                     },
@@ -9777,6 +9783,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -9787,6 +9794,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -9956,7 +9964,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.application"
+                  "$ref": "#/components/schemas/application"
                 }
               }
             },
@@ -10065,7 +10073,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.application"
+                  "$ref": "#/components/schemas/application"
                 }
               }
             },
@@ -10234,7 +10242,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.application"
+                  "$ref": "#/components/schemas/application"
                 }
               }
             },
@@ -10301,7 +10309,7 @@
                   "properties": {
                     "authorized_connect_apps": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.authorized_connect_app"
+                        "$ref": "#/components/schemas/authorized_connect_app"
                       },
                       "type": "array"
                     },
@@ -10313,6 +10321,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -10323,6 +10332,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -10400,7 +10410,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.authorized_connect_app"
+                  "$ref": "#/components/schemas/authorized_connect_app"
                 }
               }
             },
@@ -10466,7 +10476,7 @@
                   "properties": {
                     "countries": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.available_phone_number_country"
+                        "$ref": "#/components/schemas/available_phone_number_country"
                       },
                       "type": "array"
                     },
@@ -10478,6 +10488,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -10488,6 +10499,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -10563,7 +10575,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.available_phone_number_country"
+                  "$ref": "#/components/schemas/available_phone_number_country"
                 }
               }
             },
@@ -10783,7 +10795,7 @@
                   "properties": {
                     "available_phone_numbers": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.available_phone_number_country.available_phone_number_local"
+                        "$ref": "#/components/schemas/available_phone_number_country.available_phone_number_local"
                       },
                       "type": "array"
                     },
@@ -10795,6 +10807,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -10805,6 +10818,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -11037,7 +11051,7 @@
                   "properties": {
                     "available_phone_numbers": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.available_phone_number_country.available_phone_number_machine_to_machine"
+                        "$ref": "#/components/schemas/available_phone_number_country.available_phone_number_machine_to_machine"
                       },
                       "type": "array"
                     },
@@ -11049,6 +11063,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -11059,6 +11074,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -11291,7 +11307,7 @@
                   "properties": {
                     "available_phone_numbers": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.available_phone_number_country.available_phone_number_mobile"
+                        "$ref": "#/components/schemas/available_phone_number_country.available_phone_number_mobile"
                       },
                       "type": "array"
                     },
@@ -11303,6 +11319,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -11313,6 +11330,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -11545,7 +11563,7 @@
                   "properties": {
                     "available_phone_numbers": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.available_phone_number_country.available_phone_number_national"
+                        "$ref": "#/components/schemas/available_phone_number_country.available_phone_number_national"
                       },
                       "type": "array"
                     },
@@ -11557,6 +11575,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -11567,6 +11586,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -11799,7 +11819,7 @@
                   "properties": {
                     "available_phone_numbers": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.available_phone_number_country.available_phone_number_shared_cost"
+                        "$ref": "#/components/schemas/available_phone_number_country.available_phone_number_shared_cost"
                       },
                       "type": "array"
                     },
@@ -11811,6 +11831,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -11821,6 +11842,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -12053,7 +12075,7 @@
                   "properties": {
                     "available_phone_numbers": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.available_phone_number_country.available_phone_number_toll_free"
+                        "$ref": "#/components/schemas/available_phone_number_country.available_phone_number_toll_free"
                       },
                       "type": "array"
                     },
@@ -12065,6 +12087,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -12075,6 +12098,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -12307,7 +12331,7 @@
                   "properties": {
                     "available_phone_numbers": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.available_phone_number_country.available_phone_number_voip"
+                        "$ref": "#/components/schemas/available_phone_number_country.available_phone_number_voip"
                       },
                       "type": "array"
                     },
@@ -12319,6 +12343,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -12329,6 +12354,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -12395,7 +12421,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.balance"
+                  "$ref": "#/components/schemas/balance"
                 }
               }
             },
@@ -12561,7 +12587,7 @@
                   "properties": {
                     "calls": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.call"
+                        "$ref": "#/components/schemas/call"
                       },
                       "type": "array"
                     },
@@ -12573,6 +12599,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -12583,6 +12610,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -12845,7 +12873,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.call"
+                  "$ref": "#/components/schemas/call"
                 }
               }
             },
@@ -12948,7 +12976,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.call.call_feedback_summary"
+                  "$ref": "#/components/schemas/call.call_feedback_summary"
                 }
               }
             },
@@ -13058,7 +13086,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.call.call_feedback_summary"
+                  "$ref": "#/components/schemas/call.call_feedback_summary"
                 }
               }
             },
@@ -13141,7 +13169,7 @@
                     },
                     "events": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.call.call_event"
+                        "$ref": "#/components/schemas/call.call_event"
                       },
                       "type": "array"
                     },
@@ -13150,6 +13178,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -13160,6 +13189,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -13237,7 +13267,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.call.call_feedback"
+                  "$ref": "#/components/schemas/call.call_feedback"
                 }
               }
             },
@@ -13317,7 +13347,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.call.call_feedback"
+                  "$ref": "#/components/schemas/call.call_feedback"
                 }
               }
             },
@@ -13437,12 +13467,13 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
                     "notifications": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.call.call_notification"
+                        "$ref": "#/components/schemas/call.call_notification"
                       },
                       "type": "array"
                     },
@@ -13453,6 +13484,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -13544,7 +13576,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.call.call_notification-instance"
+                  "$ref": "#/components/schemas/call.call_notification-instance"
                 }
               }
             },
@@ -13705,7 +13737,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.call.payments"
+                  "$ref": "#/components/schemas/call.payments"
                 }
               }
             },
@@ -13826,7 +13858,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.call.payments"
+                  "$ref": "#/components/schemas/call.payments"
                 }
               }
             },
@@ -13936,6 +13968,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -13946,12 +13979,13 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
                     "recordings": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.call.call_recording"
+                        "$ref": "#/components/schemas/call.call_recording"
                       },
                       "type": "array"
                     },
@@ -14062,7 +14096,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.call.call_recording"
+                  "$ref": "#/components/schemas/call.call_recording"
                 }
               }
             },
@@ -14197,7 +14231,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.call.call_recording"
+                  "$ref": "#/components/schemas/call.call_recording"
                 }
               }
             },
@@ -14287,7 +14321,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.call.call_recording"
+                  "$ref": "#/components/schemas/call.call_recording"
                 }
               }
             },
@@ -15193,7 +15227,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.call.siprec"
+                  "$ref": "#/components/schemas/call.siprec"
                 }
               }
             },
@@ -15289,7 +15323,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.call.siprec"
+                  "$ref": "#/components/schemas/call.siprec"
                 }
               }
             },
@@ -15397,7 +15431,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.call"
+                  "$ref": "#/components/schemas/call"
                 }
               }
             },
@@ -15526,7 +15560,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.call"
+                  "$ref": "#/components/schemas/call"
                 }
               }
             },
@@ -15670,7 +15704,7 @@
                   "properties": {
                     "conferences": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.conference"
+                        "$ref": "#/components/schemas/conference"
                       },
                       "type": "array"
                     },
@@ -15682,6 +15716,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -15692,6 +15727,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -15813,6 +15849,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -15824,11 +15861,12 @@
                     },
                     "participants": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.conference.participant"
+                        "$ref": "#/components/schemas/conference.participant"
                       },
                       "type": "array"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -16123,7 +16161,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.conference.participant"
+                  "$ref": "#/components/schemas/conference.participant"
                 }
               }
             },
@@ -16252,7 +16290,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.conference.participant"
+                  "$ref": "#/components/schemas/conference.participant"
                 }
               }
             },
@@ -16401,7 +16439,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.conference.participant"
+                  "$ref": "#/components/schemas/conference.participant"
                 }
               }
             },
@@ -16515,6 +16553,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -16525,12 +16564,13 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
                     "recordings": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.conference.conference_recording"
+                        "$ref": "#/components/schemas/conference.conference_recording"
                       },
                       "type": "array"
                     },
@@ -16678,7 +16718,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.conference.conference_recording"
+                  "$ref": "#/components/schemas/conference.conference_recording"
                 }
               }
             },
@@ -16768,7 +16808,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.conference.conference_recording"
+                  "$ref": "#/components/schemas/conference.conference_recording"
                 }
               }
             },
@@ -16836,7 +16876,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.conference"
+                  "$ref": "#/components/schemas/conference"
                 }
               }
             },
@@ -16919,7 +16959,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.conference"
+                  "$ref": "#/components/schemas/conference"
                 }
               }
             },
@@ -16986,7 +17026,7 @@
                   "properties": {
                     "connect_apps": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.connect_app"
+                        "$ref": "#/components/schemas/connect_app"
                       },
                       "type": "array"
                     },
@@ -16998,6 +17038,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -17008,6 +17049,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -17128,7 +17170,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.connect_app"
+                  "$ref": "#/components/schemas/connect_app"
                 }
               }
             },
@@ -17240,7 +17282,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.connect_app"
+                  "$ref": "#/components/schemas/connect_app"
                 }
               }
             },
@@ -17345,11 +17387,12 @@
                     },
                     "incoming_phone_numbers": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.incoming_phone_number"
+                        "$ref": "#/components/schemas/incoming_phone_number"
                       },
                       "type": "array"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -17360,6 +17403,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -17592,7 +17636,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.incoming_phone_number"
+                  "$ref": "#/components/schemas/incoming_phone_number"
                 }
               }
             },
@@ -17698,11 +17742,12 @@
                     },
                     "incoming_phone_numbers": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.incoming_phone_number.incoming_phone_number_local"
+                        "$ref": "#/components/schemas/incoming_phone_number.incoming_phone_number_local"
                       },
                       "type": "array"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -17713,6 +17758,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -17944,7 +17990,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.incoming_phone_number.incoming_phone_number_local"
+                  "$ref": "#/components/schemas/incoming_phone_number.incoming_phone_number_local"
                 }
               }
             },
@@ -18050,11 +18096,12 @@
                     },
                     "incoming_phone_numbers": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.incoming_phone_number.incoming_phone_number_mobile"
+                        "$ref": "#/components/schemas/incoming_phone_number.incoming_phone_number_mobile"
                       },
                       "type": "array"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -18065,6 +18112,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -18296,7 +18344,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.incoming_phone_number.incoming_phone_number_mobile"
+                  "$ref": "#/components/schemas/incoming_phone_number.incoming_phone_number_mobile"
                 }
               }
             },
@@ -18402,11 +18450,12 @@
                     },
                     "incoming_phone_numbers": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.incoming_phone_number.incoming_phone_number_toll_free"
+                        "$ref": "#/components/schemas/incoming_phone_number.incoming_phone_number_toll_free"
                       },
                       "type": "array"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -18417,6 +18466,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -18648,7 +18698,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.incoming_phone_number.incoming_phone_number_toll_free"
+                  "$ref": "#/components/schemas/incoming_phone_number.incoming_phone_number_toll_free"
                 }
               }
             },
@@ -18727,7 +18777,7 @@
                   "properties": {
                     "assigned_add_ons": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.incoming_phone_number.incoming_phone_number_assigned_add_on"
+                        "$ref": "#/components/schemas/incoming_phone_number.incoming_phone_number_assigned_add_on"
                       },
                       "type": "array"
                     },
@@ -18739,6 +18789,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -18749,6 +18800,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -18833,7 +18885,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.incoming_phone_number.incoming_phone_number_assigned_add_on"
+                  "$ref": "#/components/schemas/incoming_phone_number.incoming_phone_number_assigned_add_on"
                 }
               }
             },
@@ -18928,7 +18980,7 @@
                     },
                     "extensions": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.incoming_phone_number.incoming_phone_number_assigned_add_on.incoming_phone_number_assigned_add_on_extension"
+                        "$ref": "#/components/schemas/incoming_phone_number.incoming_phone_number_assigned_add_on.incoming_phone_number_assigned_add_on_extension"
                       },
                       "type": "array"
                     },
@@ -18937,6 +18989,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -18947,6 +19000,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -19050,7 +19104,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.incoming_phone_number.incoming_phone_number_assigned_add_on.incoming_phone_number_assigned_add_on_extension"
+                  "$ref": "#/components/schemas/incoming_phone_number.incoming_phone_number_assigned_add_on.incoming_phone_number_assigned_add_on_extension"
                 }
               }
             },
@@ -19184,7 +19238,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.incoming_phone_number.incoming_phone_number_assigned_add_on"
+                  "$ref": "#/components/schemas/incoming_phone_number.incoming_phone_number_assigned_add_on"
                 }
               }
             },
@@ -19294,7 +19348,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.incoming_phone_number"
+                  "$ref": "#/components/schemas/incoming_phone_number"
                 }
               }
             },
@@ -19525,7 +19579,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.incoming_phone_number"
+                  "$ref": "#/components/schemas/incoming_phone_number"
                 }
               }
             },
@@ -19599,11 +19653,12 @@
                     },
                     "keys": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.key"
+                        "$ref": "#/components/schemas/key"
                       },
                       "type": "array"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -19614,6 +19669,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -19680,7 +19736,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.new_key"
+                  "$ref": "#/components/schemas/new_key"
                 }
               }
             },
@@ -19789,7 +19845,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.key"
+                  "$ref": "#/components/schemas/key"
                 }
               }
             },
@@ -19855,7 +19911,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.key"
+                  "$ref": "#/components/schemas/key"
                 }
               }
             },
@@ -19972,11 +20028,12 @@
                     },
                     "messages": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.message"
+                        "$ref": "#/components/schemas/message"
                       },
                       "type": "array"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -19987,6 +20044,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -20136,7 +20194,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.message"
+                  "$ref": "#/components/schemas/message"
                 }
               }
             },
@@ -20225,7 +20283,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.message.message_feedback"
+                  "$ref": "#/components/schemas/message.message_feedback"
                 }
               }
             },
@@ -20338,11 +20396,12 @@
                     },
                     "media_list": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.message.media"
+                        "$ref": "#/components/schemas/message.media"
                       },
                       "type": "array"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -20353,6 +20412,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -20498,7 +20558,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.message.media"
+                  "$ref": "#/components/schemas/message.media"
                 }
               }
             },
@@ -20607,7 +20667,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.message"
+                  "$ref": "#/components/schemas/message"
                 }
               }
             },
@@ -20673,7 +20733,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.message"
+                  "$ref": "#/components/schemas/message"
                 }
               }
             },
@@ -20784,12 +20844,13 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
                     "notifications": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.notification"
+                        "$ref": "#/components/schemas/notification"
                       },
                       "type": "array"
                     },
@@ -20800,6 +20861,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -20879,7 +20941,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.notification-instance"
+                  "$ref": "#/components/schemas/notification-instance"
                 }
               }
             },
@@ -20969,12 +21031,13 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
                     "outgoing_caller_ids": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.outgoing_caller_id"
+                        "$ref": "#/components/schemas/outgoing_caller_id"
                       },
                       "type": "array"
                     },
@@ -20985,6 +21048,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -21083,7 +21147,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.validation_request"
+                  "$ref": "#/components/schemas/validation_request"
                 }
               }
             },
@@ -21192,7 +21256,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.outgoing_caller_id"
+                  "$ref": "#/components/schemas/outgoing_caller_id"
                 }
               }
             },
@@ -21258,7 +21322,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.outgoing_caller_id"
+                  "$ref": "#/components/schemas/outgoing_caller_id"
                 }
               }
             },
@@ -21331,6 +21395,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -21341,12 +21406,13 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
                     "queues": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.queue"
+                        "$ref": "#/components/schemas/queue"
                       },
                       "type": "array"
                     },
@@ -21420,7 +21486,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.queue"
+                  "$ref": "#/components/schemas/queue"
                 }
               }
             },
@@ -21506,6 +21572,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -21516,12 +21583,13 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
                     "queue_members": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.queue.member"
+                        "$ref": "#/components/schemas/queue.member"
                       },
                       "type": "array"
                     },
@@ -21610,7 +21678,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.queue.member"
+                  "$ref": "#/components/schemas/queue.member"
                 }
               }
             },
@@ -21701,7 +21769,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.queue.member"
+                  "$ref": "#/components/schemas/queue.member"
                 }
               }
             },
@@ -21811,7 +21879,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.queue"
+                  "$ref": "#/components/schemas/queue"
                 }
               }
             },
@@ -21881,7 +21949,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.queue"
+                  "$ref": "#/components/schemas/queue"
                 }
               }
             },
@@ -22004,6 +22072,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -22014,12 +22083,13 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
                     "recordings": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.recording"
+                        "$ref": "#/components/schemas/recording"
                       },
                       "type": "array"
                     },
@@ -22119,6 +22189,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -22129,6 +22200,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -22137,7 +22209,7 @@
                     },
                     "transcriptions": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.recording.recording_transcription"
+                        "$ref": "#/components/schemas/recording.recording_transcription"
                       },
                       "type": "array"
                     },
@@ -22281,7 +22353,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.recording.recording_transcription"
+                  "$ref": "#/components/schemas/recording.recording_transcription"
                 }
               }
             },
@@ -22361,7 +22433,7 @@
                   "properties": {
                     "add_on_results": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.recording.recording_add_on_result"
+                        "$ref": "#/components/schemas/recording.recording_add_on_result"
                       },
                       "type": "array"
                     },
@@ -22373,6 +22445,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -22383,6 +22456,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -22493,6 +22567,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -22504,11 +22579,12 @@
                     },
                     "payloads": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.recording.recording_add_on_result.recording_add_on_result_payload"
+                        "$ref": "#/components/schemas/recording.recording_add_on_result.recording_add_on_result_payload"
                       },
                       "type": "array"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -22678,7 +22754,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.recording.recording_add_on_result.recording_add_on_result_payload"
+                  "$ref": "#/components/schemas/recording.recording_add_on_result.recording_add_on_result_payload"
                 }
               }
             },
@@ -22811,7 +22887,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.recording.recording_add_on_result"
+                  "$ref": "#/components/schemas/recording.recording_add_on_result"
                 }
               }
             },
@@ -22921,7 +22997,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.recording"
+                  "$ref": "#/components/schemas/recording"
                 }
               }
             },
@@ -22990,7 +23066,7 @@
                   "properties": {
                     "credential_lists": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.sip.sip_credential_list"
+                        "$ref": "#/components/schemas/sip.sip_credential_list"
                       },
                       "type": "array"
                     },
@@ -23002,6 +23078,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -23012,6 +23089,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -23081,7 +23159,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.sip.sip_credential_list"
+                  "$ref": "#/components/schemas/sip.sip_credential_list"
                 }
               }
             },
@@ -23159,7 +23237,7 @@
                   "properties": {
                     "credentials": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.sip.sip_credential_list.sip_credential"
+                        "$ref": "#/components/schemas/sip.sip_credential_list.sip_credential"
                       },
                       "type": "array"
                     },
@@ -23171,6 +23249,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -23181,6 +23260,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -23267,7 +23347,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.sip.sip_credential_list.sip_credential"
+                  "$ref": "#/components/schemas/sip.sip_credential_list.sip_credential"
                 }
               }
             },
@@ -23400,7 +23480,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.sip.sip_credential_list.sip_credential"
+                  "$ref": "#/components/schemas/sip.sip_credential_list.sip_credential"
                 }
               }
             },
@@ -23478,7 +23558,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.sip.sip_credential_list.sip_credential"
+                  "$ref": "#/components/schemas/sip.sip_credential_list.sip_credential"
                 }
               }
             },
@@ -23587,7 +23667,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.sip.sip_credential_list"
+                  "$ref": "#/components/schemas/sip.sip_credential_list"
                 }
               }
             },
@@ -23656,7 +23736,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.sip.sip_credential_list"
+                  "$ref": "#/components/schemas/sip.sip_credential_list"
                 }
               }
             },
@@ -23722,7 +23802,7 @@
                   "properties": {
                     "domains": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.sip.sip_domain"
+                        "$ref": "#/components/schemas/sip.sip_domain"
                       },
                       "type": "array"
                     },
@@ -23734,6 +23814,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -23744,6 +23825,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -23894,7 +23976,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.sip.sip_domain"
+                  "$ref": "#/components/schemas/sip.sip_domain"
                 }
               }
             },
@@ -23973,7 +24055,7 @@
                   "properties": {
                     "contents": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.sip.sip_domain.sip_auth.sip_auth_calls.sip_auth_calls_credential_list_mapping"
+                        "$ref": "#/components/schemas/sip.sip_domain.sip_auth.sip_auth_calls.sip_auth_calls_credential_list_mapping"
                       },
                       "type": "array"
                     },
@@ -23985,6 +24067,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -23995,6 +24078,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -24079,7 +24163,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.sip.sip_domain.sip_auth.sip_auth_calls.sip_auth_calls_credential_list_mapping"
+                  "$ref": "#/components/schemas/sip.sip_domain.sip_auth.sip_auth_calls.sip_auth_calls_credential_list_mapping"
                 }
               }
             },
@@ -24211,7 +24295,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.sip.sip_domain.sip_auth.sip_auth_calls.sip_auth_calls_credential_list_mapping"
+                  "$ref": "#/components/schemas/sip.sip_domain.sip_auth.sip_auth_calls.sip_auth_calls_credential_list_mapping"
                 }
               }
             },
@@ -24289,7 +24373,7 @@
                   "properties": {
                     "contents": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.sip.sip_domain.sip_auth.sip_auth_calls.sip_auth_calls_ip_access_control_list_mapping"
+                        "$ref": "#/components/schemas/sip.sip_domain.sip_auth.sip_auth_calls.sip_auth_calls_ip_access_control_list_mapping"
                       },
                       "type": "array"
                     },
@@ -24301,6 +24385,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -24311,6 +24396,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -24395,7 +24481,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.sip.sip_domain.sip_auth.sip_auth_calls.sip_auth_calls_ip_access_control_list_mapping"
+                  "$ref": "#/components/schemas/sip.sip_domain.sip_auth.sip_auth_calls.sip_auth_calls_ip_access_control_list_mapping"
                 }
               }
             },
@@ -24527,7 +24613,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.sip.sip_domain.sip_auth.sip_auth_calls.sip_auth_calls_ip_access_control_list_mapping"
+                  "$ref": "#/components/schemas/sip.sip_domain.sip_auth.sip_auth_calls.sip_auth_calls_ip_access_control_list_mapping"
                 }
               }
             },
@@ -24605,7 +24691,7 @@
                   "properties": {
                     "contents": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.sip.sip_domain.sip_auth.sip_auth_registrations.sip_auth_registrations_credential_list_mapping"
+                        "$ref": "#/components/schemas/sip.sip_domain.sip_auth.sip_auth_registrations.sip_auth_registrations_credential_list_mapping"
                       },
                       "type": "array"
                     },
@@ -24617,6 +24703,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -24627,6 +24714,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -24711,7 +24799,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.sip.sip_domain.sip_auth.sip_auth_registrations.sip_auth_registrations_credential_list_mapping"
+                  "$ref": "#/components/schemas/sip.sip_domain.sip_auth.sip_auth_registrations.sip_auth_registrations_credential_list_mapping"
                 }
               }
             },
@@ -24843,7 +24931,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.sip.sip_domain.sip_auth.sip_auth_registrations.sip_auth_registrations_credential_list_mapping"
+                  "$ref": "#/components/schemas/sip.sip_domain.sip_auth.sip_auth_registrations.sip_auth_registrations_credential_list_mapping"
                 }
               }
             },
@@ -24921,7 +25009,7 @@
                   "properties": {
                     "credential_list_mappings": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.sip.sip_domain.sip_credential_list_mapping"
+                        "$ref": "#/components/schemas/sip.sip_domain.sip_credential_list_mapping"
                       },
                       "type": "array"
                     },
@@ -24933,6 +25021,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -24943,6 +25032,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -25027,7 +25117,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.sip.sip_domain.sip_credential_list_mapping"
+                  "$ref": "#/components/schemas/sip.sip_domain.sip_credential_list_mapping"
                 }
               }
             },
@@ -25159,7 +25249,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.sip.sip_domain.sip_credential_list_mapping"
+                  "$ref": "#/components/schemas/sip.sip_domain.sip_credential_list_mapping"
                 }
               }
             },
@@ -25244,11 +25334,12 @@
                     },
                     "ip_access_control_list_mappings": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.sip.sip_domain.sip_ip_access_control_list_mapping"
+                        "$ref": "#/components/schemas/sip.sip_domain.sip_ip_access_control_list_mapping"
                       },
                       "type": "array"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -25259,6 +25350,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -25343,7 +25435,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.sip.sip_domain.sip_ip_access_control_list_mapping"
+                  "$ref": "#/components/schemas/sip.sip_domain.sip_ip_access_control_list_mapping"
                 }
               }
             },
@@ -25475,7 +25567,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.sip.sip_domain.sip_ip_access_control_list_mapping"
+                  "$ref": "#/components/schemas/sip.sip_domain.sip_ip_access_control_list_mapping"
                 }
               }
             },
@@ -25583,7 +25675,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.sip.sip_domain"
+                  "$ref": "#/components/schemas/sip.sip_domain"
                 }
               }
             },
@@ -25730,7 +25822,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.sip.sip_domain"
+                  "$ref": "#/components/schemas/sip.sip_domain"
                 }
               }
             },
@@ -25804,11 +25896,12 @@
                     },
                     "ip_access_control_lists": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.sip.sip_ip_access_control_list"
+                        "$ref": "#/components/schemas/sip.sip_ip_access_control_list"
                       },
                       "type": "array"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -25819,6 +25912,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -25888,7 +25982,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.sip.sip_ip_access_control_list"
+                  "$ref": "#/components/schemas/sip.sip_ip_access_control_list"
                 }
               }
             },
@@ -25973,11 +26067,12 @@
                     },
                     "ip_addresses": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.sip.sip_ip_access_control_list.sip_ip_address"
+                        "$ref": "#/components/schemas/sip.sip_ip_access_control_list.sip_ip_address"
                       },
                       "type": "array"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -25988,6 +26083,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -26078,7 +26174,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.sip.sip_ip_access_control_list.sip_ip_address"
+                  "$ref": "#/components/schemas/sip.sip_ip_access_control_list.sip_ip_address"
                 }
               }
             },
@@ -26211,7 +26307,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.sip.sip_ip_access_control_list.sip_ip_address"
+                  "$ref": "#/components/schemas/sip.sip_ip_access_control_list.sip_ip_address"
                 }
               }
             },
@@ -26297,7 +26393,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.sip.sip_ip_access_control_list.sip_ip_address"
+                  "$ref": "#/components/schemas/sip.sip_ip_access_control_list.sip_ip_address"
                 }
               }
             },
@@ -26406,7 +26502,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.sip.sip_ip_access_control_list"
+                  "$ref": "#/components/schemas/sip.sip_ip_access_control_list"
                 }
               }
             },
@@ -26475,7 +26571,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.sip.sip_ip_access_control_list"
+                  "$ref": "#/components/schemas/sip.sip_ip_access_control_list"
                 }
               }
             },
@@ -26563,6 +26659,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -26573,12 +26670,13 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
                     "short_codes": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.short_code"
+                        "$ref": "#/components/schemas/short_code"
                       },
                       "type": "array"
                     },
@@ -26657,7 +26755,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.short_code"
+                  "$ref": "#/components/schemas/short_code"
                 }
               }
             },
@@ -26761,7 +26859,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.short_code"
+                  "$ref": "#/components/schemas/short_code"
                 }
               }
             },
@@ -26834,6 +26932,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -26844,12 +26943,13 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
                     "signing_keys": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.signing_key"
+                        "$ref": "#/components/schemas/signing_key"
                       },
                       "type": "array"
                     },
@@ -26916,7 +27016,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.new_signing_key"
+                  "$ref": "#/components/schemas/new_signing_key"
                 }
               }
             },
@@ -27025,7 +27125,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.signing_key"
+                  "$ref": "#/components/schemas/signing_key"
                 }
               }
             },
@@ -27091,7 +27191,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.signing_key"
+                  "$ref": "#/components/schemas/signing_key"
                 }
               }
             },
@@ -27160,7 +27260,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.token"
+                  "$ref": "#/components/schemas/token"
                 }
               }
             },
@@ -27232,6 +27332,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -27242,6 +27343,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -27250,7 +27352,7 @@
                     },
                     "transcriptions": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.transcription"
+                        "$ref": "#/components/schemas/transcription"
                       },
                       "type": "array"
                     },
@@ -27370,7 +27472,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.transcription"
+                  "$ref": "#/components/schemas/transcription"
                 }
               }
             },
@@ -27720,6 +27822,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -27730,6 +27833,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -27742,7 +27846,7 @@
                     },
                     "usage_records": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.usage.usage_record"
+                        "$ref": "#/components/schemas/usage.usage_record"
                       },
                       "type": "array"
                     }
@@ -28099,6 +28203,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -28109,6 +28214,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -28121,7 +28227,7 @@
                     },
                     "usage_records": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.usage.usage_record.usage_record_all_time"
+                        "$ref": "#/components/schemas/usage.usage_record.usage_record_all_time"
                       },
                       "type": "array"
                     }
@@ -28478,6 +28584,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -28488,6 +28595,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -28500,7 +28608,7 @@
                     },
                     "usage_records": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.usage.usage_record.usage_record_daily"
+                        "$ref": "#/components/schemas/usage.usage_record.usage_record_daily"
                       },
                       "type": "array"
                     }
@@ -28857,6 +28965,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -28867,6 +28976,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -28879,7 +28989,7 @@
                     },
                     "usage_records": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.usage.usage_record.usage_record_last_month"
+                        "$ref": "#/components/schemas/usage.usage_record.usage_record_last_month"
                       },
                       "type": "array"
                     }
@@ -29236,6 +29346,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -29246,6 +29357,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -29258,7 +29370,7 @@
                     },
                     "usage_records": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.usage.usage_record.usage_record_monthly"
+                        "$ref": "#/components/schemas/usage.usage_record.usage_record_monthly"
                       },
                       "type": "array"
                     }
@@ -29615,6 +29727,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -29625,6 +29738,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -29637,7 +29751,7 @@
                     },
                     "usage_records": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.usage.usage_record.usage_record_this_month"
+                        "$ref": "#/components/schemas/usage.usage_record.usage_record_this_month"
                       },
                       "type": "array"
                     }
@@ -29994,6 +30108,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -30004,6 +30119,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -30016,7 +30132,7 @@
                     },
                     "usage_records": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.usage.usage_record.usage_record_today"
+                        "$ref": "#/components/schemas/usage.usage_record.usage_record_today"
                       },
                       "type": "array"
                     }
@@ -30373,6 +30489,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -30383,6 +30500,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -30395,7 +30513,7 @@
                     },
                     "usage_records": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.usage.usage_record.usage_record_yearly"
+                        "$ref": "#/components/schemas/usage.usage_record.usage_record_yearly"
                       },
                       "type": "array"
                     }
@@ -30752,6 +30870,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -30762,6 +30881,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -30774,7 +30894,7 @@
                     },
                     "usage_records": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.usage.usage_record.usage_record_yesterday"
+                        "$ref": "#/components/schemas/usage.usage_record.usage_record_yesterday"
                       },
                       "type": "array"
                     }
@@ -31132,6 +31252,7 @@
                       "type": "string"
                     },
                     "next_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -31142,6 +31263,7 @@
                       "type": "integer"
                     },
                     "previous_page_uri": {
+                      "nullable": true,
                       "format": "uri",
                       "type": "string"
                     },
@@ -31154,7 +31276,7 @@
                     },
                     "usage_triggers": {
                       "items": {
-                        "$ref": "#/components/schemas/api.v2010.account.usage.usage_trigger"
+                        "$ref": "#/components/schemas/usage.usage_trigger"
                       },
                       "type": "array"
                     }
@@ -31505,7 +31627,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.usage.usage_trigger"
+                  "$ref": "#/components/schemas/usage.usage_trigger"
                 }
               }
             },
@@ -31615,7 +31737,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.usage.usage_trigger"
+                  "$ref": "#/components/schemas/usage.usage_trigger"
                 }
               }
             },
@@ -31698,7 +31820,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account.usage.usage_trigger"
+                  "$ref": "#/components/schemas/usage.usage_trigger"
                 }
               }
             },
@@ -31753,7 +31875,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account"
+                  "$ref": "#/components/schemas/account"
                 }
               }
             },
@@ -31816,7 +31938,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/api.v2010.account"
+                  "$ref": "#/components/schemas/account"
                 }
               }
             },
