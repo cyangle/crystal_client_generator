@@ -18,7 +18,7 @@
     "/drive/v3/about": {
       "get": {
         "description": "Gets information about the user, the user's Drive, and system capabilities.",
-        "operationId": "drive.about.get",
+        "operationId": "about.get",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -99,7 +99,7 @@
     "/drive/v3/changes/startPageToken": {
       "get": {
         "description": "Gets the starting pageToken for listing future changes.",
-        "operationId": "drive.changes.getStartPageToken",
+        "operationId": "changes.getStartPageToken",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -216,7 +216,7 @@
     "/drive/v3/changes": {
       "get": {
         "description": "Lists the changes for a user or shared drive.",
-        "operationId": "drive.changes.list",
+        "operationId": "changes.list",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -415,7 +415,7 @@
     "/drive/v3/changes/watch": {
       "post": {
         "description": "Subscribes to changes for a user.",
-        "operationId": "drive.changes.watch",
+        "operationId": "changes.watch",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -617,7 +617,7 @@
     "/drive/v3/channels/stop": {
       "post": {
         "description": "Stop watching resources through this channel",
-        "operationId": "drive.channels.stop",
+        "operationId": "channels.stop",
         "responses": {
           "200": {
             "description": "Successful response"
@@ -694,7 +694,7 @@
     "/drive/v3/files/{fileId}/comments": {
       "post": {
         "description": "Creates a new comment on a file.",
-        "operationId": "drive.comments.create",
+        "operationId": "comments.create",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -745,7 +745,7 @@
       },
       "get": {
         "description": "Lists a file's comments.",
-        "operationId": "drive.comments.list",
+        "operationId": "comments.list",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -853,7 +853,7 @@
     "/drive/v3/files/{fileId}/comments/{commentId}": {
       "delete": {
         "description": "Deletes a comment.",
-        "operationId": "drive.comments.delete",
+        "operationId": "comments.delete",
         "responses": {
           "200": {
             "description": "Successful response"
@@ -897,7 +897,7 @@
       },
       "get": {
         "description": "Gets a comment by ID.",
-        "operationId": "drive.comments.get",
+        "operationId": "comments.get",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -962,7 +962,7 @@
       },
       "patch": {
         "description": "Updates a comment with patch semantics.",
-        "operationId": "drive.comments.update",
+        "operationId": "comments.update",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -1047,7 +1047,7 @@
     "/drive/v3/drives": {
       "post": {
         "description": "Creates a new shared drive.",
-        "operationId": "drive.drives.create",
+        "operationId": "drives.create",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -1087,7 +1087,7 @@
       },
       "get": {
         "description": "Lists the user's shared drives.",
-        "operationId": "drive.drives.list",
+        "operationId": "drives.list",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -1181,7 +1181,7 @@
     "/drive/v3/drives/{driveId}": {
       "delete": {
         "description": "Permanently deletes a shared drive for which the user is an organizer. The shared drive cannot contain any untrashed items.",
-        "operationId": "drive.drives.delete",
+        "operationId": "drives.delete",
         "responses": {
           "200": {
             "description": "Successful response"
@@ -1211,7 +1211,7 @@
       },
       "get": {
         "description": "Gets a shared drive's metadata by ID.",
-        "operationId": "drive.drives.get",
+        "operationId": "drives.get",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -1262,7 +1262,7 @@
       },
       "patch": {
         "description": "Updates the metadate for a shared drive.",
-        "operationId": "drive.drives.update",
+        "operationId": "drives.update",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -1342,7 +1342,7 @@
     "/drive/v3/drives/{driveId}/hide": {
       "post": {
         "description": "Hides a shared drive from the default view.",
-        "operationId": "drive.drives.hide",
+        "operationId": "drives.hide",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -1404,7 +1404,7 @@
     "/drive/v3/drives/{driveId}/unhide": {
       "post": {
         "description": "Restores a shared drive to the default view.",
-        "operationId": "drive.drives.unhide",
+        "operationId": "drives.unhide",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -1466,7 +1466,7 @@
     "/drive/v3/files/{fileId}/copy": {
       "post": {
         "description": "Creates a copy of a file and applies any requested updates with patch semantics. Folders cannot be copied.",
-        "operationId": "drive.files.copy",
+        "operationId": "files.copy",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -1613,7 +1613,7 @@
     "/upload/drive/v3/files/{fileId}": {
       "patch": {
         "description": "Updates a file's metadata and/or content. When calling this method, only populate fields in the request that you want to modify. When updating fields, some fields might change automatically, such as modifiedDate. This method supports patch semantics.",
-        "operationId": "drive.files.update_content",
+        "operationId": "files.update_content",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -1802,7 +1802,7 @@
     "/upload/drive/v3/files": {
       "post": {
         "description": "Creates a new file.",
-        "operationId": "drive.files.upload",
+        "operationId": "files.upload",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -1969,7 +1969,7 @@
     "/drive/v3/files": {
       "post": {
         "description": "Creates a new file.",
-        "operationId": "drive.files.create",
+        "operationId": "files.create",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -2080,7 +2080,7 @@
       },
       "get": {
         "description": "Lists or searches files.",
-        "operationId": "drive.files.list",
+        "operationId": "files.list",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -2287,7 +2287,7 @@
     "/drive/v3/files/{fileId}": {
       "delete": {
         "description": "Permanently deletes a file owned by the user without moving it to the trash. If the file belongs to a shared drive the user must be an organizer on the parent. If the target is a folder, all descendants owned by the user are also deleted.",
-        "operationId": "drive.files.delete",
+        "operationId": "files.delete",
         "responses": {
           "200": {
             "description": "Successful response"
@@ -2354,7 +2354,7 @@
       },
       "get": {
         "description": "Gets a file's metadata or content by ID.",
-        "operationId": "drive.files.get",
+        "operationId": "files.get",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -2462,7 +2462,7 @@
       },
       "patch": {
         "description": "Updates a file's metadata and/or content. When calling this method, only populate fields in the request that you want to modify. When updating fields, some fields might change automatically, such as modifiedDate. This method supports patch semantics.",
-        "operationId": "drive.files.update",
+        "operationId": "files.update",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -2630,7 +2630,7 @@
     "/drive/v3/files/trash": {
       "delete": {
         "description": "Permanently deletes all of the user's trashed files.",
-        "operationId": "drive.files.emptyTrash",
+        "operationId": "files.emptyTrash",
         "responses": {
           "200": {
             "description": "Successful response"
@@ -2685,7 +2685,7 @@
     "/drive/v3/files/{fileId}/export": {
       "get": {
         "description": "Exports a Google Doc to the requested MIME type and returns the exported content. Please note that the exported content is limited to 10MB.",
-        "operationId": "drive.files.export",
+        "operationId": "files.export",
         "responses": {
           "200": {
             "description": "Successful response"
@@ -2759,7 +2759,7 @@
     "/drive/v3/files/generateIds": {
       "get": {
         "description": "Generates a set of file IDs which can be provided in create or copy requests.",
-        "operationId": "drive.files.generateIds",
+        "operationId": "files.generateIds",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -2851,7 +2851,7 @@
     "/drive/v3/files/{fileId}/watch": {
       "post": {
         "description": "Subscribes to changes to a file",
-        "operationId": "drive.files.watch",
+        "operationId": "files.watch",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -2987,7 +2987,7 @@
     "/drive/v3/files/{fileId}/permissions": {
       "post": {
         "description": "Creates a permission for a file or shared drive.",
-        "operationId": "drive.permissions.create",
+        "operationId": "permissions.create",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -3108,7 +3108,7 @@
       },
       "get": {
         "description": "Lists a file's or shared drive's permissions.",
-        "operationId": "drive.permissions.list",
+        "operationId": "permissions.list",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -3248,7 +3248,7 @@
     "/drive/v3/files/{fileId}/permissions/{permissionId}": {
       "delete": {
         "description": "Deletes a permission.",
-        "operationId": "drive.permissions.delete",
+        "operationId": "permissions.delete",
         "responses": {
           "200": {
             "description": "Successful response"
@@ -3319,7 +3319,7 @@
       },
       "get": {
         "description": "Gets a permission by ID.",
-        "operationId": "drive.permissions.get",
+        "operationId": "permissions.get",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -3417,7 +3417,7 @@
       },
       "patch": {
         "description": "Updates a permission with patch semantics.",
-        "operationId": "drive.permissions.update",
+        "operationId": "permissions.update",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -3547,7 +3547,7 @@
     "/drive/v3/files/{fileId}/comments/{commentId}/replies": {
       "post": {
         "description": "Creates a new reply to a comment.",
-        "operationId": "drive.replies.create",
+        "operationId": "replies.create",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -3607,7 +3607,7 @@
       },
       "get": {
         "description": "Lists a comment's replies.",
-        "operationId": "drive.replies.list",
+        "operationId": "replies.list",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -3716,7 +3716,7 @@
     "/drive/v3/files/{fileId}/comments/{commentId}/replies/{replyId}": {
       "delete": {
         "description": "Deletes a reply.",
-        "operationId": "drive.replies.delete",
+        "operationId": "replies.delete",
         "responses": {
           "200": {
             "description": "Successful response"
@@ -3769,7 +3769,7 @@
       },
       "get": {
         "description": "Gets a reply by ID.",
-        "operationId": "drive.replies.get",
+        "operationId": "replies.get",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -3843,7 +3843,7 @@
       },
       "patch": {
         "description": "Updates a reply with patch semantics.",
-        "operationId": "drive.replies.update",
+        "operationId": "replies.update",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -3937,7 +3937,7 @@
     "/drive/v3/files/{fileId}/revisions/{revisionId}": {
       "delete": {
         "description": "Permanently deletes a file version. You can only delete revisions for files with binary content in Google Drive, like images or videos. Revisions for other files, like Google Docs or Sheets, and the last remaining file version can't be deleted.",
-        "operationId": "drive.revisions.delete",
+        "operationId": "revisions.delete",
         "responses": {
           "200": {
             "description": "Successful response"
@@ -3986,7 +3986,7 @@
       },
       "get": {
         "description": "Gets a revision's metadata or content by ID.",
-        "operationId": "drive.revisions.get",
+        "operationId": "revisions.get",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -4071,7 +4071,7 @@
       },
       "patch": {
         "description": "Updates a revision with patch semantics.",
-        "operationId": "drive.revisions.update",
+        "operationId": "revisions.update",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -4161,7 +4161,7 @@
     "/drive/v3/files/{fileId}/revisions": {
       "get": {
         "description": "Lists a file's revisions.",
-        "operationId": "drive.revisions.list",
+        "operationId": "revisions.list",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -4272,7 +4272,7 @@
     "/drive/v3/teamdrives": {
       "post": {
         "description": "Deprecated use drives.create instead.",
-        "operationId": "drive.teamdrives.create",
+        "operationId": "teamdrives.create",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -4312,7 +4312,7 @@
       },
       "get": {
         "description": "Deprecated use drives.list instead.",
-        "operationId": "drive.teamdrives.list",
+        "operationId": "teamdrives.list",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -4406,7 +4406,7 @@
     "/drive/v3/teamdrives/{teamDriveId}": {
       "delete": {
         "description": "Deprecated use drives.delete instead.",
-        "operationId": "drive.teamdrives.delete",
+        "operationId": "teamdrives.delete",
         "responses": {
           "200": {
             "description": "Successful response"
@@ -4436,7 +4436,7 @@
       },
       "get": {
         "description": "Deprecated use drives.get instead.",
-        "operationId": "drive.teamdrives.get",
+        "operationId": "teamdrives.get",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -4487,7 +4487,7 @@
       },
       "patch": {
         "description": "Deprecated use drives.update instead",
-        "operationId": "drive.teamdrives.update",
+        "operationId": "teamdrives.update",
         "responses": {
           "200": {
             "description": "Successful response",
