@@ -181,7 +181,7 @@ module {{moduleName}}
       form_params = Hash(String, (String | Array(String) | ::File)).new
       {{#formParams}}
       {{#isFile}}
-      form_params["{{baseName}}"] = {{paramName}} if {{paramName}}.present?
+      form_params["{{baseName}}"] = {{paramName}} if !{{paramName}}.nil? && !{{paramName}}.null?
       {{/isFile}}
       {{^isFile}}
       form_params["{{baseName}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, "{{{collectionFormat}}}"){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}.to_s{{/collectionFormat}} if !{{{paramName}}}.nil? && !{{{paramName}}}.null?{{#collectionFormat}} && !{{{paramName}}}.empty?{{/collectionFormat}}
