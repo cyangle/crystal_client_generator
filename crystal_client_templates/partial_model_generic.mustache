@@ -11,7 +11,7 @@
     {{#description}}
     # {{{.}}}
     {{/description}}
-    @[NASON::Field(key: "{{{baseName}}}", type: {{{dataType}}}{{#isNullable}} | Null{{/isNullable}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}{{#isNullable}}, nillable: false{{/isNullable}})]
+    @[NASON::Field(key: "{{{baseName}}}", type: {{{dataType}}}{{#isNullable}} | Null{{/isNullable}}{{#isDate}}, converter: Time::Format.new("%Y-%m-%d"){{/isDate}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}{{#isNullable}}, nillable: false{{/isNullable}})]
     property {{{name}}} : {{{dataType}}}{{#isNullable}} | Null{{/isNullable}}
 
     {{/requiredVars}}
@@ -22,7 +22,7 @@
     {{#description}}
     # {{{.}}}
     {{/description}}
-    @[NASON::Field(key: "{{{baseName}}}", type: {{{dataType}}}?{{#isNullable}} | Null{{/isNullable}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}, nillable: true)]
+    @[NASON::Field(key: "{{{baseName}}}", type: {{{dataType}}}?{{#isNullable}} | Null{{/isNullable}}{{#isDate}}, converter: Time::Format.new("%Y-%m-%d"){{/isDate}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}, nillable: true)]
     property {{{name}}} : {{{dataType}}}?{{#isNullable}} | Null{{/isNullable}}
 
     {{/optionalVars}}
