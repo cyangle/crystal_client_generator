@@ -1,0 +1,28 @@
+#!/bin/sh
+
+BASEDIR=$(dirname "$0")
+
+cd "$BASEDIR/.."
+
+echo "Running in folder: ${PWD}"
+
+[[ -z "${shard_version}" ]] && echo "shard_version is not set" && exit 1
+[[ -z "${out_dir}" ]] && echo "out_dir is not set" && exit 1
+[[ -z "${spec_file_path}" ]] && echo "spec_file_path is not set" && exit 1
+[[ -z "${additional_properties}" ]] && echo "additional_properties is not set" && exit 1
+
+echo "shard version is ${shard_version}"
+
+echo "Remove out_dir: $out_dir"
+rm -rf $out_dir
+
+echo "Generate code for spec file: $spec_file_path"
+docker run --rm -v "${PWD}:/gen" --workdir "/gen" openapitools/openapi-generator-cli:latest generate \
+    -g crystal \
+    -c crystal_client_config.yml \
+    -i $spec_file_path \
+    -o $out_dir \
+    --additional-properties="$additional_properties"
+
+echo "Copy spec file to out_dir"
+cp $spec_file_path $out_dir/
