@@ -178,12 +178,12 @@ module {{moduleName}}
       {{/headerParams}}
 
       # form parameters
-      {{#formParams}}
+      {{#hasFormParams}}
       form_params = Hash(String, (String | Array(String) | ::File)).new
-      {{/formParams}}
-      {{^formParams}}
+      {{/hasFormParams}}
+      {{^hasFormParams}}
       form_params = nil
-      {{/formParams}}
+      {{/hasFormParams}}
       {{#formParams}}
       {{#isFile}}
       form_params["{{baseName}}"] = {{paramName}} if !{{paramName}}.nil? && !{{paramName}}.null?
