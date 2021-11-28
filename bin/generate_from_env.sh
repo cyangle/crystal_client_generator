@@ -10,6 +10,7 @@ echo "Running in folder: ${PWD}"
 [[ -z "${out_dir}" ]] && echo "out_dir is not set" && exit 1
 [[ -z "${spec_file_path}" ]] && echo "spec_file_path is not set" && exit 1
 [[ -z "${additional_properties}" ]] && echo "additional_properties is not set" && exit 1
+[[ -z "${image}" ]] && echo "image is not set" && exit 1
 
 echo "shard version is ${shard_version}"
 
@@ -17,7 +18,8 @@ echo "Remove out_dir: $out_dir"
 rm -rf $out_dir
 
 echo "Generate code for spec file: $spec_file_path"
-docker run --rm -v "${PWD}:/gen" --workdir "/gen" openapitools/openapi-generator-cli:latest generate \
+echo "Using image $image"
+docker run --rm -v "${PWD}:/gen" --workdir "/gen" $image generate \
     -g crystal \
     -c crystal_client_config.yml \
     -i $spec_file_path \
