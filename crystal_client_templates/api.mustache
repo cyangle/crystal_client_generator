@@ -42,7 +42,7 @@ module {{moduleName}}
     {{/allParams}}
     # @return [Array<({{{returnType}}}{{^returnType}}nil{{/returnType}}, Integer, Hash)>] {{#returnType}}{{{.}}} data{{/returnType}}{{^returnType}}nil{{/returnType}}, response status code and response headers
     def {{operationId}}_with_http_info({{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}{{paramName}} : {{{dataType}}}{{#isNullable}} | Null{{/isNullable}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}{{paramName}} : {{{dataType}}}?{{#isNullable}} | Null{{/isNullable}}{{^defaultValue}} = nil{{/defaultValue}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalParams}})
-      request = build_{{operationId}}_request({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
+      request = build_api_request_for_{{operationId}}({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
 
       data, status_code, headers = @api_client.execute_api_request(request)
 
@@ -66,7 +66,7 @@ module {{moduleName}}
     {{/allParams}}
     # @return nil
     def {{operationId}}({{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}{{paramName}} : {{{dataType}}}{{#isNullable}} | Null{{/isNullable}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}{{paramName}} : {{{dataType}}}?{{#isNullable}} | Null{{/isNullable}}{{^defaultValue}} = nil{{/defaultValue}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalParams}}{{#hasParams}}, {{/hasParams}}&block : Crest::Response ->)
-      request = build_{{operationId}}_request({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
+      request = build_api_request_for_{{operationId}}({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
 
       request.execute do |response|
         block.call(response)
@@ -74,7 +74,7 @@ module {{moduleName}}
     end
 
     # @return Crest::Request
-    def build_{{operationId}}_request({{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}{{paramName}} : {{{dataType}}}{{#isNullable}} | Null{{/isNullable}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}{{paramName}} : {{{dataType}}}?{{#isNullable}} | Null{{/isNullable}}{{^defaultValue}} = nil{{/defaultValue}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalParams}}) : Crest::Request
+    def build_api_request_for_{{operationId}}({{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}{{paramName}} : {{{dataType}}}{{#isNullable}} | Null{{/isNullable}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}{{paramName}} : {{{dataType}}}?{{#isNullable}} | Null{{/isNullable}}{{^defaultValue}} = nil{{/defaultValue}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalParams}}) : Crest::Request
       if @api_client.config.debugging
         Log.debug { "Calling API: {{classname}}.{{operationId}} ..." }
       end
