@@ -1,3 +1,47 @@
+# 0.2.1
+
+## Bug fixes and improvements
+
+Update crest to 1.1.0 and use Crest::NestedParamsEncoder by default
+
+Remove generatorVersion from api_info.mustache
+
+Refactor script generate_from_env.sh to run in container
+
+Upgrade nason to 0.3.3
+
+Add google cloud storage api spec and helper scripts
+
+Upgrade post_process to v0.2.1
+
+Refactor passing blocks
+
+Refactor build_collection_param and build_api_request
+
+Require extension files
+
+Make image a shell variable in helper scripts
+
+Fix EnumAttributeValidator
+
+Fix form_params in api template
+
+Set form_params to nil when it's not required
+
+Add shard post_process to dev dependencies
+
+Fix param description in api template
+
+Refactor helper scripts
+
+Update google drive spec
+
+Add helper scripts to generate twilio and google drive clients
+
+Explicitly (de)serialize date, datetime values
+
+Fix more issues with twilio spec file
+
 # 0.2.0
 
 ## Several bug fixes and refactors
