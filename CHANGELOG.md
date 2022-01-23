@@ -1,3 +1,9 @@
+# 0.2.2
+
+## Bug fixes
+
+Fix query_params in api to include Array(String)
+
 # 0.2.1
 
 ## Bug fixes and improvements
