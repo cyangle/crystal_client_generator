@@ -1,0 +1,18 @@
+AllCops:
+  TargetRubyVersion: 3.1
+  SuggestExtensions: false
+  NewCops: enable
+
+Metrics/AbcSize:
+  Max: 30
+Metrics/MethodLength:
+  Max: 50
+
+Metrics/ClassLength:
+  Max: 1500
+Metrics/CyclomaticComplexity:
+  Max: 12
+Metrics/PerceivedComplexity:
+  Max: 12
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
