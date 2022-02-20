@@ -42,3 +42,5 @@ The main difference between nason and standard library json is that it treats `n
 [Twilio](https://github.com/cyangle/twilio)
 
 [Google Drive V3](https://github.com/cyangle/google_drive)
+
+[Google Cloud Storage V1](https://github.com/cyangle/google_cloud_storage)

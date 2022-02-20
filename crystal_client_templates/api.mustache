@@ -161,7 +161,7 @@ module {{moduleName}}
       local_var_path = "{{{path}}}"{{#pathParams}}.sub("{" + "{{baseName}}" + "}", URI.encode_path({{paramName}}.to_s){{^strictSpecBehavior}}.gsub("%2F", "/"){{/strictSpecBehavior}}){{/pathParams}}
 
       # query parameters
-      query_params = Hash(String, String).new
+      query_params = Hash(String, (String | Array(String))).new
       {{#queryParams}}
       query_params["{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, "{{{collectionFormat}}}"){{/collectionFormat}}{{^collectionFormat}}{{^isDate}}{{^isDateTime}}{{{paramName}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format({{{paramName}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format({{{paramName}}}){{/isDateTime}}{{/collectionFormat}} if !{{{paramName}}}.nil? && !{{{paramName}}}.null?{{#collectionFormat}} && !{{{paramName}}}.empty?{{/collectionFormat}}
       {{/queryParams}}
