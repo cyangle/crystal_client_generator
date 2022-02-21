@@ -140,8 +140,8 @@ CALL_EVENT = {
   type: "object"
 }.freeze
 
-spec_path = File.join(__dir__, "twilio_api_v2010_1.27.0.json")
-out_file_path = File.join(__dir__, "twilio_api_v2010_1.27.0_fixed.json")
+spec_path = File.join(__dir__, ARGV[0] || "twilio_api_v2010_1.27.0.json")
+out_file_path = File.join(__dir__, ARGV[1] || "twilio_api_v2010_1.27.0_fixed.json")
 
 def fix_properties(new_name, value)
   return DEFAULT_PROPERTIES.dup if DEFAULT_PROPERTY_NAMES.include?(new_name)
