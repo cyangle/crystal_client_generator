@@ -84,7 +84,7 @@
 
       SchemaMismatchError = Class.new(StandardError)
 
-      # Note: 'File' is missing here because in the regular case we get the data _after_ a call to NASON.parse.
+      # Note: 'File' is missing here because in the regular case we get the data _after_ a call to JSON.parse.
       def find_and_cast_into_type(klass, data)
         return if data.nil?
 

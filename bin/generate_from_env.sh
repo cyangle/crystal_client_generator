@@ -23,7 +23,7 @@ rm -rf $out_dir
 
 echo "Generate code for spec file: $spec_file_path"
 echo "Using image $image"
-docker run --rm -v "${repo_dir}:/gen" --user "$user:$user" --workdir "/gen" $image generate \
+docker run --rm -it -v "${repo_dir}:/gen" --user "$user:$user" --workdir "/gen" $image generate \
     -g crystal \
     -c crystal_client_config.yml \
     -i $spec_file_path \

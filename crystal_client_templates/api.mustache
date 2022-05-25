@@ -50,7 +50,7 @@ module {{moduleName}}
         Log.debug { "API called: {{classname}}#{{operationId}}\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}" }
       end
 
-      return {{#returnType}}{{{.}}}.from_nason(data){{/returnType}}{{^returnType}}nil{{/returnType}}, status_code, headers
+      return {{#returnType}}{{{.}}}.from_json(data){{/returnType}}{{^returnType}}nil{{/returnType}}, status_code, headers
     end
 
     {{#summary}}
@@ -99,13 +99,13 @@ module {{moduleName}}
       {{#isEnum}}
       {{#collectionFormat}}
       allowable_values = [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
-      if @api_client.config.client_side_validation && !{{{paramName}}}.nil? && !{{{paramName}}}.null? && !{{{paramName}}}.all? { |item| allowable_values.includes?(item) }
+      if @api_client.config.client_side_validation && !{{{paramName}}}.nil? && !{{{paramName}}}.all? { |item| allowable_values.includes?(item) }
         raise ArgumentError.new("invalid value for \"{{{paramName}}}\", must include one of #{allowable_values}")
       end
       {{/collectionFormat}}
       {{^collectionFormat}}
       allowable_values = [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
-      if @api_client.config.client_side_validation && !{{{paramName}}}.nil? && !{{{paramName}}}.null? && !allowable_values.includes?({{{paramName}}})
+      if @api_client.config.client_side_validation && !{{{paramName}}}.nil? && !allowable_values.includes?({{{paramName}}})
         raise ArgumentError.new("invalid value for \"{{{paramName}}}\", must be one of #{allowable_values}")
       end
       {{/collectionFormat}}
@@ -113,44 +113,44 @@ module {{moduleName}}
       {{/required}}
       {{#hasValidation}}
       {{#maxLength}}
-      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{#isNullable}}!@{{{name}}}.null? && {{/isNullable}}{{^isDate}}{{^isDateTime}}{{{paramName}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format({{{paramName}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format({{{paramName}}}){{/isDateTime}}.size > {{{maxLength}}}
+      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{^isDate}}{{^isDateTime}}{{{paramName}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format({{{paramName}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format({{{paramName}}}){{/isDateTime}}.size > {{{maxLength}}}
         raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, the character length must be smaller than or equal to {{{maxLength}}}.")
       end
 
       {{/maxLength}}
       {{#minLength}}
-      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{#isNullable}}!@{{{name}}}.null? && {{/isNullable}}{{^isDate}}{{^isDateTime}}{{{paramName}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format({{{paramName}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format({{{paramName}}}){{/isDateTime}}.size < {{{minLength}}}
+      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{^isDate}}{{^isDateTime}}{{{paramName}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format({{{paramName}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format({{{paramName}}}){{/isDateTime}}.size < {{{minLength}}}
         raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, the character length must be great than or equal to {{{minLength}}}.")
       end
 
       {{/minLength}}
       {{#maximum}}
-      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{#isNullable}}!@{{{name}}}.null? && {{/isNullable}}{{{paramName}}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
+      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{{paramName}}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
         raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{{maximum}}}.")
       end
 
       {{/maximum}}
       {{#minimum}}
-      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{#isNullable}}!@{{{name}}}.null? && {{/isNullable}}{{{paramName}}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
+      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{{paramName}}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
         raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, must be greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{{minimum}}}.")
       end
 
       {{/minimum}}
       {{#pattern}}
       pattern = {{{pattern}}}
-      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{#isNullable}}!@{{{name}}}.null? && {{/isNullable}}{{{paramName}}} !~ pattern
+      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{{paramName}}} !~ pattern
         raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, must conform to the pattern #{pattern}.")
       end
 
       {{/pattern}}
       {{#maxItems}}
-      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{#isNullable}}!@{{{name}}}.null? && {{/isNullable}}{{{paramName}}}.size > {{{maxItems}}}
+      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{{paramName}}}.size > {{{maxItems}}}
         raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, number of items must be less than or equal to {{{maxItems}}}.")
       end
 
       {{/maxItems}}
       {{#minItems}}
-      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{#isNullable}}!@{{{name}}}.null? && {{/isNullable}}{{{paramName}}}.size < {{{minItems}}}
+      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{{paramName}}}.size < {{{minItems}}}
         raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, number of items must be greater than or equal to {{{minItems}}}.")
       end
 
@@ -163,7 +163,7 @@ module {{moduleName}}
       # query parameters
       query_params = Hash(String, (String | Array(String))).new
       {{#queryParams}}
-      query_params["{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, "{{{collectionFormat}}}"){{/collectionFormat}}{{^collectionFormat}}{{^isDate}}{{^isDateTime}}{{{paramName}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format({{{paramName}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format({{{paramName}}}){{/isDateTime}}{{/collectionFormat}} if !{{{paramName}}}.nil? && !{{{paramName}}}.null?{{#collectionFormat}} && !{{{paramName}}}.empty?{{/collectionFormat}}
+      query_params["{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, "{{{collectionFormat}}}"){{/collectionFormat}}{{^collectionFormat}}{{^isDate}}{{^isDateTime}}{{{paramName}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format({{{paramName}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format({{{paramName}}}){{/isDateTime}}{{/collectionFormat}} if !{{{paramName}}}.nil?{{#collectionFormat}} && !{{{paramName}}}.empty?{{/collectionFormat}}
       {{/queryParams}}
 
       # header parameters
@@ -177,7 +177,7 @@ module {{moduleName}}
       header_params["Content-Type"] = @api_client.select_header_content_type([{{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}])
       {{/hasConsumes}}
       {{#headerParams}}
-      header_params["{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, "{{{collectionFormat}}}"){{/collectionFormat}}{{^collectionFormat}}{{^isDate}}{{^isDateTime}}{{{paramName}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format({{{paramName}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format({{{paramName}}}){{/isDateTime}}{{/collectionFormat}} if !{{{paramName}}}.nil? && !{{{paramName}}}.null?{{#collectionFormat}} && !{{{paramName}}}.empty?{{/collectionFormat}}
+      header_params["{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, "{{{collectionFormat}}}"){{/collectionFormat}}{{^collectionFormat}}{{^isDate}}{{^isDateTime}}{{{paramName}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format({{{paramName}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format({{{paramName}}}){{/isDateTime}}{{/collectionFormat}} if !{{{paramName}}}.nil?{{#collectionFormat}} && !{{{paramName}}}.empty?{{/collectionFormat}}
       {{/headerParams}}
 
       # form parameters
@@ -189,15 +189,15 @@ module {{moduleName}}
       {{/hasFormParams}}
       {{#formParams}}
       {{#isFile}}
-      form_params["{{baseName}}"] = {{paramName}} if !{{paramName}}.nil? && !{{paramName}}.null?
+      form_params["{{baseName}}"] = {{paramName}} if !{{paramName}}.nil?
       {{/isFile}}
       {{^isFile}}
-      form_params["{{baseName}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, "{{{collectionFormat}}}"){{/collectionFormat}}{{^collectionFormat}}{{^isDate}}{{^isDateTime}}{{{paramName}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format({{{paramName}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format({{{paramName}}}){{/isDateTime}}{{/collectionFormat}} if !{{{paramName}}}.nil? && !{{{paramName}}}.null?{{#collectionFormat}} && !{{{paramName}}}.empty?{{/collectionFormat}}
+      form_params["{{baseName}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, "{{{collectionFormat}}}"){{/collectionFormat}}{{^collectionFormat}}{{^isDate}}{{^isDateTime}}{{{paramName}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format({{{paramName}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format({{{paramName}}}){{/isDateTime}}{{/collectionFormat}} if !{{{paramName}}}.nil?{{#collectionFormat}} && !{{{paramName}}}.empty?{{/collectionFormat}}
       {{/isFile}}
       {{/formParams}}
 
       # http body (model)
-      post_body = {{#bodyParam}}{{{paramName}}}.to_nason{{/bodyParam}}{{^bodyParam}}nil{{/bodyParam}}
+      post_body = {{#bodyParam}}{{{paramName}}}.to_json{{/bodyParam}}{{^bodyParam}}nil{{/bodyParam}}
 
       # auth_names
       auth_names = {{#authMethods}}{{#-first}}[{{/-first}}"{{name}}"{{^-last}}, {{/-last}}{{#-last}}]{{/-last}}{{/authMethods}}{{^authMethods}}[] of String{{/authMethods}}
