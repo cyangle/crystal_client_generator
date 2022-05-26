@@ -4,7 +4,7 @@ BASEDIR=$(dirname "$0")
 
 cd "$BASEDIR/.."
 
-export shard_version=${shard_version:-0.2.2}
+export shard_version=${shard_version:-0.3.1}
 export image=${image:-'openapitools/openapi-generator-cli:latest'}
 export spec_file_path='example_api_specs/google_cloud_storage_v1.yml'
 export out_dir='out/crystal/google_cloud_storage'
