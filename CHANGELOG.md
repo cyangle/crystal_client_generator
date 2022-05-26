@@ -1,3 +1,9 @@
+# 0.3.0
+
+## improvements
+
+Replace nason with json with ignore_serialize annotation to dynamically emit nulls based on #{name}_present?
+
 # 0.2.2
 
 ## Bug fixes

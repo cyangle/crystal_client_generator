@@ -2,11 +2,13 @@
 Custom OpenAPI Generator templates for generating crystal client libraries.
 
 ## What is OpenAPI Generator
-[OpenAPI Generator](https://github.com/OpenAPITools/openapi-generator) allows generation of API client libraries (SDK generation), server stubs, documentation and configuration automatically given an OpenAPI Spec (both 2.0 and 3.0 are supported).
+[OpenAPI Generator](https://github.com/OpenAPITools/openapi-generator) allows generation of API client libraries (SDK generation), server stubs, documentation and configuration automatically given an OpenAPI Spec (only 3.0 is supported).
 
 OpenAPI Generator supports [User-defined Templates](https://github.com/OpenAPITools/openapi-generator/blob/master/docs/customization.md#user-defined-templates).
 
 `crystal_client_generator` provides custom OpenAPI Generator templates for generating crystal client libraries.
+
+This readme is for version 0.3.0
 
 ## Usage
 
@@ -30,12 +32,6 @@ Example command to generate google_drive library with api spec file `example_api
 ```
 
 The generated code would be written to `out/google_drive`.
-
-## JSON (de)serialization
-
-The generated code uses shard [nason](https://github.com/cyangle/nason) to (de)serialize from/to JSON.
-
-The main difference between nason and standard library json is that it treats `null` value as of struct `Null` instead of `Nil`.
 
 ## SDKs generated with this repo
 
