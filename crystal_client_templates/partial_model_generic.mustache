@@ -16,6 +16,7 @@
     @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}{{#isNullable}}?{{/isNullable}}{{#isDate}}, converter: Time::ISO8601DateConverter{{/isDate}}{{#isDateTime}}, converter: Time::RFC3339Converter{{/isDateTime}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}{{#isNullable}}, presence: true, ignore_serialize: {{{name}}}.nil? && !{{{name}}}_present?{{/isNullable}})]
     property {{{name}}} : {{{dataType}}}{{#isNullable}}?{{/isNullable}}
     {{#isNullable}}
+
     @[JSON::Field(ignore: true)]
     property? {{{name}}}_present : Bool = false
     {{/isNullable}}
@@ -30,6 +31,7 @@
     {{/description}}
     @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}?{{#isDate}}, converter: Time::ISO8601DateConverter{{/isDate}}{{#isDateTime}}, converter: Time::RFC3339Converter{{/isDateTime}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}, presence: true, ignore_serialize: {{{name}}}.nil? && !{{{name}}}_present?)]
     property {{{name}}} : {{{dataType}}}?
+
     @[JSON::Field(ignore: true)]
     property? {{{name}}}_present : Bool = false
 
