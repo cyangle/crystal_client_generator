@@ -3482,6 +3482,7 @@ components:
       schema:
         enum:
           - json
+          - media
         type: string
     fields:
       description: Selector specifying which fields to include in a partial response.
