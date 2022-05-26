@@ -1,8 +1,10 @@
   {{#description}}
   # {{{.}}}
   {{/description}}
+  @[JSON::Serializable::Options(emit_nulls: true)]
   class {{classname}}{{#parent}} < {{{.}}}{{/parent}}
     include JSON::Serializable
+    include JSON::Serializable::Unmapped
 
     {{#hasRequired}}
     # Required properties
@@ -11,8 +13,8 @@
     {{#description}}
     # {{{.}}}
     {{/description}}
-    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}{{#isNullable}} | Null{{/isNullable}}{{#isDate}}, converter: Time::ISO8601DateConverter{{/isDate}}{{#isDateTime}}, converter: Time::RFC3339Converter{{/isDateTime}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}{{#isNullable}}, presence: true, ignore_serialize: {{{name}}}.nil? && !{{{name}}}_present?, emit_null: true{{/isNullable}})]
-    property {{{name}}} : {{{dataType}}}{{#isNullable}} | Null{{/isNullable}}
+    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}{{#isNullable}}?{{/isNullable}}{{#isDate}}, converter: Time::ISO8601DateConverter{{/isDate}}{{#isDateTime}}, converter: Time::RFC3339Converter{{/isDateTime}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}{{#isNullable}}, presence: true, ignore_serialize: {{{name}}}.nil? && !{{{name}}}_present?{{/isNullable}})]
+    property {{{name}}} : {{{dataType}}}{{#isNullable}}?{{/isNullable}}
     {{#isNullable}}
     @[JSON::Field(ignore: true)]
     property? {{{name}}}_present : Bool = false
@@ -26,8 +28,8 @@
     {{#description}}
     # {{{.}}}
     {{/description}}
-    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}?{{#isNullable}} | Null{{/isNullable}}{{#isDate}}, converter: Time::ISO8601DateConverter{{/isDate}}{{#isDateTime}}, converter: Time::RFC3339Converter{{/isDateTime}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}, presence: true, ignore_serialize: {{{name}}}.nil? && !{{{name}}}_present?, emit_null: true)]
-    property {{{name}}} : {{{dataType}}}?{{#isNullable}} | Null{{/isNullable}}
+    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}?{{#isDate}}, converter: Time::ISO8601DateConverter{{/isDate}}{{#isDateTime}}, converter: Time::RFC3339Converter{{/isDateTime}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}, presence: true, ignore_serialize: {{{name}}}.nil? && !{{{name}}}_present?)]
+    property {{{name}}} : {{{dataType}}}?
     @[JSON::Field(ignore: true)]
     property? {{{name}}}_present : Bool = false
 
@@ -94,7 +96,7 @@
     {{/discriminator}}
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize({{#hasVars}}*, {{/hasVars}}{{#requiredVars}}@{{{name}}} : {{{dataType}}}{{#isNullable}} | Null{{/isNullable}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}}, {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}@{{{name}}} : {{{dataType}}}?{{#isNullable}} | Null{{/isNullable}}{{^defaultValue}} = nil{{/defaultValue}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalVars}})
+    def initialize({{#hasVars}}*, {{/hasVars}}{{#requiredVars}}@{{{name}}} : {{{dataType}}}{{#isNullable}}?{{/isNullable}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}}, {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}@{{{name}}} : {{{dataType}}}?{{^defaultValue}} = nil{{/defaultValue}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalVars}})
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
