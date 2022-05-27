@@ -197,7 +197,7 @@ module {{moduleName}}
       {{/formParams}}
 
       # http body (model)
-      post_body = {{#bodyParam}}{{{paramName}}}.to_json{{/bodyParam}}{{^bodyParam}}nil{{/bodyParam}}
+      post_body = {{#bodyParam}}{{#isFile}}{{{paramName}}}{{/isFile}}{{^isFile}}{{{paramName}}}.to_json{{/isFile}}{{/bodyParam}}{{^bodyParam}}nil{{/bodyParam}}
 
       # auth_names
       auth_names = {{#authMethods}}{{#-first}}[{{/-first}}"{{name}}"{{^-last}}, {{/-last}}{{#-last}}]{{/-last}}{{/authMethods}}{{^authMethods}}[] of String{{/authMethods}}
