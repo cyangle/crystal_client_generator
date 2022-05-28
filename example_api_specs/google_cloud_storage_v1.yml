@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.0.1
 servers:
   - url: https://storage.googleapis.com/storage/v1
 info:
@@ -74,11 +74,6 @@ paths:
               - full
               - noAcl
             type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: The project to be billed for this request.
           in: query
           name: userProject
@@ -121,6 +116,7 @@ paths:
       - $ref: "#/components/parameters/oauth_token"
       - $ref: "#/components/parameters/prettyPrint"
       - $ref: "#/components/parameters/quotaUser"
+      - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
     post:
       description: Creates a new bucket.
@@ -162,11 +158,6 @@ paths:
             enum:
               - full
               - noAcl
-            type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
             type: string
         - description: The project to be billed for this request.
           in: query
@@ -221,11 +212,6 @@ paths:
           name: ifMetagenerationNotMatch
           schema:
             type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
           in: query
           name: userProject
@@ -277,11 +263,6 @@ paths:
               - full
               - noAcl
             type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
           in: query
           name: userProject
@@ -324,6 +305,7 @@ paths:
       - $ref: "#/components/parameters/oauth_token"
       - $ref: "#/components/parameters/prettyPrint"
       - $ref: "#/components/parameters/quotaUser"
+      - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
     patch:
       description: Patches a bucket. Changes to the bucket will be readable immediately after writing, but configuration changes may take time to propagate.
@@ -375,11 +357,6 @@ paths:
             enum:
               - full
               - noAcl
-            type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
             type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
           in: query
@@ -460,11 +437,6 @@ paths:
               - full
               - noAcl
             type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
           in: query
           name: userProject
@@ -504,11 +476,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
           in: query
           name: userProject
@@ -539,6 +506,7 @@ paths:
       - $ref: "#/components/parameters/oauth_token"
       - $ref: "#/components/parameters/prettyPrint"
       - $ref: "#/components/parameters/quotaUser"
+      - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
     post:
       description: Creates a new ACL entry on the specified bucket.
@@ -548,11 +516,6 @@ paths:
           in: path
           name: bucket
           required: true
-          schema:
-            type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
           schema:
             type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
@@ -600,11 +563,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
           in: query
           name: userProject
@@ -640,11 +598,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
           in: query
           name: userProject
@@ -675,6 +628,7 @@ paths:
       - $ref: "#/components/parameters/oauth_token"
       - $ref: "#/components/parameters/prettyPrint"
       - $ref: "#/components/parameters/quotaUser"
+      - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
     patch:
       description: Patches an ACL entry on the specified bucket.
@@ -690,11 +644,6 @@ paths:
           in: path
           name: entity
           required: true
-          schema:
-            type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
           schema:
             type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
@@ -739,11 +688,6 @@ paths:
           in: path
           name: entity
           required: true
-          schema:
-            type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
           schema:
             type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
@@ -795,11 +739,6 @@ paths:
           name: ifMetagenerationNotMatch
           schema:
             type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
           in: query
           name: userProject
@@ -830,6 +769,7 @@ paths:
       - $ref: "#/components/parameters/oauth_token"
       - $ref: "#/components/parameters/prettyPrint"
       - $ref: "#/components/parameters/quotaUser"
+      - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
     post:
       description: Creates a new default object ACL entry on the specified bucket.
@@ -839,11 +779,6 @@ paths:
           in: path
           name: bucket
           required: true
-          schema:
-            type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
           schema:
             type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
@@ -891,11 +826,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
           in: query
           name: userProject
@@ -931,11 +861,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
           in: query
           name: userProject
@@ -966,6 +891,7 @@ paths:
       - $ref: "#/components/parameters/oauth_token"
       - $ref: "#/components/parameters/prettyPrint"
       - $ref: "#/components/parameters/quotaUser"
+      - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
     patch:
       description: Patches a default object ACL entry on the specified bucket.
@@ -981,11 +907,6 @@ paths:
           in: path
           name: entity
           required: true
-          schema:
-            type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
           schema:
             type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
@@ -1030,11 +951,6 @@ paths:
           in: path
           name: entity
           required: true
-          schema:
-            type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
           schema:
             type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
@@ -1082,11 +998,6 @@ paths:
           schema:
             minimum: 1
             type: integer
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
           in: query
           name: userProject
@@ -1117,6 +1028,7 @@ paths:
       - $ref: "#/components/parameters/oauth_token"
       - $ref: "#/components/parameters/prettyPrint"
       - $ref: "#/components/parameters/quotaUser"
+      - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
     put:
       description: Updates an IAM policy for the specified bucket.
@@ -1126,11 +1038,6 @@ paths:
           in: path
           name: bucket
           required: true
-          schema:
-            type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
           schema:
             type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
@@ -1182,11 +1089,6 @@ paths:
               type: string
             type: array
           style: form
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
           in: query
           name: userProject
@@ -1229,6 +1131,7 @@ paths:
       - $ref: "#/components/parameters/oauth_token"
       - $ref: "#/components/parameters/prettyPrint"
       - $ref: "#/components/parameters/quotaUser"
+      - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
   "/b/{bucket}/lockRetentionPolicy":
     parameters:
@@ -1238,6 +1141,7 @@ paths:
       - $ref: "#/components/parameters/oauth_token"
       - $ref: "#/components/parameters/prettyPrint"
       - $ref: "#/components/parameters/quotaUser"
+      - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
     post:
       description: Locks retention policy on a bucket.
@@ -1253,11 +1157,6 @@ paths:
           in: query
           name: ifMetagenerationMatch
           required: true
-          schema:
-            type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
           schema:
             type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
@@ -1296,11 +1195,6 @@ paths:
           in: path
           name: bucket
           required: true
-          schema:
-            type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
           schema:
             type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
@@ -1345,6 +1239,7 @@ paths:
       - $ref: "#/components/parameters/oauth_token"
       - $ref: "#/components/parameters/prettyPrint"
       - $ref: "#/components/parameters/quotaUser"
+      - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
     post:
       description: Creates a notification subscription for a given bucket.
@@ -1354,11 +1249,6 @@ paths:
           in: path
           name: bucket
           required: true
-          schema:
-            type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
           schema:
             type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
@@ -1410,11 +1300,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
           in: query
           name: userProject
@@ -1452,11 +1337,6 @@ paths:
           in: path
           name: notification
           required: true
-          schema:
-            type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
           schema:
             type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
@@ -1501,6 +1381,7 @@ paths:
       - $ref: "#/components/parameters/oauth_token"
       - $ref: "#/components/parameters/prettyPrint"
       - $ref: "#/components/parameters/quotaUser"
+      - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
   "/b/{bucket}/o":
     get:
@@ -1551,11 +1432,6 @@ paths:
             enum:
               - full
               - noAcl
-            type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
             type: string
         - description: Filter results to objects whose names are lexicographically equal to or after startOffset. If endOffset is also set, the objects listed will have names between startOffset (inclusive) and endOffset (exclusive).
           in: query
@@ -1609,6 +1485,7 @@ paths:
       - $ref: "#/components/parameters/oauth_token"
       - $ref: "#/components/parameters/prettyPrint"
       - $ref: "#/components/parameters/quotaUser"
+      - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
     post:
       description: Stores a new object and metadata.
@@ -1675,11 +1552,6 @@ paths:
               - full
               - noAcl
             type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
           in: query
           name: userProject
@@ -1720,6 +1592,7 @@ paths:
       - $ref: "#/components/parameters/oauth_token"
       - $ref: "#/components/parameters/prettyPrint"
       - $ref: "#/components/parameters/quotaUser"
+      - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
     post:
       description: Watch for changes on all objects in a bucket.
@@ -1769,11 +1642,6 @@ paths:
             enum:
               - full
               - noAcl
-            type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
             type: string
         - description: Filter results to objects whose names are lexicographically equal to or after startOffset. If endOffset is also set, the objects listed will have names between startOffset (inclusive) and endOffset (exclusive).
           in: query
@@ -1867,11 +1735,6 @@ paths:
           name: ifMetagenerationNotMatch
           schema:
             type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
           in: query
           name: userProject
@@ -1944,11 +1807,6 @@ paths:
               - full
               - noAcl
             type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
           in: query
           name: userProject
@@ -1991,6 +1849,7 @@ paths:
       - $ref: "#/components/parameters/oauth_token"
       - $ref: "#/components/parameters/prettyPrint"
       - $ref: "#/components/parameters/quotaUser"
+      - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
     patch:
       description: Patches an object's metadata.
@@ -2052,11 +1911,6 @@ paths:
             enum:
               - full
               - noAcl
-            type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
             type: string
         - description: The project to be billed for this request, for Requester Pays buckets.
           in: query
@@ -2147,11 +2001,6 @@ paths:
               - full
               - noAcl
             type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
           in: query
           name: userProject
@@ -2202,11 +2051,6 @@ paths:
           name: generation
           schema:
             type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
           in: query
           name: userProject
@@ -2237,6 +2081,7 @@ paths:
       - $ref: "#/components/parameters/oauth_token"
       - $ref: "#/components/parameters/prettyPrint"
       - $ref: "#/components/parameters/quotaUser"
+      - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
     post:
       description: Creates a new ACL entry on the specified object.
@@ -2257,11 +2102,6 @@ paths:
         - description: If present, selects a specific revision of this object (as opposed to the latest version, the default).
           in: query
           name: generation
-          schema:
-            type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
           schema:
             type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
@@ -2320,11 +2160,6 @@ paths:
           name: generation
           schema:
             type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
           in: query
           name: userProject
@@ -2371,11 +2206,6 @@ paths:
           name: generation
           schema:
             type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
           in: query
           name: userProject
@@ -2406,6 +2236,7 @@ paths:
       - $ref: "#/components/parameters/oauth_token"
       - $ref: "#/components/parameters/prettyPrint"
       - $ref: "#/components/parameters/quotaUser"
+      - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
     patch:
       description: Patches an ACL entry on the specified object.
@@ -2432,11 +2263,6 @@ paths:
         - description: If present, selects a specific revision of this object (as opposed to the latest version, the default).
           in: query
           name: generation
-          schema:
-            type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
           schema:
             type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
@@ -2494,11 +2320,6 @@ paths:
           name: generation
           schema:
             type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
           in: query
           name: userProject
@@ -2549,11 +2370,6 @@ paths:
           name: generation
           schema:
             type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
           in: query
           name: userProject
@@ -2596,6 +2412,7 @@ paths:
       - $ref: "#/components/parameters/oauth_token"
       - $ref: "#/components/parameters/prettyPrint"
       - $ref: "#/components/parameters/quotaUser"
+      - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
     put:
       description: Updates an IAM policy for the specified object.
@@ -2616,11 +2433,6 @@ paths:
         - description: If present, selects a specific revision of this object (as opposed to the latest version, the default).
           in: query
           name: generation
-          schema:
-            type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
           schema:
             type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
@@ -2687,11 +2499,6 @@ paths:
           name: generation
           schema:
             type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
           in: query
           name: userProject
@@ -2734,6 +2541,7 @@ paths:
       - $ref: "#/components/parameters/oauth_token"
       - $ref: "#/components/parameters/prettyPrint"
       - $ref: "#/components/parameters/quotaUser"
+      - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
   "/b/{destinationBucket}/o/{destinationObject}/compose":
     parameters:
@@ -2743,6 +2551,7 @@ paths:
       - $ref: "#/components/parameters/oauth_token"
       - $ref: "#/components/parameters/prettyPrint"
       - $ref: "#/components/parameters/quotaUser"
+      - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
     post:
       description: Concatenates a list of existing objects into a new object in the same bucket.
@@ -2787,11 +2596,6 @@ paths:
           name: kmsKeyName
           schema:
             type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: The project to be billed for this request. Required for Requester Pays buckets.
           in: query
           name: userProject
@@ -2832,6 +2636,7 @@ paths:
       - $ref: "#/components/parameters/oauth_token"
       - $ref: "#/components/parameters/prettyPrint"
       - $ref: "#/components/parameters/quotaUser"
+      - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
     post:
       description: Copies a source object to a destination object. Optionally overrides metadata.
@@ -2926,11 +2731,6 @@ paths:
               - full
               - noAcl
             type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: If present, selects a specific revision of the source object (as opposed to the latest version, the default).
           in: query
           name: sourceGeneration
@@ -2976,6 +2776,7 @@ paths:
       - $ref: "#/components/parameters/oauth_token"
       - $ref: "#/components/parameters/prettyPrint"
       - $ref: "#/components/parameters/quotaUser"
+      - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
     post:
       description: Rewrites a source object to a destination object. Optionally overrides metadata.
@@ -3075,11 +2876,6 @@ paths:
               - full
               - noAcl
             type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: Include this field (from the previous rewrite response) on each rewrite request after the first one, until the rewrite response 'done' flag is true. Calls that provide a rewriteToken can omit all other request fields, but if included those fields must match the values provided in the first rewrite request.
           in: query
           name: rewriteToken
@@ -3130,6 +2926,7 @@ paths:
       - $ref: "#/components/parameters/oauth_token"
       - $ref: "#/components/parameters/prettyPrint"
       - $ref: "#/components/parameters/quotaUser"
+      - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
     post:
       description: Stop watching resources through this channel
@@ -3235,6 +3032,7 @@ paths:
       - $ref: "#/components/parameters/oauth_token"
       - $ref: "#/components/parameters/prettyPrint"
       - $ref: "#/components/parameters/quotaUser"
+      - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
     post:
       description: Creates a new HMAC key for the specified service account.
@@ -3369,6 +3167,7 @@ paths:
       - $ref: "#/components/parameters/oauth_token"
       - $ref: "#/components/parameters/prettyPrint"
       - $ref: "#/components/parameters/quotaUser"
+      - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
     put:
       description: Updates the state of an HMAC key. See the HMAC Key resource descriptor for valid states.
@@ -3425,11 +3224,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: The project to be billed for this request if the target bucket is requester-pays bucket.
-          in: query
-          name: provisionalUserProject
-          schema:
-            type: string
         - description: The project to be billed for this request.
           in: query
           name: userProject
@@ -3472,6 +3266,7 @@ paths:
       - $ref: "#/components/parameters/oauth_token"
       - $ref: "#/components/parameters/prettyPrint"
       - $ref: "#/components/parameters/quotaUser"
+      - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
 components:
   parameters:
@@ -3482,7 +3277,6 @@ components:
       schema:
         enum:
           - json
-          - media
         type: string
     fields:
       description: Selector specifying which fields to include in a partial response.
@@ -3512,6 +3306,12 @@ components:
       description: An opaque string that represents a user for quota purposes. Must not exceed 40 characters.
       in: query
       name: quotaUser
+      schema:
+        type: string
+    uploadType:
+      description: Upload protocol for media (e.g. "media", "multipart", "resumable").
+      in: query
+      name: uploadType
       schema:
         type: string
     userIp:
@@ -3572,15 +3372,6 @@ components:
                 type: array
             type: object
           type: array
-        customPlacementConfig:
-          description: The bucket's custom placement configuration for Custom Dual Regions.
-          properties:
-            dataLocations:
-              description: The list of regional locations in which data is placed.
-              items:
-                type: string
-              type: array
-          type: object
         defaultEventBasedHold:
           description: The default value for event-based hold on newly created objects in this bucket. Event-based hold is a way to retain objects indefinitely until an event occurs, signified by the hold's release. After being released, such objects will be subject to bucket-level retention (if any). One sample use case of this flag is for banks to hold loan documents for at least 3 years after loan is paid in full. Here, bucket-level retention is 3 years and the event is loan being paid in full. In this example, these objects will be held intact for any number of years until the event has occurred (event-based hold on the object is released) and then 3 more years after that. That means retention duration of the objects begins from the moment event-based hold transitioned from true to false. Objects under event-based hold cannot be deleted, overwritten or archived until the hold is removed.
           type: boolean
@@ -3614,7 +3405,7 @@ components:
                   type: string
               type: object
             publicAccessPrevention:
-              description: The bucket's Public Access Prevention configuration. Currently, 'unspecified' and 'enforced' are supported.
+              description: The bucket's Public Access Prevention configuration. Currently, 'inherited' and 'enforced' are supported.
               type: string
             uniformBucketLevelAccess:
               description: The bucket's uniform bucket-level access configuration.
@@ -3687,8 +3478,18 @@ components:
                       matchesPattern:
                         description: 'A regular expression that satisfies the RE2 syntax. This condition is satisfied when the name of the object matches the RE2 pattern. Note: This feature is currently in the "Early Access" launch stage and is only available to a whitelisted set of users; that means that this feature may be changed in backward-incompatible ways and that it is not guaranteed to be released.'
                         type: string
+                      matchesPrefix:
+                        description: List of object name prefixes. This condition will be satisfied when at least one of the prefixes exactly matches the beginning of the object name.
+                        items:
+                          type: string
+                        type: array
                       matchesStorageClass:
                         description: Objects having any of the storage classes specified by this condition will be matched. Values include MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE, STANDARD, and DURABLE_REDUCED_AVAILABILITY.
+                        items:
+                          type: string
+                        type: array
+                      matchesSuffix:
+                        description: List of object name suffixes. This condition will be satisfied when at least one of the suffixes exactly matches the end of the object name.
                         items:
                           type: string
                         type: array
