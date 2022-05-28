@@ -1,3 +1,9 @@
+# ...
+
+## Bug fixes
+
+Bump crest minimum version to 1.3.0 to allow passing IO/File directly to request as form param, so that we can upload a file as the sole post payload.
+
 # 0.3.0
 
 ## Improvements
