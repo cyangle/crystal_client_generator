@@ -26,6 +26,7 @@ echo "Post process code"
 ./bin/post_process
 echo "Revert changes to README.md"
 git checkout -- README.md
+git checkout -- spec
 echo "Run crystal tool format"
 crystal tool format
 echo "Install shards"
