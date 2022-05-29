@@ -26,6 +26,7 @@ echo "Post process code"
 ./bin/post_process
 echo "Revert changes to README.md"
 git checkout -- README.md
+echo "Revert changes to spec"
 git checkout -- spec
 echo "Run crystal tool format"
 crystal tool format

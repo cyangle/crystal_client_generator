@@ -1571,7 +1571,8 @@ paths:
         content:
           application/octet-stream:
             schema:
-              $ref: "#/components/schemas/Object"
+              type: "string"
+              format: "binary"
       responses:
         "200":
           content:
