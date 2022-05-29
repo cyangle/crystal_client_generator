@@ -64,71 +64,6 @@
         }
       }
     },
-    "requestBodies": {
-      "Channel": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Channel"
-            }
-          }
-        }
-      },
-      "Comment": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Comment"
-            }
-          }
-        }
-      },
-      "Drive": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Drive"
-            }
-          }
-        }
-      },
-      "File": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/File"
-            }
-          }
-        }
-      },
-      "Permission": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Permission"
-            }
-          }
-        }
-      },
-      "Reply": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Reply"
-            }
-          }
-        }
-      },
-      "TeamDrive": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/TeamDrive"
-            }
-          }
-        }
-      }
-    },
     "schemas": {
       "About": {
         "description": "Information about the user, the user's Drive, and system capabilities.",
@@ -613,6 +548,10 @@
                 "description": "Whether the current user can rename this shared drive.",
                 "type": "boolean"
               },
+              "canResetDriveRestrictions": {
+                "description": "Whether the current user can reset the shared drive restrictions to defaults.",
+                "type": "boolean"
+              },
               "canShare": {
                 "description": "Whether the current user can share files or folders in this shared drive.",
                 "type": "boolean"
@@ -648,6 +587,10 @@
           },
           "name": {
             "description": "The name of this shared drive.",
+            "type": "string"
+          },
+          "orgUnitId": {
+            "description": "The organizational unit of this shared drive. This field is only populated on drives.list responses when the useDomainAdminAccess parameter is set to true.",
             "type": "string"
           },
           "restrictions": {
@@ -714,6 +657,10 @@
           "capabilities": {
             "description": "Capabilities the current user has on this file. Each capability corresponds to a fine-grained action that a user may take.",
             "properties": {
+              "canAcceptOwnership": {
+                "description": "Whether the current user is the pending owner of the file. Not populated for shared drive files.",
+                "type": "boolean"
+              },
               "canAddChildren": {
                 "description": "Whether the current user can add children to this folder. This is always false when the item is not a folder.",
                 "type": "boolean"
@@ -1385,6 +1332,10 @@
             "description": "Identifies what kind of resource this is. Value: the fixed string \"drive#permission\".",
             "type": "string"
           },
+          "pendingOwner": {
+            "description": "Whether the account associated with this permission is a pending owner. Only populated for user type permissions for files that are not in a shared drive.",
+            "type": "boolean"
+          },
           "permissionDetails": {
             "description": "Details of whether the permissions on this shared drive item are inherited or directly on this item. This is an output-only field which is present only for shared drive items.",
             "items": {
@@ -1753,6 +1704,10 @@
                 "description": "Whether the current user can rename this Team Drive.",
                 "type": "boolean"
               },
+              "canResetTeamDriveRestrictions": {
+                "description": "Whether the current user can reset the Team Drive restrictions to defaults.",
+                "type": "boolean"
+              },
               "canShare": {
                 "description": "Whether the current user can share files or folders in this Team Drive.",
                 "type": "boolean"
@@ -1784,6 +1739,10 @@
           },
           "name": {
             "description": "The name of this Team Drive.",
+            "type": "string"
+          },
+          "orgUnitId": {
+            "description": "The organizational unit of this shared drive. This field is only populated on drives.list responses when the useDomainAdminAccess parameter is set to true.",
             "type": "string"
           },
           "restrictions": {
@@ -1884,7 +1843,7 @@
     },
     "securitySchemes": {
       "Oauth2": {
-        "description": "Oauth 2.0 authentication",
+        "description": "Oauth 2.0 implicit authentication",
         "flows": {
           "implicit": {
             "authorizationUrl": "https://accounts.google.com/o/oauth2/auth",
@@ -1901,6 +1860,26 @@
           }
         },
         "type": "oauth2"
+      },
+      "Oauth2c": {
+        "description": "Oauth 2.0 authorizationCode authentication",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://accounts.google.com/o/oauth2/auth",
+            "scopes": {
+              "https://www.googleapis.com/auth/drive": "See, edit, create, and delete all of your Google Drive files",
+              "https://www.googleapis.com/auth/drive.appdata": "See, create, and delete its own configuration data in your Google Drive",
+              "https://www.googleapis.com/auth/drive.file": "See, edit, create, and delete only the specific Google Drive files you use with this app",
+              "https://www.googleapis.com/auth/drive.metadata": "View and manage metadata of files in your Google Drive",
+              "https://www.googleapis.com/auth/drive.metadata.readonly": "See information about your Google Drive files",
+              "https://www.googleapis.com/auth/drive.photos.readonly": "View the photos, videos and albums in your Google Photos",
+              "https://www.googleapis.com/auth/drive.readonly": "See and download all your Google Drive files",
+              "https://www.googleapis.com/auth/drive.scripts": "Modify your Google Apps Script scripts' behavior"
+            },
+            "tokenUrl": "https://accounts.google.com/o/oauth2/token"
+          }
+        },
+        "type": "oauth2"
       }
     }
   },
@@ -1910,13 +1889,43 @@
   "info": {
     "contact": {
       "name": "Google",
-      "url": "https://google.com"
+      "url": "https://google.com",
+      "x-twitter": "youtube"
     },
     "description": "Manages files in Drive including uploading, downloading, searching, detecting changes, and updating sharing permissions.",
+    "license": {
+      "name": "Creative Commons Attribution 3.0",
+      "url": "http://creativecommons.org/licenses/by/3.0/"
+    },
+    "termsOfService": "https://developers.google.com/terms/",
     "title": "Drive API",
-    "version": "v3"
+    "version": "v3",
+    "x-apiClientRegistration": {
+      "url": "https://console.developers.google.com"
+    },
+    "x-apisguru-categories": [
+      "analytics",
+      "media"
+    ],
+    "x-logo": {
+      "url": "https://api.apis.guru/v2/cache/logo/https_www.google.com_images_branding_googlelogo_2x_googlelogo_color_272x92dp.png"
+    },
+    "x-origin": [
+      {
+        "converter": {
+          "url": "https://github.com/mermade/oas-kit",
+          "version": "7.0.4"
+        },
+        "format": "google",
+        "url": "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
+        "version": "v1"
+      }
+    ],
+    "x-preferred": true,
+    "x-providerName": "googleapis.com",
+    "x-serviceName": "drive"
   },
-  "openapi": "3.0.3",
+  "openapi": "3.0.0",
   "paths": {
     "/drive/v3/about": {
       "get": {
@@ -1925,7 +1934,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/About"
                 }
@@ -1938,35 +1947,56 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.appdata"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.appdata"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.file"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.metadata"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.metadata"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.metadata.readonly"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.metadata.readonly"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.photos.readonly"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.photos.readonly"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.readonly"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.readonly"
             ]
           }
@@ -2026,7 +2056,6 @@
             "in": "query",
             "name": "includeCorpusRemovals",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -2035,7 +2064,6 @@
             "in": "query",
             "name": "includeItemsFromAllDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -2052,7 +2080,6 @@
             "in": "query",
             "name": "includeRemoved",
             "schema": {
-              "default": true,
               "type": "boolean"
             }
           },
@@ -2061,7 +2088,6 @@
             "in": "query",
             "name": "includeTeamDriveItems",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -2070,7 +2096,6 @@
             "in": "query",
             "name": "pageSize",
             "schema": {
-              "default": 100,
               "maximum": 1000,
               "minimum": 1,
               "type": "integer"
@@ -2081,7 +2106,6 @@
             "in": "query",
             "name": "restrictToMyDrive",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -2090,7 +2114,6 @@
             "in": "query",
             "name": "spaces",
             "schema": {
-              "default": "drive",
               "type": "string"
             }
           },
@@ -2099,7 +2122,6 @@
             "in": "query",
             "name": "supportsAllDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -2108,7 +2130,6 @@
             "in": "query",
             "name": "supportsTeamDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -2124,7 +2145,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ChangeList"
                 }
@@ -2137,35 +2158,56 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.appdata"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.appdata"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.file"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.metadata"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.metadata"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.metadata.readonly"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.metadata.readonly"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.photos.readonly"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.photos.readonly"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.readonly"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.readonly"
             ]
           }
@@ -2216,7 +2258,6 @@
             "in": "query",
             "name": "supportsAllDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -2225,7 +2266,6 @@
             "in": "query",
             "name": "supportsTeamDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -2241,7 +2281,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/StartPageToken"
                 }
@@ -2254,35 +2294,56 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.appdata"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.appdata"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.file"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.metadata"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.metadata"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.metadata.readonly"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.metadata.readonly"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.photos.readonly"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.photos.readonly"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.readonly"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.readonly"
             ]
           }
@@ -2365,7 +2426,6 @@
             "in": "query",
             "name": "includeCorpusRemovals",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -2374,7 +2434,6 @@
             "in": "query",
             "name": "includeItemsFromAllDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -2391,7 +2450,6 @@
             "in": "query",
             "name": "includeRemoved",
             "schema": {
-              "default": true,
               "type": "boolean"
             }
           },
@@ -2400,7 +2458,6 @@
             "in": "query",
             "name": "includeTeamDriveItems",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -2409,7 +2466,6 @@
             "in": "query",
             "name": "pageSize",
             "schema": {
-              "default": 100,
               "maximum": 1000,
               "minimum": 1,
               "type": "integer"
@@ -2420,7 +2476,6 @@
             "in": "query",
             "name": "restrictToMyDrive",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -2429,7 +2484,6 @@
             "in": "query",
             "name": "spaces",
             "schema": {
-              "default": "drive",
               "type": "string"
             }
           },
@@ -2438,7 +2492,6 @@
             "in": "query",
             "name": "supportsAllDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -2447,7 +2500,6 @@
             "in": "query",
             "name": "supportsTeamDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -2461,12 +2513,18 @@
           }
         ],
         "requestBody": {
-          "$ref": "#/components/requestBodies/Channel"
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Channel"
+              }
+            }
+          }
         },
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Channel"
                 }
@@ -2479,35 +2537,56 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.appdata"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.appdata"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.file"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.metadata"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.metadata"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.metadata.readonly"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.metadata.readonly"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.photos.readonly"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.photos.readonly"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.readonly"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.readonly"
             ]
           }
@@ -2545,7 +2624,13 @@
         "description": "Stop watching resources through this channel",
         "operationId": "drive.channels.stop",
         "requestBody": {
-          "$ref": "#/components/requestBodies/Channel"
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Channel"
+              }
+            }
+          }
         },
         "responses": {
           "200": {
@@ -2556,35 +2641,56 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.appdata"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.appdata"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.file"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.metadata"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.metadata"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.metadata.readonly"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.metadata.readonly"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.photos.readonly"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.photos.readonly"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.readonly"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.readonly"
             ]
           }
@@ -2604,7 +2710,6 @@
             "in": "query",
             "name": "pageSize",
             "schema": {
-              "default": 10,
               "maximum": 100,
               "minimum": 1,
               "type": "integer"
@@ -2631,7 +2736,6 @@
             "in": "query",
             "name": "useDomainAdminAccess",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           }
@@ -2639,7 +2743,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/DriveList"
                 }
@@ -2652,10 +2756,16 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.readonly"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.readonly"
             ]
           }
@@ -2702,12 +2812,18 @@
           }
         ],
         "requestBody": {
-          "$ref": "#/components/requestBodies/Drive"
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Drive"
+              }
+            }
+          }
         },
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Drive"
                 }
@@ -2719,6 +2835,9 @@
         "security": [
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive"
             ]
           }
@@ -2741,6 +2860,22 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "description": "Whether any items inside the shared drive should also be deleted. This option is only supported when useDomainAdminAccess is also set to true.",
+            "in": "query",
+            "name": "allowItemDeletion",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Issue the request as a domain administrator; if set to true, then the requester will be granted access if they are an administrator of the domain to which the shared drive belongs.",
+            "in": "query",
+            "name": "useDomainAdminAccess",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "responses": {
@@ -2751,6 +2886,9 @@
         "security": [
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive"
             ]
           }
@@ -2777,7 +2915,6 @@
             "in": "query",
             "name": "useDomainAdminAccess",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           }
@@ -2785,7 +2922,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Drive"
                 }
@@ -2798,10 +2935,16 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.readonly"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.readonly"
             ]
           }
@@ -2851,7 +2994,6 @@
             "in": "query",
             "name": "useDomainAdminAccess",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           }
@@ -2868,7 +3010,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Drive"
                 }
@@ -2880,6 +3022,9 @@
         "security": [
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive"
             ]
           }
@@ -2930,7 +3075,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Drive"
                 }
@@ -2942,6 +3087,9 @@
         "security": [
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive"
             ]
           }
@@ -2992,7 +3140,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Drive"
                 }
@@ -3004,6 +3152,9 @@
         "security": [
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive"
             ]
           }
@@ -3051,7 +3202,6 @@
             "in": "query",
             "name": "includeItemsFromAllDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -3068,7 +3218,6 @@
             "in": "query",
             "name": "includeTeamDriveItems",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -3085,7 +3234,6 @@
             "in": "query",
             "name": "pageSize",
             "schema": {
-              "default": 100,
               "maximum": 1000,
               "minimum": 1,
               "type": "integer"
@@ -3112,7 +3260,6 @@
             "in": "query",
             "name": "spaces",
             "schema": {
-              "default": "drive",
               "type": "string"
             }
           },
@@ -3121,7 +3268,6 @@
             "in": "query",
             "name": "supportsAllDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -3130,7 +3276,6 @@
             "in": "query",
             "name": "supportsTeamDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -3146,7 +3291,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/FileList"
                 }
@@ -3159,35 +3304,56 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.appdata"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.appdata"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.file"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.metadata"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.metadata"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.metadata.readonly"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.metadata.readonly"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.photos.readonly"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.photos.readonly"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.readonly"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.readonly"
             ]
           }
@@ -3228,7 +3394,6 @@
             "in": "query",
             "name": "enforceSingleParent",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -3237,7 +3402,6 @@
             "in": "query",
             "name": "ignoreDefaultVisibility",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -3254,7 +3418,6 @@
             "in": "query",
             "name": "keepRevisionForever",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -3271,7 +3434,6 @@
             "in": "query",
             "name": "supportsAllDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -3280,7 +3442,6 @@
             "in": "query",
             "name": "supportsTeamDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -3289,18 +3450,23 @@
             "in": "query",
             "name": "useContentAsIndexableText",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           }
         ],
         "requestBody": {
-          "$ref": "#/components/requestBodies/File"
+          "content": {
+            "application/octet-stream": {
+              "schema": {
+                "$ref": "#/components/schemas/File"
+              }
+            }
+          }
         },
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/File"
                 }
@@ -3313,15 +3479,24 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.appdata"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.appdata"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.file"
             ]
           }
@@ -3341,7 +3516,6 @@
             "in": "query",
             "name": "count",
             "schema": {
-              "default": 10,
               "maximum": 1000,
               "minimum": 1,
               "type": "integer"
@@ -3352,7 +3526,6 @@
             "in": "query",
             "name": "space",
             "schema": {
-              "default": "drive",
               "type": "string"
             }
           },
@@ -3361,7 +3534,6 @@
             "in": "query",
             "name": "type",
             "schema": {
-              "default": "files",
               "type": "string"
             }
           }
@@ -3369,7 +3541,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GeneratedIds"
                 }
@@ -3382,15 +3554,24 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.appdata"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.appdata"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.file"
             ]
           }
@@ -3433,7 +3614,6 @@
             "in": "query",
             "name": "enforceSingleParent",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           }
@@ -3446,6 +3626,9 @@
         "security": [
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive"
             ]
           }
@@ -3497,7 +3680,6 @@
             "in": "query",
             "name": "enforceSingleParent",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -3506,7 +3688,6 @@
             "in": "query",
             "name": "supportsAllDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -3515,7 +3696,6 @@
             "in": "query",
             "name": "supportsTeamDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           }
@@ -3529,15 +3709,24 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.appdata"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.appdata"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.file"
             ]
           }
@@ -3564,7 +3753,6 @@
             "in": "query",
             "name": "acknowledgeAbuse",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -3581,7 +3769,6 @@
             "in": "query",
             "name": "supportsAllDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -3590,7 +3777,6 @@
             "in": "query",
             "name": "supportsTeamDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           }
@@ -3617,35 +3803,56 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.appdata"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.appdata"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.file"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.metadata"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.metadata"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.metadata.readonly"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.metadata.readonly"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.photos.readonly"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.photos.readonly"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.readonly"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.readonly"
             ]
           }
@@ -3703,7 +3910,6 @@
             "in": "query",
             "name": "enforceSingleParent",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -3720,7 +3926,6 @@
             "in": "query",
             "name": "keepRevisionForever",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -3745,7 +3950,6 @@
             "in": "query",
             "name": "supportsAllDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -3754,7 +3958,6 @@
             "in": "query",
             "name": "supportsTeamDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -3763,7 +3966,6 @@
             "in": "query",
             "name": "useContentAsIndexableText",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           }
@@ -3780,7 +3982,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/File"
                 }
@@ -3793,25 +3995,40 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.appdata"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.appdata"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.file"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.metadata"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.metadata"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.scripts"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.scripts"
             ]
           }
@@ -3840,7 +4057,6 @@
             "in": "query",
             "name": "includeDeleted",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -3849,7 +4065,6 @@
             "in": "query",
             "name": "pageSize",
             "schema": {
-              "default": 20,
               "maximum": 100,
               "minimum": 1,
               "type": "integer"
@@ -3875,7 +4090,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CommentList"
                 }
@@ -3888,15 +4103,24 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.file"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.readonly"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.readonly"
             ]
           }
@@ -3954,7 +4178,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Comment"
                 }
@@ -3967,10 +4191,16 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.file"
             ]
           }
@@ -4013,10 +4243,16 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.file"
             ]
           }
@@ -4052,7 +4288,6 @@
             "in": "query",
             "name": "includeDeleted",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           }
@@ -4060,7 +4295,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Comment"
                 }
@@ -4073,15 +4308,24 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.file"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.readonly"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.readonly"
             ]
           }
@@ -4148,7 +4392,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Comment"
                 }
@@ -4161,10 +4405,16 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.file"
             ]
           }
@@ -4202,7 +4452,6 @@
             "in": "query",
             "name": "includeDeleted",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -4211,7 +4460,6 @@
             "in": "query",
             "name": "pageSize",
             "schema": {
-              "default": 20,
               "maximum": 100,
               "minimum": 1,
               "type": "integer"
@@ -4229,7 +4477,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ReplyList"
                 }
@@ -4242,15 +4490,24 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.file"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.readonly"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.readonly"
             ]
           }
@@ -4317,7 +4574,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Reply"
                 }
@@ -4330,10 +4587,16 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.file"
             ]
           }
@@ -4385,10 +4648,16 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.file"
             ]
           }
@@ -4433,7 +4702,6 @@
             "in": "query",
             "name": "includeDeleted",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           }
@@ -4441,7 +4709,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Reply"
                 }
@@ -4454,15 +4722,24 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.file"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.readonly"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.readonly"
             ]
           }
@@ -4538,7 +4815,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Reply"
                 }
@@ -4551,10 +4828,16 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.file"
             ]
           }
@@ -4606,7 +4889,6 @@
             "in": "query",
             "name": "enforceSingleParent",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -4615,7 +4897,6 @@
             "in": "query",
             "name": "ignoreDefaultVisibility",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -4632,7 +4913,6 @@
             "in": "query",
             "name": "keepRevisionForever",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -4649,7 +4929,6 @@
             "in": "query",
             "name": "supportsAllDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -4658,7 +4937,6 @@
             "in": "query",
             "name": "supportsTeamDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           }
@@ -4675,7 +4953,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/File"
                 }
@@ -4688,20 +4966,32 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.appdata"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.appdata"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.file"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.photos.readonly"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.photos.readonly"
             ]
           }
@@ -4713,7 +5003,7 @@
     },
     "/drive/v3/files/{fileId}/export": {
       "get": {
-        "description": "Exports a Google Doc to the requested MIME type and returns the exported content. Please note that the exported content is limited to 10MB.",
+        "description": "Exports a Google Workspace document to the requested MIME type and returns exported byte content. Note that the exported content is limited to 10MB.",
         "operationId": "drive.files.export",
         "parameters": [
           {
@@ -4744,15 +5034,24 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.file"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.readonly"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.readonly"
             ]
           }
@@ -4830,7 +5129,6 @@
             "in": "query",
             "name": "supportsAllDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -4839,7 +5137,6 @@
             "in": "query",
             "name": "supportsTeamDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -4848,7 +5145,6 @@
             "in": "query",
             "name": "useDomainAdminAccess",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           }
@@ -4856,7 +5152,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PermissionList"
                 }
@@ -4869,30 +5165,48 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.file"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.metadata"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.metadata"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.metadata.readonly"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.metadata.readonly"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.photos.readonly"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.photos.readonly"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.readonly"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.readonly"
             ]
           }
@@ -4950,7 +5264,6 @@
             "in": "query",
             "name": "enforceSingleParent",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -4959,7 +5272,6 @@
             "in": "query",
             "name": "moveToNewOwnersRoot",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -4976,7 +5288,6 @@
             "in": "query",
             "name": "supportsAllDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -4985,7 +5296,6 @@
             "in": "query",
             "name": "supportsTeamDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -4994,7 +5304,6 @@
             "in": "query",
             "name": "transferOwnership",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -5003,7 +5312,6 @@
             "in": "query",
             "name": "useDomainAdminAccess",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           }
@@ -5020,7 +5328,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Permission"
                 }
@@ -5033,10 +5341,16 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.file"
             ]
           }
@@ -5074,7 +5388,6 @@
             "in": "query",
             "name": "supportsAllDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -5083,7 +5396,6 @@
             "in": "query",
             "name": "supportsTeamDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -5092,7 +5404,6 @@
             "in": "query",
             "name": "useDomainAdminAccess",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           }
@@ -5106,10 +5417,16 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.file"
             ]
           }
@@ -5145,7 +5462,6 @@
             "in": "query",
             "name": "supportsAllDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -5154,7 +5470,6 @@
             "in": "query",
             "name": "supportsTeamDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -5163,7 +5478,6 @@
             "in": "query",
             "name": "useDomainAdminAccess",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           }
@@ -5171,7 +5485,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Permission"
                 }
@@ -5184,30 +5498,48 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.file"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.metadata"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.metadata"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.metadata.readonly"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.metadata.readonly"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.photos.readonly"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.photos.readonly"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.readonly"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.readonly"
             ]
           }
@@ -5266,7 +5598,6 @@
             "in": "query",
             "name": "removeExpiration",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -5275,7 +5606,6 @@
             "in": "query",
             "name": "supportsAllDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -5284,7 +5614,6 @@
             "in": "query",
             "name": "supportsTeamDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -5293,7 +5622,6 @@
             "in": "query",
             "name": "transferOwnership",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -5302,7 +5630,6 @@
             "in": "query",
             "name": "useDomainAdminAccess",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           }
@@ -5319,7 +5646,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Permission"
                 }
@@ -5332,10 +5659,16 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.file"
             ]
           }
@@ -5364,7 +5697,6 @@
             "in": "query",
             "name": "pageSize",
             "schema": {
-              "default": 200,
               "maximum": 1000,
               "minimum": 1,
               "type": "integer"
@@ -5382,7 +5714,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/RevisionList"
                 }
@@ -5395,35 +5727,56 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.appdata"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.appdata"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.file"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.metadata"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.metadata"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.metadata.readonly"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.metadata.readonly"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.photos.readonly"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.photos.readonly"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.readonly"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.readonly"
             ]
           }
@@ -5489,15 +5842,24 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.appdata"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.appdata"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.file"
             ]
           }
@@ -5533,7 +5895,6 @@
             "in": "query",
             "name": "acknowledgeAbuse",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           }
@@ -5541,7 +5902,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Revision"
                 }
@@ -5554,35 +5915,56 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.appdata"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.appdata"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.file"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.metadata"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.metadata"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.metadata.readonly"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.metadata.readonly"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.photos.readonly"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.photos.readonly"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.readonly"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.readonly"
             ]
           }
@@ -5649,7 +6031,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Revision"
                 }
@@ -5662,15 +6044,24 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.appdata"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.appdata"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.file"
             ]
           }
@@ -5705,7 +6096,7 @@
         }
       ],
       "post": {
-        "description": "Subscribes to changes to a file",
+        "description": "Subscribes to changes to a file. While you can establish a channel for changes to a file on a shared drive, a change to a shared drive file won't create a notification.",
         "operationId": "drive.files.watch",
         "parameters": [
           {
@@ -5722,7 +6113,6 @@
             "in": "query",
             "name": "acknowledgeAbuse",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -5739,7 +6129,6 @@
             "in": "query",
             "name": "supportsAllDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -5748,7 +6137,6 @@
             "in": "query",
             "name": "supportsTeamDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           }
@@ -5765,7 +6153,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Channel"
                 }
@@ -5778,35 +6166,56 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.appdata"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.appdata"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.file"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.metadata"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.metadata"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.metadata.readonly"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.metadata.readonly"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.photos.readonly"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.photos.readonly"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.readonly"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.readonly"
             ]
           }
@@ -5826,7 +6235,6 @@
             "in": "query",
             "name": "pageSize",
             "schema": {
-              "default": 10,
               "maximum": 100,
               "minimum": 1,
               "type": "integer"
@@ -5853,7 +6261,6 @@
             "in": "query",
             "name": "useDomainAdminAccess",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           }
@@ -5861,7 +6268,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/TeamDriveList"
                 }
@@ -5874,10 +6281,16 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.readonly"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.readonly"
             ]
           }
@@ -5924,12 +6337,18 @@
           }
         ],
         "requestBody": {
-          "$ref": "#/components/requestBodies/TeamDrive"
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TeamDrive"
+              }
+            }
+          }
         },
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/TeamDrive"
                 }
@@ -5941,6 +6360,9 @@
         "security": [
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive"
             ]
           }
@@ -5974,6 +6396,9 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           }
         ],
@@ -5999,7 +6424,6 @@
             "in": "query",
             "name": "useDomainAdminAccess",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           }
@@ -6007,7 +6431,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/TeamDrive"
                 }
@@ -6020,10 +6444,16 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.readonly"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.readonly"
             ]
           }
@@ -6073,7 +6503,6 @@
             "in": "query",
             "name": "useDomainAdminAccess",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           }
@@ -6090,7 +6519,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/TeamDrive"
                 }
@@ -6102,6 +6531,9 @@
         "security": [
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive"
             ]
           }
@@ -6159,7 +6591,6 @@
             "in": "query",
             "name": "enforceSingleParent",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -6168,7 +6599,6 @@
             "in": "query",
             "name": "ignoreDefaultVisibility",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -6185,7 +6615,6 @@
             "in": "query",
             "name": "keepRevisionForever",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -6202,7 +6631,6 @@
             "in": "query",
             "name": "supportsAllDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -6211,7 +6639,6 @@
             "in": "query",
             "name": "supportsTeamDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -6220,7 +6647,6 @@
             "in": "query",
             "name": "useContentAsIndexableText",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           }
@@ -6237,7 +6663,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/File"
                 }
@@ -6250,15 +6676,24 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.appdata"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.appdata"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.file"
             ]
           }
@@ -6333,7 +6768,6 @@
             "in": "query",
             "name": "enforceSingleParent",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -6350,7 +6784,6 @@
             "in": "query",
             "name": "keepRevisionForever",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -6375,7 +6808,6 @@
             "in": "query",
             "name": "supportsAllDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -6384,7 +6816,6 @@
             "in": "query",
             "name": "supportsTeamDrives",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           },
@@ -6393,7 +6824,6 @@
             "in": "query",
             "name": "useContentAsIndexableText",
             "schema": {
-              "default": false,
               "type": "boolean"
             }
           }
@@ -6411,7 +6841,7 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/File"
                 }
@@ -6424,25 +6854,40 @@
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.appdata"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.appdata"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.file"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.file"
             ]
           },
           {
             "Oauth2": [
               "https://www.googleapis.com/auth/drive.metadata"
+            ],
+            "Oauth2c": [
+              "https://www.googleapis.com/auth/drive.metadata"
             ]
           },
           {
             "Oauth2": [
+              "https://www.googleapis.com/auth/drive.scripts"
+            ],
+            "Oauth2c": [
               "https://www.googleapis.com/auth/drive.scripts"
             ]
           }
