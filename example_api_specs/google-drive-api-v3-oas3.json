@@ -43,7 +43,6 @@
         "in": "query",
         "name": "prettyPrint",
         "schema": {
-          "default": true,
           "type": "boolean"
         }
       },
