@@ -1,6 +1,6 @@
 openapi: 3.0.1
 servers:
-  - url: https://storage.googleapis.com/storage/v1
+  - url: https://storage.googleapis.com/
 info:
   contact:
     name: Google
@@ -39,7 +39,7 @@ tags:
   - name: objects
   - name: projects
 paths:
-  /b:
+  "/storage/v1/b":
     get:
       description: Retrieves a list of buckets for a given project.
       operationId: storage.buckets.list
@@ -191,7 +191,7 @@ paths:
             - https://www.googleapis.com/auth/devstorage.read_write
       tags:
         - buckets
-  "/b/{bucket}":
+  "/storage/v1/b/{bucket}":
     delete:
       description: Permanently deletes an empty bucket.
       operationId: storage.buckets.delete
@@ -465,7 +465,7 @@ paths:
             - https://www.googleapis.com/auth/devstorage.full_control
       tags:
         - buckets
-  "/b/{bucket}/acl":
+  "/storage/v1/b/{bucket}/acl":
     get:
       description: Retrieves ACL entries on the specified bucket.
       operationId: storage.bucketAccessControls.list
@@ -546,7 +546,7 @@ paths:
             - https://www.googleapis.com/auth/devstorage.full_control
       tags:
         - bucketAccessControls
-  "/b/{bucket}/acl/{entity}":
+  "/storage/v1/b/{bucket}/acl/{entity}":
     delete:
       description: Permanently deletes the ACL entry for the specified entity on the specified bucket.
       operationId: storage.bucketAccessControls.delete
@@ -718,7 +718,7 @@ paths:
             - https://www.googleapis.com/auth/devstorage.full_control
       tags:
         - bucketAccessControls
-  "/b/{bucket}/defaultObjectAcl":
+  "/storage/v1/b/{bucket}/defaultObjectAcl":
     get:
       description: Retrieves default object ACL entries on the specified bucket.
       operationId: storage.defaultObjectAccessControls.list
@@ -809,7 +809,7 @@ paths:
             - https://www.googleapis.com/auth/devstorage.full_control
       tags:
         - defaultObjectAccessControls
-  "/b/{bucket}/defaultObjectAcl/{entity}":
+  "/storage/v1/b/{bucket}/defaultObjectAcl/{entity}":
     delete:
       description: Permanently deletes the default object ACL entry for the specified entity on the specified bucket.
       operationId: storage.defaultObjectAccessControls.delete
@@ -981,7 +981,7 @@ paths:
             - https://www.googleapis.com/auth/devstorage.full_control
       tags:
         - defaultObjectAccessControls
-  "/b/{bucket}/iam":
+  "/storage/v1/b/{bucket}/iam":
     get:
       description: Returns an IAM policy for the specified bucket.
       operationId: storage.buckets.getIamPolicy
@@ -1068,7 +1068,7 @@ paths:
             - https://www.googleapis.com/auth/devstorage.full_control
       tags:
         - buckets
-  "/b/{bucket}/iam/testPermissions":
+  "/storage/v1/b/{bucket}/iam/testPermissions":
     get:
       description: Tests a set of permissions on the given bucket to see which, if any, are held by the caller.
       operationId: storage.buckets.testIamPermissions
@@ -1133,7 +1133,7 @@ paths:
       - $ref: "#/components/parameters/quotaUser"
       - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
-  "/b/{bucket}/lockRetentionPolicy":
+  "/storage/v1/b/{bucket}/lockRetentionPolicy":
     parameters:
       - $ref: "#/components/parameters/alt"
       - $ref: "#/components/parameters/fields"
@@ -1186,7 +1186,7 @@ paths:
             - https://www.googleapis.com/auth/devstorage.read_write
       tags:
         - buckets
-  "/b/{bucket}/notificationConfigs":
+  "/storage/v1/b/{bucket}/notificationConfigs":
     get:
       description: Retrieves a list of notification subscriptions for a given bucket.
       operationId: storage.notifications.list
@@ -1283,7 +1283,7 @@ paths:
             - https://www.googleapis.com/auth/devstorage.read_write
       tags:
         - notifications
-  "/b/{bucket}/notificationConfigs/{notification}":
+  "/storage/v1/b/{bucket}/notificationConfigs/{notification}":
     delete:
       description: Permanently deletes a notification subscription.
       operationId: storage.notifications.delete
@@ -1383,7 +1383,7 @@ paths:
       - $ref: "#/components/parameters/quotaUser"
       - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
-  "/b/{bucket}/o":
+  "/storage/v1/b/{bucket}/o":
     get:
       description: Retrieves a list of objects matching the criteria.
       operationId: storage.objects.list
@@ -1478,6 +1478,16 @@ paths:
             - https://www.googleapis.com/auth/devstorage.read_write
       tags:
         - objects
+    parameters:
+      - $ref: "#/components/parameters/alt"
+      - $ref: "#/components/parameters/fields"
+      - $ref: "#/components/parameters/key"
+      - $ref: "#/components/parameters/oauth_token"
+      - $ref: "#/components/parameters/prettyPrint"
+      - $ref: "#/components/parameters/quotaUser"
+      - $ref: "#/components/parameters/uploadType"
+      - $ref: "#/components/parameters/userIp"
+  "/upload/storage/v1/b/{bucket}/o":
     parameters:
       - $ref: "#/components/parameters/alt"
       - $ref: "#/components/parameters/fields"
@@ -1584,7 +1594,7 @@ paths:
             - https://www.googleapis.com/auth/devstorage.read_write
       tags:
         - objects
-  "/b/{bucket}/o/watch":
+  "/storage/v1/b/{bucket}/o/watch":
     parameters:
       - $ref: "#/components/parameters/alt"
       - $ref: "#/components/parameters/fields"
@@ -1693,7 +1703,7 @@ paths:
             - https://www.googleapis.com/auth/devstorage.read_write
       tags:
         - objects
-  "/b/{bucket}/o/{object}":
+  "/storage/v1/b/{bucket}/o/{object}":
     delete:
       description: Deletes an object and its metadata. Deletions are permanent if versioning is not enabled for the bucket, or if the generation parameter is used.
       operationId: storage.objects.delete
@@ -2029,7 +2039,7 @@ paths:
             - https://www.googleapis.com/auth/devstorage.full_control
       tags:
         - objects
-  "/b/{bucket}/o/{object}/acl":
+  "/storage/v1/b/{bucket}/o/{object}/acl":
     get:
       description: Retrieves ACL entries on the specified object.
       operationId: storage.objectAccessControls.list
@@ -2132,7 +2142,7 @@ paths:
             - https://www.googleapis.com/auth/devstorage.full_control
       tags:
         - objectAccessControls
-  "/b/{bucket}/o/{object}/acl/{entity}":
+  "/storage/v1/b/{bucket}/o/{object}/acl/{entity}":
     delete:
       description: Permanently deletes the ACL entry for the specified entity on the specified object.
       operationId: storage.objectAccessControls.delete
@@ -2348,7 +2358,7 @@ paths:
             - https://www.googleapis.com/auth/devstorage.full_control
       tags:
         - objectAccessControls
-  "/b/{bucket}/o/{object}/iam":
+  "/storage/v1/b/{bucket}/o/{object}/iam":
     get:
       description: Returns an IAM policy for the specified object.
       operationId: storage.objects.getIamPolicy
@@ -2467,7 +2477,7 @@ paths:
             - https://www.googleapis.com/auth/devstorage.read_write
       tags:
         - objects
-  "/b/{bucket}/o/{object}/iam/testPermissions":
+  "/storage/v1/b/{bucket}/o/{object}/iam/testPermissions":
     get:
       description: Tests a set of permissions on the given object to see which, if any, are held by the caller.
       operationId: storage.objects.testIamPermissions
@@ -2543,7 +2553,7 @@ paths:
       - $ref: "#/components/parameters/quotaUser"
       - $ref: "#/components/parameters/uploadType"
       - $ref: "#/components/parameters/userIp"
-  "/b/{destinationBucket}/o/{destinationObject}/compose":
+  "/storage/v1/b/{destinationBucket}/o/{destinationObject}/compose":
     parameters:
       - $ref: "#/components/parameters/alt"
       - $ref: "#/components/parameters/fields"
@@ -2628,7 +2638,7 @@ paths:
             - https://www.googleapis.com/auth/devstorage.read_write
       tags:
         - objects
-  "/b/{sourceBucket}/o/{sourceObject}/copyTo/b/{destinationBucket}/o/{destinationObject}":
+  "/storage/v1/b/{sourceBucket}/o/{sourceObject}/copyTo/b/{destinationBucket}/o/{destinationObject}":
     parameters:
       - $ref: "#/components/parameters/alt"
       - $ref: "#/components/parameters/fields"
@@ -2768,7 +2778,7 @@ paths:
             - https://www.googleapis.com/auth/devstorage.read_write
       tags:
         - objects
-  "/b/{sourceBucket}/o/{sourceObject}/rewriteTo/b/{destinationBucket}/o/{destinationObject}":
+  "/storage/v1/b/{sourceBucket}/o/{sourceObject}/rewriteTo/b/{destinationBucket}/o/{destinationObject}":
     parameters:
       - $ref: "#/components/parameters/alt"
       - $ref: "#/components/parameters/fields"
@@ -2918,7 +2928,7 @@ paths:
             - https://www.googleapis.com/auth/devstorage.read_write
       tags:
         - objects
-  /channels/stop:
+  "/storage/v1/channels/stop":
     parameters:
       - $ref: "#/components/parameters/alt"
       - $ref: "#/components/parameters/fields"
@@ -2962,7 +2972,7 @@ paths:
             - https://www.googleapis.com/auth/devstorage.read_write
       tags:
         - channels
-  "/projects/{projectId}/hmacKeys":
+  "/storage/v1/projects/{projectId}/hmacKeys":
     get:
       description: Retrieves a list of HMAC keys matching the criteria.
       operationId: storage.projects.hmacKeys.list
@@ -3073,7 +3083,7 @@ paths:
             - https://www.googleapis.com/auth/devstorage.full_control
       tags:
         - projects
-  "/projects/{projectId}/hmacKeys/{accessId}":
+  "/storage/v1/projects/{projectId}/hmacKeys/{accessId}":
     delete:
       description: Deletes an HMAC key.
       operationId: storage.projects.hmacKeys.delete
@@ -3213,7 +3223,7 @@ paths:
             - https://www.googleapis.com/auth/devstorage.full_control
       tags:
         - projects
-  "/projects/{projectId}/serviceAccount":
+  "/storage/v1/projects/{projectId}/serviceAccount":
     get:
       description: Get the email address of this project's Google Cloud Storage service account.
       operationId: storage.projects.serviceAccount.get
