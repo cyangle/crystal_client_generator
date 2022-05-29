@@ -3783,12 +3783,6 @@
         "responses": {
           "200": {
             "content": {
-              "*/*": {
-                "schema": {
-                  "format": "binary",
-                  "type": "string"
-                }
-              },
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/File"
