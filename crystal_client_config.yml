@@ -2,10 +2,10 @@ templateDir: crystal_client_templates
 files:
   .ameba.yml: {}
   ext/time.cr:
-    folder: src/google_cloud_storage/ext
+    folder: src/ext
     destinationFilename: time.cr
     templateType: SupportingFiles
   ext/json/serialization.cr:
-    folder: src/google_cloud_storage/ext/json
+    folder: src/ext/json
     destinationFilename: serialization.cr
     templateType: SupportingFiles
