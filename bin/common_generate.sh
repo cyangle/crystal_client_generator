@@ -31,6 +31,10 @@ git checkout -- spec
 echo "Run crystal tool format"
 crystal tool format
 echo "Install shards"
-shards
+shards update
 echo "Run ameba"
 ./bin/ameba
+echo "Apply git patches"
+find ./patches -type f -name *.patch -exec git apply {} \;
+echo "Run tests"
+crystal spec
