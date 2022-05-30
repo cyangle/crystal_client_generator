@@ -9,3 +9,15 @@ files:
     folder: src/ext/json
     destinationFilename: serialization.cr
     templateType: SupportingFiles
+  spec/support/helpers.cr:
+    folder: spec/support
+    destinationFilename: helpers.cr
+    templateType: SupportingFiles
+  spec/support/vcr.cr:
+    folder: spec/support
+    destinationFilename: vcr.cr
+    templateType: SupportingFiles
+  spec/support/ext.cr:
+    folder: spec/support
+    destinationFilename: ext.cr
+    templateType: SupportingFiles

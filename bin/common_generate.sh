@@ -27,7 +27,8 @@ echo "Post process code"
 echo "Revert changes to README.md"
 git checkout -- README.md
 echo "Revert changes to spec"
-git checkout -- spec
+git checkout -- spec/api
+git checkout -- spec/models
 echo "Run crystal tool format"
 crystal tool format
 echo "Install shards"
