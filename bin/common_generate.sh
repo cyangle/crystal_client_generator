@@ -35,6 +35,6 @@ shards update
 echo "Run ameba"
 ./bin/ameba
 echo "Apply git patches"
-find ./patches -type f -name *.patch -exec git apply {} \;
+[ -d "patches" ] && find ./patches -type f -name *.patch -exec git apply {} \;
 echo "Run tests"
 crystal spec
