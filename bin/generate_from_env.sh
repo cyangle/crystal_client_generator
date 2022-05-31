@@ -14,7 +14,9 @@ echo "Running in folder: ${PWD}"
 
 user=$(id -u)
 repo_dir=${repo_dir:-$PWD}
+repo_parent_dir=$(dirname $repo_dir)
 echo "repo_dir is ${repo_dir}"
+echo "repo_parent_dir is ${repo_parent_dir}"
 
 echo "shard version is ${shard_version}"
 
@@ -23,12 +25,12 @@ rm -rf $out_dir
 
 echo "Generate code for spec file: $spec_file_path"
 echo "Using image $image"
-docker run --rm -it -v "${repo_dir}:/gen" --user "$user:$user" --workdir "/gen" $image generate \
+docker run --rm -it -v "${repo_parent_dir}:/gen" --user "$user:$user" --workdir "/gen/crystal_client_generator" $image generate \
     -g crystal \
     -c crystal_client_config.yml \
     -i $spec_file_path \
     -o $out_dir \
     --additional-properties="$additional_properties"
-
 echo "Copy spec file to out_dir"
-cp $spec_file_path $out_dir/
+docker run --rm -it -v "${repo_parent_dir}:/gen" --user "$user:$user" --workdir "/gen/crystal_client_generator" alpine \
+    cp $spec_file_path $out_dir/

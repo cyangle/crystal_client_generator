@@ -15,20 +15,11 @@ export shard_version
 echo "Generate ${name} client"
 $generate_script_path
 
-echo "Update ${name} repo"
-cp -Rf $out_dir/* $client_repo_path/
-cp -Rf $out_dir/.openapi-generator $client_repo_path/
-
 cd $client_repo_path
 echo "Running in folder: ${PWD}"
 
 echo "Post process code"
 ./bin/post_process
-echo "Revert changes to README.md"
-git checkout -- README.md
-echo "Revert changes to spec"
-git checkout -- spec/api
-git checkout -- spec/models
 echo "Run crystal tool format"
 crystal tool format
 echo "Install shards"
