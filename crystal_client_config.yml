@@ -21,3 +21,7 @@ files:
     folder: spec/support
     destinationFilename: ext.cr
     templateType: SupportingFiles
+  validators/enum_validator.cr:
+    folder: src/validators
+    destinationFilename: enum_validator.cr
+    templateType: SupportingFiles
