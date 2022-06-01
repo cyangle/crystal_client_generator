@@ -75,8 +75,8 @@ module {{moduleName}}
         Log.debug { "Calling API: {{classname}}.{{operationId}} ..." }
       end
       {{#allParams}}
-      {{^isNullable}}
       {{#required}}
+      {{^isNullable}}
       {{#isEnum}}
       {{#collectionFormat}}
       # verify enum value
@@ -93,8 +93,26 @@ module {{moduleName}}
       end
       {{/collectionFormat}}
       {{/isEnum}}
-      {{/required}}
       {{/isNullable}}
+      {{#isNullable}}
+      {{#isEnum}}
+      {{#collectionFormat}}
+      # verify enum value
+      allowable_values = [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
+      if @api_client.config.client_side_validation && !{{{paramName}}}.nil? && !{{{paramName}}}.all? { |item| allowable_values.includes?(item) }
+        raise ArgumentError.new("invalid value for \"{{{paramName}}}\", must be one of #{allowable_values}")
+      end
+      {{/collectionFormat}}
+      {{^collectionFormat}}
+      # verify enum value
+      allowable_values = [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
+      if @api_client.config.client_side_validation && !{{{paramName}}}.nil? && !allowable_values.includes?({{{paramName}}})
+        raise ArgumentError.new("invalid value for \"{{{paramName}}}\", must be one of #{allowable_values}")
+      end
+      {{/collectionFormat}}
+      {{/isEnum}}
+      {{/isNullable}}
+      {{/required}}
       {{^required}}
       {{#isEnum}}
       {{#collectionFormat}}
