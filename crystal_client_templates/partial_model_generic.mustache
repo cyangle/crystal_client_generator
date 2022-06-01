@@ -14,7 +14,7 @@
     # {{{.}}}
     {{/description}}
     @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}{{#isNullable}}?{{/isNullable}}{{#isDate}}, converter: Time::ISO8601DateConverter{{/isDate}}{{#isDateTime}}, converter: Time::RFC3339Converter{{/isDateTime}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}{{#isNullable}}, presence: true, ignore_serialize: {{{name}}}.nil? && !{{{name}}}_present?{{/isNullable}})]
-    {{#isEnum}}{{#isContainer}}property{{/isContainer}}{{^isContainer}}getter{{/isContainer}}{{/isEnum}}{{^isEnum}}{{#hasValidation}}getter{{/hasValidation}}{{^hasValidation}}property{{/hasValidation}}{{/isEnum}} {{{name}}} : {{{dataType}}}{{#isNullable}}?{{/isNullable}}
+    {{#isEnum}}getter{{/isEnum}}{{^isEnum}}{{#hasValidation}}getter{{/hasValidation}}{{^hasValidation}}property{{/hasValidation}}{{/isEnum}} {{{name}}} : {{{dataType}}}{{#isNullable}}?{{/isNullable}}
     {{#isNullable}}
 
     @[JSON::Field(ignore: true)]
@@ -22,9 +22,7 @@
     {{/isNullable}}
 
     {{#isEnum}}
-    {{^isContainer}}
     {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}} = EnumValidator.new("{{{dataType}}}", [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
-    {{/isContainer}}
     {{/isEnum}}
 
     {{/requiredVars}}
@@ -36,15 +34,13 @@
     # {{{.}}}
     {{/description}}
     @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}?{{#isDate}}, converter: Time::ISO8601DateConverter{{/isDate}}{{#isDateTime}}, converter: Time::RFC3339Converter{{/isDateTime}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}, presence: true, ignore_serialize: {{{name}}}.nil? && !{{{name}}}_present?)]
-    {{#isEnum}}{{#isContainer}}property{{/isContainer}}{{^isContainer}}getter{{/isContainer}}{{/isEnum}}{{^isEnum}}{{#hasValidation}}getter{{/hasValidation}}{{^hasValidation}}property{{/hasValidation}}{{/isEnum}} {{{name}}} : {{{dataType}}}?
+    {{#isEnum}}getter{{/isEnum}}{{^isEnum}}{{#hasValidation}}getter{{/hasValidation}}{{^hasValidation}}property{{/hasValidation}}{{/isEnum}} {{{name}}} : {{{dataType}}}?
 
     @[JSON::Field(ignore: true)]
     property? {{{name}}}_present : Bool = false
 
     {{#isEnum}}
-    {{^isContainer}}
-    {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}} = EnumValidator.new("{{{dataType}}}", [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
-    {{/isContainer}}
+    {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}} = EnumValidator.new("{{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}", [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
     {{/isEnum}}
 
     {{/optionalVars}}
@@ -94,8 +90,13 @@
       invalid_properties = {{^parent}}Array(String).new{{/parent}}{{#parent}}super{{/parent}}
       {{#vars}}
       {{#isEnum}}
+      {{#isContainer}}
+      unless {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.all_valid?(@{{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
+        {{=<% %>=}}invalid_properties.push("invalid value for \"<% name %>\", must be one of #{<% #lambda.uppercase %>enum_validator_for_<% name %><% /lambda.uppercase %>.allowable_values}.")<%={{ }}=%>
+      end
+      {{/isContainer}}
       {{^isContainer}}
-      unless {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.valid?(@{{{name}}})
+      unless {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.valid?(@{{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
         {{=<% %>=}}invalid_properties.push("invalid value for \"<% name %>\", must be one of #{<% #lambda.uppercase %>enum_validator_for_<% name %><% /lambda.uppercase %>.allowable_values}.")<%={{ }}=%>
       end
       {{/isContainer}}
@@ -155,8 +156,11 @@
     def valid?
       {{#vars}}
       {{#isEnum}}
+      {{#isContainer}}
+      return false unless {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.all_valid?(@{{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
+      {{/isContainer}}
       {{^isContainer}}
-      return false unless {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.valid?(@{{{name}}})
+      return false unless {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.valid?(@{{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
       {{/isContainer}}
       {{/isEnum}}
       {{#hasValidation}}
@@ -204,11 +208,22 @@
 
     {{#vars}}
     {{#isEnum}}
+    {{#isContainer}}
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] {{{name}}} Object to be assigned
+    def {{{name}}}=({{{name}}})
+      unless {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.all_valid?({{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
+        {{=<% %>=}}raise ArgumentError.new("invalid value for \"<% name %>\", must be one of #{<% #lambda.uppercase %>enum_validator_for_<% name %><% /lambda.uppercase %>.allowable_values}.")<%={{ }}=%>
+      end
+      @{{{name}}} = {{{name}}}
+    end
+
+    {{/isContainer}}
     {{^isContainer}}
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] {{{name}}} Object to be assigned
     def {{{name}}}=({{{name}}})
-      unless {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.valid?({{{name}}})
+      unless {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.valid?({{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
         {{=<% %>=}}raise ArgumentError.new("invalid value for \"<% name %>\", must be one of #{<% #lambda.uppercase %>enum_validator_for_<% name %><% /lambda.uppercase %>.allowable_values}.")<%={{ }}=%>
       end
       @{{{name}}} = {{{name}}}
