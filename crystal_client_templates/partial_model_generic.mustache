@@ -22,7 +22,7 @@
     {{/isNullable}}
 
     {{#isEnum}}
-    {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}} = EnumValidator.new("{{{dataType}}}", [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
+    {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}} = EnumValidator.new("{{{name}}}", "{{{dataType}}}", [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
     {{/isEnum}}
 
     {{/requiredVars}}
@@ -40,7 +40,7 @@
     property? {{{name}}}_present : Bool = false
 
     {{#isEnum}}
-    {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}} = EnumValidator.new("{{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}", [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
+    {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}} = EnumValidator.new("{{{name}}}", "{{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}", [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
     {{/isEnum}}
 
     {{/optionalVars}}
@@ -91,14 +91,10 @@
       {{#vars}}
       {{#isEnum}}
       {{#isContainer}}
-      unless {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.all_valid?(@{{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
-        {{=<% %>=}}invalid_properties.push("invalid value for \"<% name %>\", must be one of #{<% #lambda.uppercase %>enum_validator_for_<% name %><% /lambda.uppercase %>.allowable_values}.")<%={{ }}=%>
-      end
+      invalid_properties.push({{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.error_message) unless {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.all_valid?(@{{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
       {{/isContainer}}
       {{^isContainer}}
-      unless {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.valid?(@{{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
-        {{=<% %>=}}invalid_properties.push("invalid value for \"<% name %>\", must be one of #{<% #lambda.uppercase %>enum_validator_for_<% name %><% /lambda.uppercase %>.allowable_values}.")<%={{ }}=%>
-      end
+      invalid_properties.push({{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.error_message) unless {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.valid?(@{{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
       {{/isContainer}}
       {{/isEnum}}
 
@@ -212,9 +208,7 @@
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] {{{name}}} Object to be assigned
     def {{{name}}}=({{{name}}})
-      unless {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.all_valid?({{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
-        {{=<% %>=}}raise ArgumentError.new("invalid value for \"<% name %>\", must be one of #{<% #lambda.uppercase %>enum_validator_for_<% name %><% /lambda.uppercase %>.allowable_values}.")<%={{ }}=%>
-      end
+      {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.all_valid!({{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
       @{{{name}}} = {{{name}}}
     end
 
@@ -223,9 +217,7 @@
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] {{{name}}} Object to be assigned
     def {{{name}}}=({{{name}}})
-      unless {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.valid?({{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
-        {{=<% %>=}}raise ArgumentError.new("invalid value for \"<% name %>\", must be one of #{<% #lambda.uppercase %>enum_validator_for_<% name %><% /lambda.uppercase %>.allowable_values}.")<%={{ }}=%>
-      end
+      {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.valid!({{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
       @{{{name}}} = {{{name}}}
     end
 
