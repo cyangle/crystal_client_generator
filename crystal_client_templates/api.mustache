@@ -75,60 +75,20 @@ module {{moduleName}}
         Log.debug { "Calling API: {{classname}}.{{operationId}} ..." }
       end
       {{#allParams}}
-      {{#required}}
-      {{^isNullable}}
-      {{#isEnum}}
-      {{#collectionFormat}}
-      # verify enum value
-      allowable_values = [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
-      if @api_client.config.client_side_validation && !{{{paramName}}}.all? { |item| allowable_values.includes?(item) }
-        raise ArgumentError.new("invalid value for \"{{{paramName}}}\", must be one of #{allowable_values}")
-      end
-      {{/collectionFormat}}
-      {{^collectionFormat}}
-      # verify enum value
-      allowable_values = [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
-      if @api_client.config.client_side_validation && !allowable_values.includes?({{{paramName}}})
-        raise ArgumentError.new("invalid value for \"{{{paramName}}}\", must be one of #{allowable_values}")
-      end
-      {{/collectionFormat}}
-      {{/isEnum}}
-      {{/isNullable}}
-      {{#isNullable}}
-      {{#isEnum}}
-      {{#collectionFormat}}
-      # verify enum value
-      allowable_values = [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
-      if @api_client.config.client_side_validation && !{{{paramName}}}.nil? && !{{{paramName}}}.all? { |item| allowable_values.includes?(item) }
-        raise ArgumentError.new("invalid value for \"{{{paramName}}}\", must be one of #{allowable_values}")
-      end
-      {{/collectionFormat}}
-      {{^collectionFormat}}
-      # verify enum value
-      allowable_values = [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
-      if @api_client.config.client_side_validation && !{{{paramName}}}.nil? && !allowable_values.includes?({{{paramName}}})
-        raise ArgumentError.new("invalid value for \"{{{paramName}}}\", must be one of #{allowable_values}")
-      end
-      {{/collectionFormat}}
-      {{/isEnum}}
-      {{/isNullable}}
-      {{/required}}
-      {{^required}}
       {{#isEnum}}
       {{#collectionFormat}}
       allowable_values = [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
-      if @api_client.config.client_side_validation && !{{{paramName}}}.nil? && !{{{paramName}}}.all? { |item| allowable_values.includes?(item) }
+      if @api_client.config.client_side_validation {{#required}}{{#isNullable}}&& !{{{paramName}}}.nil? {{/isNullable}}{{/required}}{{^required}}&& !{{{paramName}}}.nil? {{/required}}&& !{{{paramName}}}.all? { |item| allowable_values.includes?(item) }
         raise ArgumentError.new("invalid value for \"{{{paramName}}}\", must include one of #{allowable_values}")
       end
       {{/collectionFormat}}
       {{^collectionFormat}}
       allowable_values = [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
-      if @api_client.config.client_side_validation && !{{{paramName}}}.nil? && !allowable_values.includes?({{{paramName}}})
+      if @api_client.config.client_side_validation {{#required}}{{#isNullable}}&& !{{{paramName}}}.nil? {{/isNullable}}{{/required}}{{^required}}&& !{{{paramName}}}.nil? {{/required}}&& !allowable_values.includes?({{{paramName}}})
         raise ArgumentError.new("invalid value for \"{{{paramName}}}\", must be one of #{allowable_values}")
       end
       {{/collectionFormat}}
       {{/isEnum}}
-      {{/required}}
       {{#hasValidation}}
       {{#maxLength}}
       if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{^isDate}}{{^isDateTime}}{{{paramName}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format({{{paramName}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format({{{paramName}}}){{/isDateTime}}.size > {{{maxLength}}}
