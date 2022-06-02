@@ -15,9 +15,10 @@ export shard_version
 echo "Generate ${name} client"
 $generate_script_path
 
+[ "$REMOTE_CONTAINERS" = "true" ] || exit 0
+
 cd $client_repo_path
 echo "Running in folder: ${PWD}"
-
 echo "Post process code"
 ./bin/post_process
 echo "Run crystal tool format"
