@@ -63,7 +63,7 @@
     def self.openapi_all_of
       [
     {{/-first}}
-      {{{.}}}{{^-last}},{{/-last}}
+      {{moduleName}}::{{{.}}}{{^-last}},{{/-last}}
     {{#-last}}
       ]
     end
@@ -87,7 +87,7 @@
     # Show invalid properties with the reasons. Usually used together with valid?
     # @return Array for valid properties with the reasons
     def list_invalid_properties
-      invalid_properties = {{^parent}}Array(String).new{{/parent}}{{#parent}}super{{/parent}}
+      invalid_properties = Array(String).new
       {{#vars}}
       {{#isEnum}}
       {{#isContainer}}
@@ -203,7 +203,7 @@
 
       {{/-first}}
       {{/anyOf}}
-      true{{#parent}} && super{{/parent}}
+      true
     end
 
     {{#vars}}
@@ -286,7 +286,7 @@
     def ==(o)
       return true if self.same?(o)
       self.class == o.class{{#vars}} &&
-        {{name}} == o.{{name}}{{/vars}}{{#parent}} && super(o){{/parent}}
+        {{name}} == o.{{name}}{{/vars}}
     end
 
     # @see the `==` method
