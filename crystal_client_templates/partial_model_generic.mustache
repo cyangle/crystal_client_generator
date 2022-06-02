@@ -2,7 +2,7 @@
   # {{{.}}}
   {{/description}}
   @[JSON::Serializable::Options(emit_nulls: true)]
-  class {{classname}}{{#parent}} < {{{.}}}{{/parent}}
+  class {{classname}}
     include JSON::Serializable
     include JSON::Serializable::Unmapped
 
@@ -13,8 +13,8 @@
     {{#description}}
     # {{{.}}}
     {{/description}}
-    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}{{#isNullable}}?{{/isNullable}}{{#isDate}}, converter: Time::ISO8601DateConverter{{/isDate}}{{#isDateTime}}, converter: Time::RFC3339Converter{{/isDateTime}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}{{#isNullable}}, presence: true, ignore_serialize: {{{name}}}.nil? && !{{{name}}}_present?{{/isNullable}})]
-    {{#isEnum}}getter{{/isEnum}}{{^isEnum}}{{#hasValidation}}getter{{/hasValidation}}{{^hasValidation}}property{{/hasValidation}}{{/isEnum}} {{{name}}} : {{{dataType}}}{{#isNullable}}?{{/isNullable}}
+    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}{{#isNullable}}{{^anyOf}}?{{/anyOf}}{{/isNullable}}{{^isNullable}}{{#anyOf}}?{{/anyOf}}{{/isNullable}}{{#isDate}}, converter: Time::ISO8601DateConverter{{/isDate}}{{#isDateTime}}, converter: Time::RFC3339Converter{{/isDateTime}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}{{#isNullable}}, presence: true, ignore_serialize: {{{name}}}.nil? && !{{{name}}}_present?{{/isNullable}})]
+    {{#isEnum}}getter{{/isEnum}}{{^isEnum}}{{#hasValidation}}getter{{/hasValidation}}{{^hasValidation}}property{{/hasValidation}}{{/isEnum}} {{{name}}} : {{{dataType}}}{{#isNullable}}{{^anyOf}}?{{/anyOf}}{{/isNullable}}{{^isNullable}}{{#anyOf}}?{{/anyOf}}{{/isNullable}}
     {{#isNullable}}
 
     @[JSON::Field(ignore: true)]
@@ -50,7 +50,7 @@
     def self.openapi_any_of
       [
     {{/-first}}
-      {{{.}}}{{^-last}},{{/-last}}
+      {{moduleName}}::{{{.}}}{{^-last}},{{/-last}}
     {{#-last}}
       ]
     end
@@ -186,11 +186,15 @@
       {{#anyOf}}
       {{#-first}}
       _any_of_found = false
-      self.class.openapi_any_of.each do |_class|
-        _any_of = {{moduleName}}.const_get(_class).build_from_hash(self.to_hash)
-        if _any_of.valid?
-          _any_of_found = true
+      json_string : String = self.to_json
+      _any_of_found = self.class.openapi_any_of.any? do |_class|
+        _any_of = begin
+          _class.from_json(json_string)
+        rescue
+          nil
         end
+
+        !_any_of.nil? && _any_of.not_nil!.valid?
       end
 
       if !_any_of_found
