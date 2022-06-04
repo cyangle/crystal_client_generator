@@ -1,31 +1,31 @@
-{{#isEnum}}
-{{#isContainer}}
-return false unless {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.all_valid?(@{{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
-{{/isContainer}}
-{{^isContainer}}
-return false unless {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.valid?(@{{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
-{{/isContainer}}
-{{/isEnum}}
-{{#hasValidation}}
-{{#maxLength}}
-return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.size > {{{maxLength}}}
-{{/maxLength}}
-{{#minLength}}
-return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.size < {{{minLength}}}
-{{/minLength}}
-{{#maximum}}
-return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
-{{/maximum}}
-{{#minimum}}
-return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
-{{/minimum}}
-{{#pattern}}
-return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} !~ {{{pattern}}}
-{{/pattern}}
-{{#maxItems}}
-return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.size > {{{maxItems}}}
-{{/maxItems}}
-{{#minItems}}
-return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.size < {{{minItems}}}
-{{/minItems}}
-{{/hasValidation}}
+      {{#isEnum}}
+      {{#isContainer}}
+      return false unless {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.all_valid?(@{{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
+      {{/isContainer}}
+      {{^isContainer}}
+      return false unless {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.valid?(@{{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
+      {{/isContainer}}
+      {{/isEnum}}
+      {{#hasValidation}}
+      {{#maxLength}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.size > {{{maxLength}}}
+      {{/maxLength}}
+      {{#minLength}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.size < {{{minLength}}}
+      {{/minLength}}
+      {{#maximum}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
+      {{/maximum}}
+      {{#minimum}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
+      {{/minimum}}
+      {{#pattern}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} !~ {{{pattern}}}
+      {{/pattern}}
+      {{#maxItems}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.size > {{{maxItems}}}
+      {{/maxItems}}
+      {{#minItems}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.size < {{{minItems}}}
+      {{/minItems}}
+      {{/hasValidation}}

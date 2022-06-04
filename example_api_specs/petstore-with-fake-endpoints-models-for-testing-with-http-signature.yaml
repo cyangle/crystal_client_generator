@@ -1462,9 +1462,11 @@ components:
       properties:
         className:
           type: string
+          description: This is the name of the class
           maxLength: 64
         color:
           type: string
+          description: The color of the pet
           default: red
     AnimalFarm:
       type: array

@@ -10,6 +10,7 @@
     # Required properties
     {{/hasRequired}}
     {{#requiredVars}}
+
     {{#description}}
     # {{{.}}}
     {{/description}}
@@ -20,16 +21,17 @@
     @[JSON::Field(ignore: true)]
     property? {{{name}}}_present : Bool = false
     {{/isNullable}}
-
     {{#isEnum}}
+
     {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}} = EnumValidator.new("{{{name}}}", "{{{dataType}}}", [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
     {{/isEnum}}
-
     {{/requiredVars}}
     {{#hasOptional}}
+
     # Optional properties
     {{/hasOptional}}
     {{#optionalVars}}
+
     {{#description}}
     # {{{.}}}
     {{/description}}
@@ -38,11 +40,10 @@
 
     @[JSON::Field(ignore: true)]
     property? {{{name}}}_present : Bool = false
-
     {{#isEnum}}
+
     {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}} = EnumValidator.new("{{{name}}}", "{{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}", [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
     {{/isEnum}}
-
     {{/optionalVars}}
     {{#anyOf}}
     {{#-first}}
@@ -71,41 +72,46 @@
     {{/-last}}
     {{/allOf}}
     {{#discriminator}}
+
     {{#propertyName}}
     # discriminator's property name in OpenAPI v3
     def self.openapi_discriminator_name
       "{{{.}}}"
     end
-
     {{/propertyName}}
     {{/discriminator}}
+
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize({{#hasVars}}*, {{/hasVars}}{{#requiredVars}}@{{{name}}} : {{{dataType}}}{{#isNullable}}{{^anyOf}}?{{/anyOf}}{{/isNullable}}{{^isNullable}}{{#anyOf}}{{#-first}}?{{/-first}}{{/anyOf}}{{/isNullable}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}}, {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}@{{{name}}} : {{{dataType}}}?{{^defaultValue}} = nil{{/defaultValue}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalVars}})
+    def initialize(
+      {{#hasVars}}*, {{/hasVars}}
+      {{#hasRequired}}
+      # Required properties
+      {{/hasRequired}}
+      {{#requiredVars}}
+      @{{{name}}} : {{{dataType}}}{{#isNullable}}{{^anyOf}}?{{/anyOf}}{{/isNullable}}{{^isNullable}}{{#anyOf}}{{#-first}}?{{/-first}}{{/anyOf}}{{/isNullable}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{#anyOf}}{{#-first}} = nil{{/-first}}{{/anyOf}}{{/defaultValue}}{{^-last}}, {{/-last}}{{#-last}}{{#hasOptional}}, {{/hasOptional}}{{/-last}}
+      {{/requiredVars}}
+      {{#hasOptional}}
+      # Optional properties
+      {{/hasOptional}}
+      {{#optionalVars}}
+      @{{{name}}} : {{{dataType}}}?{{^defaultValue}} = nil{{/defaultValue}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}
+      {{/optionalVars}}
+    )
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array(String).new
-      {{#requiredVars}}
-      {{>partial_model_list_invalid_properties}}
-      {{/requiredVars}}
-      {{#optionalVars}}
-      {{>partial_model_list_invalid_properties}}
-      {{/optionalVars}}
+{{#requiredVars}}{{>partial_model_list_invalid_properties}}{{/requiredVars}}{{#optionalVars}}{{>partial_model_list_invalid_properties}}{{/optionalVars}}
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      {{#requiredVars}}
-      {{>partial_model_valid}}
-      {{/requiredVars}}
-      {{#optionalVars}}
-      {{>partial_model_valid}}
-      {{/optionalVars}}
+{{#requiredVars}}{{>partial_model_valid}}{{/requiredVars}}{{#optionalVars}}{{>partial_model_valid}}{{/optionalVars}}
       {{#anyOf}}
       {{#-first}}
       _any_of_found = false
@@ -125,14 +131,7 @@
       {{/anyOf}}
       true
     end
-
-    {{#requiredVars}}
-    {{>partial_model_setter}}
-    {{/requiredVars}}
-    {{#optionalVars}}
-    {{>partial_model_setter}}
-    {{/optionalVars}}
-
+{{#requiredVars}}{{>partial_model_setter}}{{/requiredVars}}{{#optionalVars}}{{>partial_model_setter}}{{/optionalVars}}
     # @see the `==` method
     # @param [Object] Object to be compared
     def eql?(o)
