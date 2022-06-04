@@ -28,6 +28,7 @@ echo "Generate code for spec file: $spec_file_path"
 echo "Using image $image"
 docker run --rm -it -v "${repo_parent_dir}:/gen" --user "$user:$user" --workdir "/gen/crystal_client_generator" $image generate \
     --global-property skipFormModel=${skip_form_model} \
+    --skip-operation-example \
     -g crystal \
     -c crystal_client_config.yml \
     -i $spec_file_path \
