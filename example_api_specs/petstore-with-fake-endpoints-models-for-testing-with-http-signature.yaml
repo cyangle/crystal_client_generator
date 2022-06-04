@@ -1442,7 +1442,11 @@ components:
         - $ref: "#/components/schemas/Animal"
         - $ref: "#/components/schemas/Address"
         - type: object
+          required: ["name"]
           properties:
+            name:
+              type: string
+              maxLength: 255
             declawed:
               type: boolean
     Address:
@@ -1458,6 +1462,7 @@ components:
       properties:
         className:
           type: string
+          maxLength: 64
         color:
           type: string
           default: red
