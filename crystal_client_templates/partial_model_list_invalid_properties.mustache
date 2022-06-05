@@ -53,3 +53,9 @@
       end
       {{/minItems}}
       {{/hasValidation}}
+      {{^_enum}}
+      {{#allowableValues}}
+
+      invalid_properties.push(@{{{name}}}.not_nil!.error_message) if !@{{{name}}}.nil? && !@{{{name}}}.not_nil!.valid?
+      {{/allowableValues}}
+      {{/_enum}}

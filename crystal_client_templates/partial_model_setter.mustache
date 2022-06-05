@@ -3,7 +3,7 @@
     {{#isContainer}}
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] {{{name}}} Object to be assigned
-    def {{{name}}}=({{{name}}})
+    def {{{name}}}=({{{name}}} : {{dataType}})
       {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.all_valid!({{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
       @{{{name}}} = {{{name}}}
     end
@@ -11,7 +11,7 @@
     {{^isContainer}}
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] {{{name}}} Object to be assigned
-    def {{{name}}}=({{{name}}})
+    def {{{name}}}=({{{name}}} : {{dataType}})
       {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.valid!({{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
       @{{{name}}} = {{{name}}}
     end

@@ -29,3 +29,8 @@
       return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.size < {{{minItems}}}
       {{/minItems}}
       {{/hasValidation}}
+      {{^_enum}}
+      {{#allowableValues}}
+      return false if !@{{{name}}}.nil? && !@{{{name}}}.not_nil!.valid?
+      {{/allowableValues}}
+      {{/_enum}}
