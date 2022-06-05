@@ -22,7 +22,11 @@
       {{dataType}}.from_json_object_key?(key)
     end
 
-    def initialize(@data)
+    def self.new!(data : {{dataType}})
+      new(data).tap(&.valid!)
+    end
+
+    def initialize(@data : {{dataType}})
     end
 
     def valid?
