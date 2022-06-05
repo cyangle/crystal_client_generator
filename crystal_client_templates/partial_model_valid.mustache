@@ -1,11 +1,13 @@
       {{#isEnum}}
       {{#isContainer}}
-      return false unless {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.all_valid?(@{{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
+      return false unless {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.all_valid?(@{{{name}}}{{#isMap}}.try(&.values){{/isMap}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
       {{/isContainer}}
       {{^isContainer}}
       return false unless {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.valid?(@{{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
       {{/isContainer}}
       {{/isEnum}}
+      {{^isEnum}}
+      {{^allowableValues}}
       {{#hasValidation}}
       {{#maxLength}}
       return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.size > {{{maxLength}}}
@@ -29,8 +31,8 @@
       return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.size < {{{minItems}}}
       {{/minItems}}
       {{/hasValidation}}
-      {{^_enum}}
+      {{/allowableValues}}
       {{#allowableValues}}
       return false if !@{{{name}}}.nil? && !@{{{name}}}.not_nil!.valid?
       {{/allowableValues}}
-      {{/_enum}}
+      {{/isEnum}}

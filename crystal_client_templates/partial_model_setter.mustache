@@ -3,21 +3,22 @@
     {{#isContainer}}
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] {{{name}}} Object to be assigned
-    def {{{name}}}=({{{name}}} : {{dataType}})
-      {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.all_valid!({{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
+    def {{{name}}}=({{{name}}} : {{dataType}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}})
+      {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.all_valid!({{{name}}}{{#isMap}}.try(&.values){{/isMap}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
       @{{{name}}} = {{{name}}}
     end
     {{/isContainer}}
     {{^isContainer}}
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] {{{name}}} Object to be assigned
-    def {{{name}}}=({{{name}}} : {{dataType}})
+    def {{{name}}}=({{{name}}} : {{dataType}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}})
       {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.valid!({{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
       @{{{name}}} = {{{name}}}
     end
     {{/isContainer}}
     {{/isEnum}}
     {{^isEnum}}
+    {{^allowableValues}}
     {{#hasValidation}}
 
     # Custom attribute writer method with validation
@@ -69,4 +70,13 @@
       @{{{name}}} = {{{name}}}
     end
     {{/hasValidation}}
+    {{/allowableValues}}
+    {{#allowableValues}}
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] {{{name}}} Object to be assigned
+    def {{{name}}}=({{{name}}} : {{dataType}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}})
+      {{{name}}}{{#required}}{{^isNullable}}.valid!{{/isNullable}}{{/required}}{{#required}}{{#isNullable}}.try(&.valid!){{/isNullable}}{{/required}}{{^required}}.try(&.valid!){{/required}}
+      @{{{name}}} = {{{name}}}
+    end
+    {{/allowableValues}}
     {{/isEnum}}

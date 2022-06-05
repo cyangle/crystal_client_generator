@@ -15,7 +15,7 @@
     # {{{.}}}
     {{/description}}
     @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}{{#isNullable}}{{^anyOf}}?{{/anyOf}}{{/isNullable}}{{^isNullable}}{{#anyOf}}{{#-first}}?{{/-first}}{{/anyOf}}{{/isNullable}}{{#isDate}}, converter: Time::ISO8601DateConverter{{/isDate}}{{#isDateTime}}, converter: Time::RFC3339Converter{{/isDateTime}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}{{#isNullable}}, presence: true, ignore_serialize: {{{name}}}.nil? && !{{{name}}}_present?{{/isNullable}})]
-    {{#isEnum}}getter{{/isEnum}}{{^isEnum}}{{#hasValidation}}getter{{/hasValidation}}{{^hasValidation}}property{{/hasValidation}}{{/isEnum}} {{{name}}} : {{{dataType}}}{{#isNullable}}{{^anyOf}}?{{/anyOf}}{{/isNullable}}{{^isNullable}}{{#anyOf}}{{#-first}}?{{/-first}}{{/anyOf}}{{/isNullable}}
+    {{#isEnum}}getter{{/isEnum}}{{^isEnum}}{{^allowableValues}}{{#hasValidation}}getter{{/hasValidation}}{{^hasValidation}}property{{/hasValidation}}{{/allowableValues}}{{#allowableValues}}getter{{/allowableValues}}{{/isEnum}} {{{name}}} : {{{dataType}}}{{#isNullable}}{{^anyOf}}?{{/anyOf}}{{/isNullable}}{{^isNullable}}{{#anyOf}}{{#-first}}?{{/-first}}{{/anyOf}}{{/isNullable}}
     {{#isNullable}}
 
     @[JSON::Field(ignore: true)]
@@ -36,7 +36,7 @@
     # {{{.}}}
     {{/description}}
     @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}?{{#isDate}}, converter: Time::ISO8601DateConverter{{/isDate}}{{#isDateTime}}, converter: Time::RFC3339Converter{{/isDateTime}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}, presence: true, ignore_serialize: {{{name}}}.nil? && !{{{name}}}_present?)]
-    {{#isEnum}}getter{{/isEnum}}{{^isEnum}}{{#hasValidation}}getter{{/hasValidation}}{{^hasValidation}}property{{/hasValidation}}{{/isEnum}} {{{name}}} : {{{dataType}}}?
+    {{#isEnum}}getter{{/isEnum}}{{^isEnum}}{{^allowableValues}}{{#hasValidation}}getter{{/hasValidation}}{{^hasValidation}}property{{/hasValidation}}{{/allowableValues}}{{#allowableValues}}getter{{/allowableValues}}{{/isEnum}} {{{name}}} : {{{dataType}}}?
 
     @[JSON::Field(ignore: true)]
     property? {{{name}}}_present : Bool = false

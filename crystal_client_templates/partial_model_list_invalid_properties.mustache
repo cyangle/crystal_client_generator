@@ -1,13 +1,15 @@
       {{#isEnum}}
       {{#isContainer}}
 
-      invalid_properties.push({{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.error_message) unless {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.all_valid?(@{{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
+      invalid_properties.push({{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.error_message) unless {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.all_valid?(@{{{name}}}{{#isMap}}.try(&.values){{/isMap}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
       {{/isContainer}}
       {{^isContainer}}
 
       invalid_properties.push({{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.error_message) unless {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.valid?(@{{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
       {{/isContainer}}
       {{/isEnum}}
+      {{^isEnum}}
+      {{^allowableValues}}
       {{#hasValidation}}
       {{#maxLength}}
 
@@ -53,9 +55,9 @@
       end
       {{/minItems}}
       {{/hasValidation}}
-      {{^_enum}}
+      {{/allowableValues}}
       {{#allowableValues}}
 
       invalid_properties.push(@{{{name}}}.not_nil!.error_message) if !@{{{name}}}.nil? && !@{{{name}}}.not_nil!.valid?
       {{/allowableValues}}
-      {{/_enum}}
+      {{/isEnum}}

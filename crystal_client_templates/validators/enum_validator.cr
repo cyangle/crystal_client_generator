@@ -27,7 +27,7 @@ class EnumValidator
   def valid?(value, allow_nil = true)
     return true if allow_nil && value.nil?
 
-    !value.nil? && allowable_values.includes?(value)
+    !value.nil? && allowable_values.includes?(value.not_nil!)
   end
 
   def valid!(value, allow_nil = true)
@@ -37,7 +37,7 @@ class EnumValidator
   def all_valid?(values, allow_nil = true)
     return true if allow_nil && values.nil?
 
-    !values.nil? && values.all? { |value| allowable_values.includes?(value) }
+    !values.nil? && values.not_nil!.all? { |value| allowable_values.includes?(value) }
   end
 
   def all_valid!(values, allow_nil = true)

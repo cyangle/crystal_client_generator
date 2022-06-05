@@ -12,18 +12,19 @@ describe {{moduleName}}::{{classname}} do
   describe "test an instance of {{classname}}" do
     it "should create an instance of {{classname}}" do
       # instance = {{moduleName}}::{{classname}}.new
-      # expect(instance).to be_instance_of({{moduleName}}::{{classname}})
+      # (instance).should be_a({{moduleName}}::{{classname}})
     end
   end
 {{#vars}}
 
   describe "test attribute '{{{name}}}'" do
     it "should work" do
+      # instance = {{moduleName}}::{{classname}}.new
       {{#isEnum}}
       # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
-      # validator = EnumValidator.new("{{{dataType}}}", [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
+      # validator = {{moduleName}}::{{classname}}::{{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}
       # validator.allowable_values.each do |value|
-      #   expect { instance.{{name}} = value }.not_to raise_error
+      #   instance.{{name}} = value.as({{dataType}})
       # end
       {{/isEnum}}
       {{^isEnum}}
