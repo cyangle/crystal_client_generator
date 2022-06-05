@@ -84,18 +84,18 @@
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(
-      {{#hasVars}}*, {{/hasVars}}
+      {{#hasVars}}*,{{/hasVars}}
       {{#hasRequired}}
       # Required properties
       {{/hasRequired}}
       {{#requiredVars}}
-      @{{{name}}} : {{{dataType}}}{{#isNullable}}{{^anyOf}}?{{/anyOf}}{{/isNullable}}{{^isNullable}}{{#anyOf}}{{#-first}}?{{/-first}}{{/anyOf}}{{/isNullable}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{#anyOf}}{{#-first}} = nil{{/-first}}{{/anyOf}}{{/defaultValue}}{{^-last}}, {{/-last}}{{#-last}}{{#hasOptional}}, {{/hasOptional}}{{/-last}}
+      @{{{name}}} : {{{dataType}}}{{#isNullable}}{{^anyOf}}?{{/anyOf}}{{/isNullable}}{{^isNullable}}{{#anyOf}}{{#-first}}?{{/-first}}{{/anyOf}}{{/isNullable}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{#anyOf}}{{#-first}} = nil{{/-first}}{{/anyOf}}{{/defaultValue}}{{^-last}}, {{/-last}}{{#-last}}{{#hasOptional}},{{/hasOptional}}{{/-last}}
       {{/requiredVars}}
       {{#hasOptional}}
       # Optional properties
       {{/hasOptional}}
       {{#optionalVars}}
-      @{{{name}}} : {{{dataType}}}?{{^defaultValue}} = nil{{/defaultValue}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}
+      @{{{name}}} : {{{dataType}}}?{{^defaultValue}} = nil{{/defaultValue}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}},{{/-last}}
       {{/optionalVars}}
     )
     end
