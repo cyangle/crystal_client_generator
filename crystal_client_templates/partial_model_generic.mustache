@@ -14,12 +14,23 @@
     {{#description}}
     # {{{.}}}
     {{/description}}
-    @[JSON::Field(key: "{{{baseName}}}", type: {{^isEnum}}{{#allowableValues}}{{moduleName}}::{{/allowableValues}}{{/isEnum}}{{{dataType}}}{{#isNullable}}{{^anyOf}}?{{/anyOf}}{{/isNullable}}{{^isNullable}}{{#anyOf}}{{#-first}}?{{/-first}}{{/anyOf}}{{/isNullable}}{{#isDate}}, converter: Time::ISO8601DateConverter{{/isDate}}{{#isDateTime}}, converter: Time::RFC3339Converter{{/isDateTime}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}{{#isNullable}}, presence: true, ignore_serialize: {{{name}}}.nil? && !{{{name}}}_present?{{/isNullable}})]
+    @[JSON::Field(key: "{{{baseName}}}", type: {{^isEnum}}{{#allowableValues}}{{moduleName}}::{{/allowableValues}}{{/isEnum}}{{{dataType}}}{{#isNullable}}{{^anyOf}}?{{/anyOf}}{{/isNullable}}{{^isNullable}}{{#anyOf}}{{#-first}}?{{/-first}}{{/anyOf}}{{/isNullable}}{{#isDate}}, converter: Time::ISO8601DateConverter{{/isDate}}{{#isDateTime}}, converter: Time::RFC3339Converter{{/isDateTime}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}{{#isNullable}}{{^anyOf}}, presence: true, ignore_serialize: {{{name}}}.nil? && !{{{name}}}_present?{{/anyOf}}{{/isNullable}}{{^isNullable}}{{#anyOf}}{{#-first}}, presence: true, ignore_serialize: {{{name}}}.nil? && !{{{name}}}_present?{{/-first}}{{/anyOf}}{{/isNullable}})]
     {{#isEnum}}getter{{/isEnum}}{{^isEnum}}{{^allowableValues}}{{#hasValidation}}getter{{/hasValidation}}{{^hasValidation}}property{{/hasValidation}}{{/allowableValues}}{{#allowableValues}}getter{{/allowableValues}}{{/isEnum}} {{{name}}} : {{^isEnum}}{{#allowableValues}}{{moduleName}}::{{/allowableValues}}{{/isEnum}}{{{dataType}}}{{#isNullable}}{{^anyOf}}?{{/anyOf}}{{/isNullable}}{{^isNullable}}{{#anyOf}}{{#-first}}?{{/-first}}{{/anyOf}}{{/isNullable}}{{#defaultValue}}{{^isEnum}}{{#allowableValues}} = {{moduleName}}::{{dataType}}.new({{{defaultValue}}}){{/allowableValues}}{{^allowableValues}} = {{{defaultValue}}}{{/allowableValues}}{{/isEnum}}{{#isEnum}} = {{{defaultValue}}}{{/isEnum}}{{/defaultValue}}
     {{#isNullable}}
+    {{^anyOf}}
 
     @[JSON::Field(ignore: true)]
     property? {{{name}}}_present : Bool = false
+    {{/anyOf}}
+    {{/isNullable}}
+    {{^isNullable}}
+    {{#anyOf}}
+    {{#-first}}
+
+    @[JSON::Field(ignore: true)]
+    property? {{{name}}}_present : Bool = false
+    {{/-first}}
+    {{/anyOf}}
     {{/isNullable}}
     {{#isEnum}}
 
@@ -142,5 +153,5 @@
     # #== @return [Bool]
     # #hash calculates hash code according to all attributes.
     # #hash @return [UInt64] Hash code
-    def_equals_and_hash({{#requiredVars}}@{{{name}}}{{^-last}}, {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}}, {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}@{{{name}}}{{^-last}}, {{/-last}}{{/optionalVars}})
+    def_equals_and_hash({{#requiredVars}}@{{{name}}}{{#isNullable}}{{^anyOf}}, @{{{name}}}_present{{/anyOf}}{{/isNullable}}{{^isNullable}}{{#anyOf}}{{#-first}}, @{{{name}}}_present{{/-first}}{{/anyOf}}{{/isNullable}}{{^-last}}, {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}}, {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}@{{{name}}}, @{{{name}}}_present{{^-last}}, {{/-last}}{{/optionalVars}})
   end
