@@ -14,8 +14,8 @@
     {{#description}}
     # {{{.}}}
     {{/description}}
-    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}{{#isNullable}}{{^anyOf}}?{{/anyOf}}{{/isNullable}}{{^isNullable}}{{#anyOf}}{{#-first}}?{{/-first}}{{/anyOf}}{{/isNullable}}{{#isDate}}, converter: Time::ISO8601DateConverter{{/isDate}}{{#isDateTime}}, converter: Time::RFC3339Converter{{/isDateTime}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}{{#isNullable}}, presence: true, ignore_serialize: {{{name}}}.nil? && !{{{name}}}_present?{{/isNullable}})]
-    {{#isEnum}}getter{{/isEnum}}{{^isEnum}}{{^allowableValues}}{{#hasValidation}}getter{{/hasValidation}}{{^hasValidation}}property{{/hasValidation}}{{/allowableValues}}{{#allowableValues}}getter{{/allowableValues}}{{/isEnum}} {{{name}}} : {{{dataType}}}{{#isNullable}}{{^anyOf}}?{{/anyOf}}{{/isNullable}}{{^isNullable}}{{#anyOf}}{{#-first}}?{{/-first}}{{/anyOf}}{{/isNullable}}
+    @[JSON::Field(key: "{{{baseName}}}", type: {{^isEnum}}{{#allowableValues}}{{moduleName}}::{{/allowableValues}}{{/isEnum}}{{{dataType}}}{{#isNullable}}{{^anyOf}}?{{/anyOf}}{{/isNullable}}{{^isNullable}}{{#anyOf}}{{#-first}}?{{/-first}}{{/anyOf}}{{/isNullable}}{{#isDate}}, converter: Time::ISO8601DateConverter{{/isDate}}{{#isDateTime}}, converter: Time::RFC3339Converter{{/isDateTime}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}{{#isNullable}}, presence: true, ignore_serialize: {{{name}}}.nil? && !{{{name}}}_present?{{/isNullable}})]
+    {{#isEnum}}getter{{/isEnum}}{{^isEnum}}{{^allowableValues}}{{#hasValidation}}getter{{/hasValidation}}{{^hasValidation}}property{{/hasValidation}}{{/allowableValues}}{{#allowableValues}}getter{{/allowableValues}}{{/isEnum}} {{{name}}} : {{^isEnum}}{{#allowableValues}}{{moduleName}}::{{/allowableValues}}{{/isEnum}}{{{dataType}}}{{#isNullable}}{{^anyOf}}?{{/anyOf}}{{/isNullable}}{{^isNullable}}{{#anyOf}}{{#-first}}?{{/-first}}{{/anyOf}}{{/isNullable}}{{#defaultValue}}{{^isEnum}}{{#allowableValues}} = {{moduleName}}::{{dataType}}.new({{{defaultValue}}}){{/allowableValues}}{{^allowableValues}} = {{{defaultValue}}}{{/allowableValues}}{{/isEnum}}{{#isEnum}} = {{{defaultValue}}}{{/isEnum}}{{/defaultValue}}
     {{#isNullable}}
 
     @[JSON::Field(ignore: true)]
@@ -35,8 +35,8 @@
     {{#description}}
     # {{{.}}}
     {{/description}}
-    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}?{{#isDate}}, converter: Time::ISO8601DateConverter{{/isDate}}{{#isDateTime}}, converter: Time::RFC3339Converter{{/isDateTime}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}, presence: true, ignore_serialize: {{{name}}}.nil? && !{{{name}}}_present?)]
-    {{#isEnum}}getter{{/isEnum}}{{^isEnum}}{{^allowableValues}}{{#hasValidation}}getter{{/hasValidation}}{{^hasValidation}}property{{/hasValidation}}{{/allowableValues}}{{#allowableValues}}getter{{/allowableValues}}{{/isEnum}} {{{name}}} : {{{dataType}}}?
+    @[JSON::Field(key: "{{{baseName}}}", type: {{^isEnum}}{{#allowableValues}}{{moduleName}}::{{/allowableValues}}{{/isEnum}}{{{dataType}}}?{{#isDate}}, converter: Time::ISO8601DateConverter{{/isDate}}{{#isDateTime}}, converter: Time::RFC3339Converter{{/isDateTime}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}, presence: true, ignore_serialize: {{{name}}}.nil? && !{{{name}}}_present?)]
+    {{#isEnum}}getter{{/isEnum}}{{^isEnum}}{{^allowableValues}}{{#hasValidation}}getter{{/hasValidation}}{{^hasValidation}}property{{/hasValidation}}{{/allowableValues}}{{#allowableValues}}getter{{/allowableValues}}{{/isEnum}} {{{name}}} : {{^isEnum}}{{#allowableValues}}{{moduleName}}::{{/allowableValues}}{{/isEnum}}{{{dataType}}}?{{#defaultValue}}{{^isEnum}}{{#allowableValues}} = {{moduleName}}::{{dataType}}.new({{{defaultValue}}}){{/allowableValues}}{{^allowableValues}} = {{{defaultValue}}}{{/allowableValues}}{{/isEnum}}{{#isEnum}} = {{{defaultValue}}}{{/isEnum}}{{/defaultValue}}
 
     @[JSON::Field(ignore: true)]
     property? {{{name}}}_present : Bool = false
@@ -89,13 +89,13 @@
       # Required properties
       {{/hasRequired}}
       {{#requiredVars}}
-      @{{{name}}} : {{{dataType}}}{{#isNullable}}{{^anyOf}}?{{/anyOf}}{{/isNullable}}{{^isNullable}}{{#anyOf}}{{#-first}}?{{/-first}}{{/anyOf}}{{/isNullable}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{#anyOf}}{{#-first}} = nil{{/-first}}{{/anyOf}}{{/defaultValue}}{{^-last}}, {{/-last}}{{#-last}}{{#hasOptional}},{{/hasOptional}}{{/-last}}
+      @{{{name}}} : {{^isEnum}}{{#allowableValues}}{{moduleName}}::{{/allowableValues}}{{/isEnum}}{{{dataType}}}{{#isNullable}}{{^anyOf}}?{{/anyOf}}{{/isNullable}}{{^isNullable}}{{#anyOf}}{{#-first}}?{{/-first}}{{/anyOf}}{{/isNullable}}{{#defaultValue}}{{^isEnum}}{{#allowableValues}} = {{moduleName}}::{{dataType}}.new({{{defaultValue}}}){{/allowableValues}}{{^allowableValues}} = {{{defaultValue}}}{{/allowableValues}}{{/isEnum}}{{#isEnum}} = {{{defaultValue}}}{{/isEnum}}{{/defaultValue}}{{^defaultValue}}{{#anyOf}}{{#-first}} = nil{{/-first}}{{/anyOf}}{{/defaultValue}}{{^-last}}, {{/-last}}{{#-last}}{{#hasOptional}},{{/hasOptional}}{{/-last}}
       {{/requiredVars}}
       {{#hasOptional}}
       # Optional properties
       {{/hasOptional}}
       {{#optionalVars}}
-      @{{{name}}} : {{{dataType}}}?{{^defaultValue}} = nil{{/defaultValue}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}},{{/-last}}
+      @{{{name}}} : {{^isEnum}}{{#allowableValues}}{{moduleName}}::{{/allowableValues}}{{/isEnum}}{{{dataType}}}?{{^defaultValue}} = nil{{/defaultValue}}{{#defaultValue}}{{^isEnum}}{{#allowableValues}} = {{moduleName}}::{{dataType}}.new({{{defaultValue}}}){{/allowableValues}}{{^allowableValues}} = {{{defaultValue}}}{{/allowableValues}}{{/isEnum}}{{#isEnum}} = {{{defaultValue}}}{{/isEnum}}{{/defaultValue}}{{^-last}},{{/-last}}
       {{/optionalVars}}
     )
     end

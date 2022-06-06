@@ -1550,6 +1550,7 @@ components:
       required:
         - enum_string_required
         - outerEnumRquired
+        - outerEnumRquiredInt64
       properties:
         enum_string:
           type: string
@@ -1591,6 +1592,8 @@ components:
           $ref: "#/components/schemas/OuterEnum"
         outerEnumRquired:
           $ref: "#/components/schemas/outerEnumRquired"
+        outerEnumRquiredInt64:
+          $ref: "#/components/schemas/outerEnumRquiredInt64"
         outerEnumInteger:
           $ref: "#/components/schemas/OuterEnumInteger"
         outerEnumDefaultValue:
@@ -1759,6 +1762,15 @@ components:
         - started
         - in_progress
         - completed
+    outerEnumRquiredInt64:
+      nullable: false
+      type: integer
+      format: int64
+      default: 3
+      enum:
+        - 1
+        - 2
+        - 3
     OuterEnumInteger:
       type: integer
       enum:
