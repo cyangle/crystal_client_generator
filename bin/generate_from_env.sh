@@ -13,6 +13,9 @@ echo "Running in folder: ${PWD}"
 [ -z "${image}" ] && echo "image is not set" && exit 1
 [ -z "${skip_form_model}" ] && echo "skip_form_model is not set" && exit 1
 
+export type_mappings=${type_mappings:-'--type-mappings=Object=JSON::Any,AnyType=JSON::Any'}
+echo "type_mappings: $type_mappings"
+
 user=$(id -u)
 repo_dir=${repo_dir:-$PWD}
 repo_parent_dir=$(dirname $repo_dir)
@@ -27,8 +30,7 @@ rm -rf $out_dir
 echo "Generate code for spec file: $spec_file_path"
 echo "Using image $image"
 docker run --rm -it -v "${repo_parent_dir}:/gen" --user "$user:$user" --workdir "/gen/crystal_client_generator" $image generate \
-    --global-property skipFormModel=${skip_form_model} \
-    --type-mappings=Object=JSON::Any,AnyType=JSON::Any \
+    --global-property skipFormModel=${skip_form_model} $type_mappings \
     -g crystal \
     -c crystal_client_config.yml \
     -i $spec_file_path \
