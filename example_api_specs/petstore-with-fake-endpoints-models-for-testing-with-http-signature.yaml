@@ -1842,7 +1842,22 @@ components:
       description: Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
     NullableClass:
       type: object
+      required:
+        - required_nullable_prop
+        - required_non_nullable_prop
       properties:
+        optional_nullable_prop:
+          type: string
+          nullable: true
+        optional_non_nullable_prop:
+          type: string
+          nullable: false
+        required_nullable_prop:
+          type: string
+          nullable: true
+        required_non_nullable_prop:
+          type: string
+          nullable: false
         integer_prop:
           type: integer
           nullable: true
@@ -2012,3 +2027,46 @@ components:
         intProp2:
           type: number
           default: 120
+    Child:
+      type: object
+      properties:
+        name:
+          type: string
+    OneOfPrimitive:
+      oneOf:
+      - $ref: '#/components/schemas/Child'
+      - type: integer
+        format: int32
+    Parent:
+      type: object
+      properties:
+        kids:
+          type: array
+          items:
+            $ref: '#/components/schemas/OneOfPrimitive'
+
+    fruit_one_of:
+      title: fruit
+      properties:
+        color:
+            type: string
+      oneOf:
+        - $ref: '#/components/schemas/apple_one_of'
+        - $ref: '#/components/schemas/banana_one_of'
+      additionalProperties:
+         type: string
+      # uncomment this when https://github.com/swagger-api/swagger-parser/issues/1252 is resolved
+    apple_one_of:
+      title: apple
+      type: object
+      required: [kind]
+      properties:
+        kind:
+            type: string
+    banana_one_of:
+      title: banana
+      type: object
+      required: [count]
+      properties:
+        count:
+            type: number

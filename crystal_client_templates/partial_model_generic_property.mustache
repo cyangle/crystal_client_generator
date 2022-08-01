@@ -1,0 +1,17 @@
+
+    {{#description}}
+    # {{{.}}}
+    {{/description}}
+    @[JSON::Field(key: "{{{baseName}}}", type: {{>partial_model_generic_property_data_type}}, default: {{>partial_model_generic_property_default_value}}, required: {{#required}}true{{/required}}{{^required}}false{{/required}}, nullable: {{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{#isNullable}}{{#required}}, emit_null: true{{/required}}{{^required}}, emit_null: true, presence: true, ignore_serialize: {{{name}}}.nil? && !{{{name}}}_present?{{/required}}{{/isNullable}}{{^isNullable}}, emit_null: false{{/isNullable}}{{#isDate}}, converter: Time::ISO8601DateConverter{{/isDate}}{{#isDateTime}}, converter: Time::RFC3339Converter{{/isDateTime}})]
+    {{#anyOf}}{{#-first}}property{{/-first}}{{/anyOf}}{{^anyOf}}getter{{/anyOf}} {{{name}}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}
+
+    {{#isNullable}}
+    {{^required}}
+    @[JSON::Field(ignore: true)]
+    property? {{{name}}}_present : Bool = false
+    {{/required}}
+    {{/isNullable}}
+    {{#isEnum}}
+
+    {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}} = EnumValidator.new("{{{name}}}", "{{{dataType}}}", [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
+    {{/isEnum}}

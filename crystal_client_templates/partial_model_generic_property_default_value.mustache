@@ -1,0 +1,1 @@
+{{^anyOf}}{{^defaultValue}}nil{{/defaultValue}}{{#defaultValue}}{{^isEnum}}{{#allowableValues}}{{moduleName}}::{{dataType}}.new({{{defaultValue}}}){{/allowableValues}}{{^allowableValues}}{{{defaultValue}}}{{/allowableValues}}{{/isEnum}}{{#isEnum}}{{{defaultValue}}}{{/isEnum}}{{/defaultValue}}{{/anyOf}}{{#anyOf}}{{#-first}}nil{{/-first}}{{/anyOf}}
