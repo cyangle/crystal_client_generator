@@ -86,6 +86,14 @@ CAPABILITIES = {
   type: "object"
 }.freeze
 
+TRUNK_SID = {
+  maxLength: 34,
+  minLength: 0,
+  nullable: true,
+  pattern: "^TK[0-9a-fA-F]{32}$|^$",
+  type: "string"
+}.freeze
+
 CALL_EVENT = {
   properties: {
     request: {
@@ -155,6 +163,9 @@ def fix_properties(new_name, value)
 
   return CALL_EVENT.dup if new_name == "call.call_event"
 
+  if (trunk_sid = value.dig("properties", "trunk_sid"))
+    value["properties"]["trunk_sid"] = TRUNK_SID.dup.merge!(description: trunk_sid["description"])
+  end
   if (encryption_details = value.dig("properties", "encryption_details"))
     value["properties"]["encryption_details"] = {
       "$ref" => "#/components/schemas/encryption_details",

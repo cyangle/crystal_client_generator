@@ -1,82 +1,80 @@
-    {{#isEnum}}
-
-    {{#isContainer}}
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] {{{name}}} Object to be assigned
-    def {{{name}}}=({{{name}}} : {{#required}}{{^isEnum}}{{#allowableValues}}{{moduleName}}::{{/allowableValues}}{{/isEnum}}{{{dataType}}}{{#isNullable}}{{^anyOf}}?{{/anyOf}}{{/isNullable}}{{^isNullable}}{{#anyOf}}{{#-first}}?{{/-first}}{{/anyOf}}{{/isNullable}}{{/required}}{{^required}}{{^isEnum}}{{#allowableValues}}{{moduleName}}::{{/allowableValues}}{{/isEnum}}{{{dataType}}}?{{/required}})
-      {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.all_valid!({{{name}}}{{#isMap}}.try(&.values){{/isMap}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
-      @{{{name}}} = {{{name}}}
-    end
+    def {{{name}}}=({{{name}}} : {{>partial_model_generic_property_data_type}})
+      if {{{name}}}.nil?
+      {{#required}}
+        {{#isNullable}}
+        return @{{{name}}} = nil
+        {{/isNullable}}
+        {{^isNullable}}
+        raise ArgumentError.new("\"{{{name}}}\" is required and cannot be null")
+        {{/isNullable}}
+      {{/required}}
+      {{^required}}
+        return @{{{name}}} = nil
+      {{/required}}
+      end
+    {{#isEnum}}
+      _{{{name}}} = {{{name}}}.not_nil!
+    {{#isContainer}}
+      {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.all_valid!(_{{{name}}}{{#isMap}}.values{{/isMap}})
     {{/isContainer}}
     {{^isContainer}}
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] {{{name}}} Object to be assigned
-    def {{{name}}}=({{{name}}} : {{#required}}{{^isEnum}}{{#allowableValues}}{{moduleName}}::{{/allowableValues}}{{/isEnum}}{{{dataType}}}{{#isNullable}}{{^anyOf}}?{{/anyOf}}{{/isNullable}}{{^isNullable}}{{#anyOf}}{{#-first}}?{{/-first}}{{/anyOf}}{{/isNullable}}{{/required}}{{^required}}{{^isEnum}}{{#allowableValues}}{{moduleName}}::{{/allowableValues}}{{/isEnum}}{{{dataType}}}?{{/required}})
-      {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.valid!({{{name}}}{{#required}}{{^isNullable}}, false{{/isNullable}}{{/required}})
-      @{{{name}}} = {{{name}}}
-    end
+      {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.valid!(_{{{name}}})
     {{/isContainer}}
     {{/isEnum}}
     {{^isEnum}}
     {{^allowableValues}}
     {{#hasValidation}}
-
-    # Custom attribute writer method with validation
-    # @param [Object] {{{name}}} Value to be assigned
-    def {{{name}}}=({{{name}}} : {{#required}}{{^isEnum}}{{#allowableValues}}{{moduleName}}::{{/allowableValues}}{{/isEnum}}{{{dataType}}}{{#isNullable}}{{^anyOf}}?{{/anyOf}}{{/isNullable}}{{^isNullable}}{{#anyOf}}{{#-first}}?{{/-first}}{{/anyOf}}{{/isNullable}}{{/required}}{{^required}}{{^isEnum}}{{#allowableValues}}{{moduleName}}::{{/allowableValues}}{{/isEnum}}{{{dataType}}}?{{/required}})
+      _{{{name}}} = {{{name}}}.not_nil!
       {{#maxLength}}
-      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.to_s.size > {{{maxLength}}}
+      if _{{{name}}}.to_s.size > {{{maxLength}}}
         raise ArgumentError.new("invalid value for \"{{{name}}}\", the character length must be smaller than or equal to {{{maxLength}}}.")
       end
 
       {{/maxLength}}
       {{#minLength}}
-      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.to_s.size < {{{minLength}}}
+      if _{{{name}}}.to_s.size < {{{minLength}}}
         raise ArgumentError.new("invalid value for \"{{{name}}}\", the character length must be great than or equal to {{{minLength}}}.")
       end
 
       {{/minLength}}
       {{#maximum}}
-      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
+      if _{{{name}}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
         raise ArgumentError.new("invalid value for \"{{{name}}}\", must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{{maximum}}}.")
       end
 
       {{/maximum}}
       {{#minimum}}
-      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
+      if _{{{name}}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
         raise ArgumentError.new("invalid value for \"{{{name}}}\", must be greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{{minimum}}}.")
       end
 
       {{/minimum}}
       {{#pattern}}
       pattern = {{{pattern}}}
-      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}} !~ pattern
+      if _{{{name}}} !~ pattern
         raise ArgumentError.new("invalid value for \"{{{name}}}\", must conform to the pattern #{pattern}.")
       end
 
       {{/pattern}}
       {{#maxItems}}
-      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.size > {{{maxItems}}}
+      if _{{{name}}}.size > {{{maxItems}}}
         raise ArgumentError.new("invalid value for \"{{{name}}}\", number of items must be less than or equal to {{{maxItems}}}.")
       end
 
       {{/maxItems}}
       {{#minItems}}
-      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.size < {{{minItems}}}
+      if _{{{name}}}.size < {{{minItems}}}
         raise ArgumentError.new("invalid value for \"{{{name}}}\", number of items must be greater than or equal to {{{minItems}}}.")
       end
 
       {{/minItems}}
-      @{{{name}}} = {{{name}}}
-    end
     {{/hasValidation}}
     {{/allowableValues}}
     {{#allowableValues}}
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] {{{name}}} Object to be assigned
-    def {{{name}}}=({{{name}}} : {{#required}}{{^isEnum}}{{#allowableValues}}{{moduleName}}::{{/allowableValues}}{{/isEnum}}{{{dataType}}}{{#isNullable}}{{^anyOf}}?{{/anyOf}}{{/isNullable}}{{^isNullable}}{{#anyOf}}{{#-first}}?{{/-first}}{{/anyOf}}{{/isNullable}}{{/required}}{{^required}}{{^isEnum}}{{#allowableValues}}{{moduleName}}::{{/allowableValues}}{{/isEnum}}{{{dataType}}}?{{/required}})
-      {{{name}}}{{#required}}{{^isNullable}}.valid!{{/isNullable}}{{/required}}{{#required}}{{#isNullable}}.try(&.valid!){{/isNullable}}{{/required}}{{^required}}.try(&.valid!){{/required}}
-      @{{{name}}} = {{{name}}}
-    end
+      {{{name}}}.not_nil!.valid!
     {{/allowableValues}}
     {{/isEnum}}
+      @{{{name}}} = {{{name}}}
+    end

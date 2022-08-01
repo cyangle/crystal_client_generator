@@ -5,9 +5,9 @@ files:
     folder: src/ext
     destinationFilename: time.cr
     templateType: SupportingFiles
-  ext/json/serialization.cr:
-    folder: src/ext/json
-    destinationFilename: serialization.cr
+  ext/open_api/json.cr:
+    folder: src/ext/open_api
+    destinationFilename: json.cr
     templateType: SupportingFiles
   spec/support/helpers.cr:
     folder: spec/support

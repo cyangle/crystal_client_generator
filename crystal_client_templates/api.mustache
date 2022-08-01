@@ -22,6 +22,9 @@ module {{moduleName}}
     {{#required}}
     # @param {{paramName}} [{{{dataType}}}{{^required}}?{{/required}}]{{#description}} {{{description}}}{{/description}}
     {{/required}}
+    {{^required}}
+    # @optional @param {{paramName}} [{{{dataType}}}{{^required}}?{{/required}}]{{#description}} {{{description}}}{{/description}}
+    {{/required}}
     {{/allParams}}
     # @return [{{{returnType}}}{{^returnType}}nil{{/returnType}}]
     def {{operationId}}({{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}{{paramName}} : {{{dataType}}}{{#isNullable}}?{{/isNullable}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}{{paramName}} : {{{dataType}}}?{{^defaultValue}} = nil{{/defaultValue}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalParams}})
@@ -38,6 +41,9 @@ module {{moduleName}}
     {{#allParams}}
     {{#required}}
     # @param {{paramName}} [{{{dataType}}}{{^required}}?{{/required}}]{{#description}} {{{description}}}{{/description}}
+    {{/required}}
+    {{^required}}
+    # @optional @param {{paramName}} [{{{dataType}}}{{^required}}?{{/required}}]{{#description}} {{{description}}}{{/description}}
     {{/required}}
     {{/allParams}}
     # @return [Array<({{{returnType}}}{{^returnType}}nil{{/returnType}}, Integer, Hash)>] {{#returnType}}{{{.}}} data{{/returnType}}{{^returnType}}nil{{/returnType}}, response status code and response headers
@@ -62,6 +68,9 @@ module {{moduleName}}
     {{#allParams}}
     {{#required}}
     # @param {{paramName}} [{{{dataType}}}{{^required}}?{{/required}}]{{#description}} {{{description}}}{{/description}}
+    {{/required}}
+    {{^required}}
+    # @optional @param {{paramName}} [{{{dataType}}}{{^required}}?{{/required}}]{{#description}} {{{description}}}{{/description}}
     {{/required}}
     {{/allParams}}
     # @return nil

@@ -1,4 +1,6 @@
   class {{classname}}
+    include OpenApi::Json
+
     property data : {{dataType}}
 
     {{#lambda.uppercase}}enum_validator{{/lambda.uppercase}} = EnumValidator.new("{{{name}}}", "{{{dataType}}}", [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
