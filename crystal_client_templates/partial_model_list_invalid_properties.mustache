@@ -15,6 +15,14 @@
       {{/isNullable}}
       {{/required}}
       {{^allowableValues}}
+      {{#isModel}}
+      # This is a model {{{name}}} : {{moduleName}}::{{dataType}}?
+      {{/isModel}}
+      {{#isContainer}}
+        {{#items.isModel}}
+        # Container {{{name}}} has values of {{moduleName}}::{{{items.dataType}}}
+        {{/items.isModel}}
+      {{/isContainer}}
       {{#hasValidation}}
       if _{{{name}}} = @{{{name}}}
         {{#maxLength}}
