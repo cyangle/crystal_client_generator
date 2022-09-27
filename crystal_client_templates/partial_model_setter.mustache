@@ -15,8 +15,8 @@
         return @{{{name}}} = nil
       {{/required}}
       end
-    {{#isEnum}}
       _{{{name}}} = {{{name}}}.not_nil!
+    {{#isEnum}}
     {{#isContainer}}
       {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.all_valid!(_{{{name}}}{{#isMap}}.values{{/isMap}})
     {{/isContainer}}
@@ -27,24 +27,29 @@
     {{^isEnum}}
     {{^allowableValues}}
     {{#isModel}}
-    {{{name}}}.as?(OpenApi::Validatable).try &.validate
+    if __{{{name}}} = _{{{name}}}.as?(OpenApi::Validatable)
+      __{{{name}}}.validate
+    end
     {{/isModel}}
     {{#isContainer}}
-      {{#items.isModel}}
-        {{#isArray}}
-    {{{name}}}.try &.each do |item|
-      return false if item.as?(OpenApi::Validatable).try &.validate
+    {{#items.isModel}}
+    {{#isArray}}
+    _{{{name}}}.each do |item|
+      if _item = item.as(OpenApi::Validatable)
+        _item.validate
+      end
     end
-        {{/isArray}}
-        {{#isMap}}
-    {{{name}}}.try &.each do |_key, value|
-      return false if value.as?(OpenApi::Validatable).try &.validate
+    {{/isArray}}
+    {{#isMap}}
+    _{{{name}}}.each do |_key, value|
+      if _value = value.as?(OpenApi::Validatable)
+        _value.validate
+      end
     end
-        {{/isMap}}
-      {{/items.isModel}}
+    {{/isMap}}
+    {{/items.isModel}}
     {{/isContainer}}
     {{#hasValidation}}
-      _{{{name}}} = {{{name}}}.not_nil!
       {{#maxLength}}
       if _{{{name}}}.to_s.size > {{{maxLength}}}
         raise ArgumentError.new("invalid value for \"{{{name}}}\", the character length must be smaller than or equal to {{{maxLength}}}.")
@@ -91,8 +96,8 @@
     {{/hasValidation}}
     {{/allowableValues}}
     {{#allowableValues}}
-      {{{name}}}.not_nil!.valid!
+      _{{{name}}}.valid!
     {{/allowableValues}}
     {{/isEnum}}
-      @{{{name}}} = {{{name}}}
+      @{{{name}}} = _{{{name}}}
     end

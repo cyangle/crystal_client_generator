@@ -13,25 +13,31 @@
       {{/isNullable}}
       {{/required}}
       {{^allowableValues}}
+      if _{{{name}}} = @{{{name}}}
       {{#isModel}}
-      return false if @{{{name}}}.as?(OpenApi::Validatable).try &.valid? == false
+        if __{{{name}}} = _{{{name}}}.as?(OpenApi::Validatable)
+          return false unless __{{{name}}}.valid?
+        end
       {{/isModel}}
       {{#isContainer}}
         {{#items.isModel}}
           {{#isArray}}
-      {{{name}}}.try &.each do |item|
-        return false if item.as?(OpenApi::Validatable).try &.valid? == false
-      end
+        _{{{name}}}.each do |item|
+          if _item = item.as?(OpenApi::Validatable)
+            return false unless _item.valid?
+          end
+        end
           {{/isArray}}
           {{#isMap}}
-      {{{name}}}.try &.each do |_key, value|
-        return false if value.as?(OpenApi::Validatable).try &.valid? == false
-      end
+        _{{{name}}}.each do |_key, value|
+          if _value = value.as?(OpenApi::Validatable)
+            return false unless _value.valid?
+          end
+        end
           {{/isMap}}
         {{/items.isModel}}
       {{/isContainer}}
       {{#hasValidation}}
-      if _{{{name}}} = @{{{name}}}
       {{#maxLength}}
         return false if _{{{name}}}.to_s.size > {{{maxLength}}}
       {{/maxLength}}
@@ -53,8 +59,8 @@
       {{#minItems}}
         return false if _{{{name}}}.size < {{{minItems}}}
       {{/minItems}}
-      end
       {{/hasValidation}}
+      end
       {{/allowableValues}}
       {{#allowableValues}}
       return false if !@{{{name}}}.nil? && !@{{{name}}}.not_nil!.valid?
