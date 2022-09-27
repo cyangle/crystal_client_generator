@@ -16,18 +16,18 @@
       {{/required}}
       {{^allowableValues}}
       {{#isModel}}
-      invalid_properties.concat(@{{{name}}}.not_nil!.list_invalid_properties_for("{{{name}}}")) unless @{{{name}}}.nil?
+      invalid_properties.concat(@{{{name}}}.as?(OpenApi::Validatable).try &.list_invalid_properties_for("{{{name}}}") || Array(String).new)
       {{/isModel}}
       {{#isContainer}}
         {{#items.isModel}}
           {{#isArray}}
       {{{name}}}.try &.each do |item|
-        invalid_properties.concat(item.not_nil!.list_invalid_properties_for("{{{name}}}")) unless item.nil?
+        invalid_properties.concat(item.as?(OpenApi::Validatable).try &.list_invalid_properties_for("{{{name}}}") || Array(String).new)
       end
           {{/isArray}}
           {{#isMap}}
       {{{name}}}.try &.each do |_key, value|
-        invalid_properties.concat(value.not_nil!.list_invalid_properties_for("{{{name}}}")) unless value.nil?
+        invalid_properties.concat(value.as?(OpenApi::Validatable).try &.list_invalid_properties_for("{{{name}}}") || Array(String).new)
       end
           {{/isMap}}
         {{/items.isModel}}

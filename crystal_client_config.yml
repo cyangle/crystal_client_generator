@@ -9,6 +9,10 @@ files:
     folder: src/ext/open_api
     destinationFilename: json.cr
     templateType: SupportingFiles
+  ext/open_api/validatable.cr:
+    folder: src/ext/open_api
+    destinationFilename: validatable.cr
+    templateType: SupportingFiles
   spec/support/helpers.cr:
     folder: spec/support
     destinationFilename: helpers.cr

@@ -13,6 +13,23 @@
       {{/isNullable}}
       {{/required}}
       {{^allowableValues}}
+      {{#isModel}}
+      return false if @{{{name}}}.as?(OpenApi::Validatable).try &.valid? == false
+      {{/isModel}}
+      {{#isContainer}}
+        {{#items.isModel}}
+          {{#isArray}}
+      {{{name}}}.try &.each do |item|
+        return false if item.as?(OpenApi::Validatable).try &.valid? == false
+      end
+          {{/isArray}}
+          {{#isMap}}
+      {{{name}}}.try &.each do |_key, value|
+        return false if value.as?(OpenApi::Validatable).try &.valid? == false
+      end
+          {{/isMap}}
+        {{/items.isModel}}
+      {{/isContainer}}
       {{#hasValidation}}
       if _{{{name}}} = @{{{name}}}
       {{#maxLength}}

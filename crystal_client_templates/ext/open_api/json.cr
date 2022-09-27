@@ -14,7 +14,7 @@ module OpenApi
         JSON.parse(to_json)
       end
 
-      def list_invalid_properties_for(key : String)
+      def list_invalid_properties_for(key : String) : Array(String)
         list_invalid_properties.map {|msg| "#{key}: #{msg}"}
       end
 
