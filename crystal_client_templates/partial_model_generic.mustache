@@ -112,11 +112,6 @@
     {{^anyOf}}
 {{#requiredVars}}{{>partial_model_setter}}{{/requiredVars}}{{#optionalVars}}{{>partial_model_setter}}{{/optionalVars}}
     {{/anyOf}}
-    # @see the `==` method
-    # @param [Object] Object to be compared
-    def eql?(o)
-      self == o
-    end
 
     # Generates #hash and #== methods from all fields
     # #== @return [Bool]

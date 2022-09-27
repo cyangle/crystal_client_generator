@@ -1335,8 +1335,10 @@ components:
         id:
           type: integer
           format: int64
+          minimum: 0
         name:
           type: string
+          minLength: 5
       xml:
         name: Tag
     Pet:

@@ -16,11 +16,20 @@
       {{/required}}
       {{^allowableValues}}
       {{#isModel}}
-      # This is a model {{{name}}} : {{moduleName}}::{{dataType}}?
+      invalid_properties.concat(@{{{name}}}.not_nil!.list_invalid_properties_for("{{{name}}}")) unless @{{{name}}}.nil?
       {{/isModel}}
       {{#isContainer}}
         {{#items.isModel}}
-        # Container {{{name}}} {{containerType}} has values of {{moduleName}}::{{{items.dataType}}}
+          {{#isArray}}
+      {{{name}}}.try &.each do |item|
+        invalid_properties.concat(item.not_nil!.list_invalid_properties_for("{{{name}}}")) unless item.nil?
+      end
+          {{/isArray}}
+          {{#isMap}}
+      {{{name}}}.try &.each do |_key, value|
+        invalid_properties.concat(value.not_nil!.list_invalid_properties_for("{{{name}}}")) unless value.nil?
+      end
+          {{/isMap}}
         {{/items.isModel}}
       {{/isContainer}}
       {{#hasValidation}}

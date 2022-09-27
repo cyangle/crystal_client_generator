@@ -14,6 +14,16 @@ module OpenApi
         JSON.parse(to_json)
       end
 
+      def list_invalid_properties_for(key : String)
+        list_invalid_properties.map {|msg| "#{key}: #{msg}"}
+      end
+
+      # @see the `==` method
+      # @param [Object] Object to be compared
+      def eql?(o : self)
+        self == o
+      end
+
       def after_initialize
         raise JSON::ParseException.new("Validation failed", 0, 0) if !valid?
       end
