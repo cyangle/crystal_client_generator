@@ -18,6 +18,10 @@ module OpenApi
         list_invalid_properties.map {|msg| "#{key}: #{msg}"}
       end
 
+      def validate : Nil
+        raise "#{self.class} is invalid" unless valid?
+      end
+
       # @see the `==` method
       # @param [Object] Object to be compared
       def eql?(o : self)

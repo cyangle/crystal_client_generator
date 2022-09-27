@@ -26,6 +26,23 @@
     {{/isEnum}}
     {{^isEnum}}
     {{^allowableValues}}
+    {{#isModel}}
+    {{{name}}}.as?(OpenApi::Validatable).try &.validate
+    {{/isModel}}
+    {{#isContainer}}
+      {{#items.isModel}}
+        {{#isArray}}
+    {{{name}}}.try &.each do |item|
+      return false if item.as?(OpenApi::Validatable).try &.validate
+    end
+        {{/isArray}}
+        {{#isMap}}
+    {{{name}}}.try &.each do |_key, value|
+      return false if value.as?(OpenApi::Validatable).try &.validate
+    end
+        {{/isMap}}
+      {{/items.isModel}}
+    {{/isContainer}}
     {{#hasValidation}}
       _{{{name}}} = {{{name}}}.not_nil!
       {{#maxLength}}
