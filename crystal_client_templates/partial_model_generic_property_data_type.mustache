@@ -1,1 +1,1 @@
-{{^isEnum}}{{#allowableValues}}{{moduleName}}::{{/allowableValues}}{{/isEnum}}{{{dataType}}}?
+{{#isContainer}}{{#isArray}}Array({{/isArray}}{{#isMap}}Hash(String, {{/isMap}}{{#items.isModel}}{{{moduleName}}}::{{/items.isModel}}{{items.dataType}})?{{/isContainer}}{{^isContainer}}{{^isEnum}}{{#allowableValues}}{{moduleName}}::{{/allowableValues}}{{/isEnum}}{{#isModel}}{{moduleName}}::{{/isModel}}{{{dataType}}}?{{/isContainer}}

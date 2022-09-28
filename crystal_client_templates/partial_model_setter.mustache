@@ -1,3 +1,4 @@
+
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] {{{name}}} Object to be assigned
     def {{{name}}}=({{{name}}} : {{>partial_model_generic_property_data_type}})
@@ -14,8 +15,8 @@
         return @{{{name}}} = nil
       {{/required}}
       end
-    {{#isEnum}}
       _{{{name}}} = {{{name}}}.not_nil!
+    {{#isEnum}}
     {{#isContainer}}
       {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.all_valid!(_{{{name}}}{{#isMap}}.values{{/isMap}})
     {{/isContainer}}
@@ -25,8 +26,34 @@
     {{/isEnum}}
     {{^isEnum}}
     {{^allowableValues}}
+    {{#isModel}}
+      if _{{{name}}}.is_a?(OpenApi::Validatable)
+        _{{{name}}}.validate
+      end
+    {{/isModel}}
+    {{#isContainer}}
+    {{#items.isModel}}
+    {{#isArray}}
+      if _{{{name}}}.is_a?(Array)
+        _{{{name}}}.each do |item|
+          if item.is_a?(OpenApi::Validatable)
+            item.validate
+          end
+        end
+      end
+    {{/isArray}}
+    {{#isMap}}
+      if _{{{name}}}.is_a?(Hash)
+        _{{{name}}}.each do |_key, value|
+          if value.is_a?(OpenApi::Validatable)
+            value.validate
+          end
+        end
+      end
+    {{/isMap}}
+    {{/items.isModel}}
+    {{/isContainer}}
     {{#hasValidation}}
-      _{{{name}}} = {{{name}}}.not_nil!
       {{#maxLength}}
       if _{{{name}}}.to_s.size > {{{maxLength}}}
         raise ArgumentError.new("invalid value for \"{{{name}}}\", the character length must be smaller than or equal to {{{maxLength}}}.")
@@ -73,8 +100,8 @@
     {{/hasValidation}}
     {{/allowableValues}}
     {{#allowableValues}}
-      {{{name}}}.not_nil!.valid!
+      _{{{name}}}.valid!
     {{/allowableValues}}
     {{/isEnum}}
-      @{{{name}}} = {{{name}}}
+      @{{{name}}} = _{{{name}}}
     end

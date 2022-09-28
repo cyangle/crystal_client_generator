@@ -15,8 +15,35 @@
       {{/isNullable}}
       {{/required}}
       {{^allowableValues}}
-      {{#hasValidation}}
       if _{{{name}}} = @{{{name}}}
+      {{#isModel}}
+        if _{{{name}}}.is_a?(OpenApi::Validatable)
+          invalid_properties.concat(_{{{name}}}.list_invalid_properties_for("{{{name}}}"))
+        end
+      {{/isModel}}
+      {{#isContainer}}
+        {{#items.isModel}}
+          {{#isArray}}
+        if _{{{name}}}.is_a?(Array)
+          _{{{name}}}.each do |item|
+            if item.is_a?(OpenApi::Validatable)
+              invalid_properties.concat(item.list_invalid_properties_for("{{{name}}}"))
+            end
+          end
+        end
+          {{/isArray}}
+          {{#isMap}}
+        if _{{{name}}}.is_a?(Hash)
+          _{{{name}}}.each do |_key, value|
+            if value.is_a?(OpenApi::Validatable)
+              invalid_properties.concat(value.list_invalid_properties_for("{{{name}}}"))
+            end
+          end
+        end
+          {{/isMap}}
+        {{/items.isModel}}
+      {{/isContainer}}
+      {{#hasValidation}}
         {{#maxLength}}
         if _{{{name}}}.to_s.size > {{{maxLength}}}
           invalid_properties.push("invalid value for \"{{{name}}}\", the character length must be smaller than or equal to {{{maxLength}}}.")
@@ -59,8 +86,8 @@
           invalid_properties.push("invalid value for \"{{{name}}}\", number of items must be greater than or equal to {{{minItems}}}."
         end
         {{/minItems}}
-      end
       {{/hasValidation}}
+      end
       {{/allowableValues}}
       {{#allowableValues}}
 

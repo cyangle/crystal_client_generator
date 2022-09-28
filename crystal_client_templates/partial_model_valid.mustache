@@ -13,8 +13,35 @@
       {{/isNullable}}
       {{/required}}
       {{^allowableValues}}
-      {{#hasValidation}}
       if _{{{name}}} = @{{{name}}}
+      {{#isModel}}
+        if _{{{name}}}.is_a?(OpenApi::Validatable)
+          return false unless _{{{name}}}.valid?
+        end
+      {{/isModel}}
+      {{#isContainer}}
+        {{#items.isModel}}
+          {{#isArray}}
+        if _{{{name}}}.is_a?(Array)
+          _{{{name}}}.each do |item|
+            if item.is_a?(OpenApi::Validatable)
+              return false unless item.valid?
+            end
+          end
+        end
+          {{/isArray}}
+          {{#isMap}}
+        if _{{{name}}}.is_a?(Hash)
+          _{{{name}}}.each do |_key, value|
+            if value.is_a?(OpenApi::Validatable)
+              return false unless value.valid?
+            end
+          end
+        end
+          {{/isMap}}
+        {{/items.isModel}}
+      {{/isContainer}}
+      {{#hasValidation}}
       {{#maxLength}}
         return false if _{{{name}}}.to_s.size > {{{maxLength}}}
       {{/maxLength}}
@@ -36,8 +63,8 @@
       {{#minItems}}
         return false if _{{{name}}}.size < {{{minItems}}}
       {{/minItems}}
-      end
       {{/hasValidation}}
+      end
       {{/allowableValues}}
       {{#allowableValues}}
       return false if !@{{{name}}}.nil? && !@{{{name}}}.not_nil!.valid?
