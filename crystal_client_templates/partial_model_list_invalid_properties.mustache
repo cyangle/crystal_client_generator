@@ -17,23 +17,27 @@
       {{^allowableValues}}
       if _{{{name}}} = @{{{name}}}
       {{#isModel}}
-      if __{{{name}}} = _{{{name}}}.as?(OpenApi::Validatable)
-        invalid_properties.concat(__{{{name}}}.list_invalid_properties_for("{{{name}}}"))
-      end
+        if _{{{name}}}.is_a?(OpenApi::Validatable)
+          invalid_properties.concat(_{{{name}}}.list_invalid_properties_for("{{{name}}}"))
+        end
       {{/isModel}}
       {{#isContainer}}
         {{#items.isModel}}
           {{#isArray}}
-        _{{{name}}}.each do |item|
-          if _item = item.as?(OpenApi::Validatable)
-            invalid_properties.concat(_item.list_invalid_properties_for("{{{name}}}"))
+        if _{{{name}}}.is_a?(Array)
+          _{{{name}}}.each do |item|
+            if item.is_a?(OpenApi::Validatable)
+              invalid_properties.concat(item.list_invalid_properties_for("{{{name}}}"))
+            end
           end
         end
           {{/isArray}}
           {{#isMap}}
-        _{{{name}}}.each do |_key, value|
-          if _value = value.as?(OpenApi::Validatable)
-            invalid_properties.concat(_value.list_invalid_properties_for("{{{name}}}"))
+        if _{{{name}}}.is_a?(Hash)
+          _{{{name}}}.each do |_key, value|
+            if value.is_a?(OpenApi::Validatable)
+              invalid_properties.concat(value.list_invalid_properties_for("{{{name}}}"))
+            end
           end
         end
           {{/isMap}}
