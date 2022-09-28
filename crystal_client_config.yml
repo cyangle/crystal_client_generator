@@ -29,3 +29,11 @@ files:
     folder: src/validators
     destinationFilename: enum_validator.cr
     templateType: SupportingFiles
+  validators/array_validator.cr:
+    folder: src/validators
+    destinationFilename: array_validator.cr
+    templateType: SupportingFiles
+  validators/hash_validator.cr:
+    folder: src/validators
+    destinationFilename: hash_validator.cr
+    templateType: SupportingFiles

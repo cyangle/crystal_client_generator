@@ -15,29 +15,15 @@
       {{^allowableValues}}
       if _{{{name}}} = @{{{name}}}
       {{#isModel}}
-        if _{{{name}}}.is_a?(OpenApi::Validatable)
-          return false unless _{{{name}}}.valid?
-        end
+        return false if _{{{name}}}.is_a?(OpenApi::Validatable) && !_{{{name}}}.valid?
       {{/isModel}}
       {{#isContainer}}
         {{#items.isModel}}
           {{#isArray}}
-        if _{{{name}}}.is_a?(Array)
-          _{{{name}}}.each do |item|
-            if item.is_a?(OpenApi::Validatable)
-              return false unless item.valid?
-            end
-          end
-        end
+        return false if _{{{name}}}.is_a?(Array) && !OpenApi::ArrayValidator.valid?(array: _{{{name}}})
           {{/isArray}}
           {{#isMap}}
-        if _{{{name}}}.is_a?(Hash)
-          _{{{name}}}.each do |_key, value|
-            if value.is_a?(OpenApi::Validatable)
-              return false unless value.valid?
-            end
-          end
-        end
+        return false if _{{{name}}}.is_a?(Hash) && !OpenApi::HashValidator.valid?(hash: _{{{name}}})
           {{/isMap}}
         {{/items.isModel}}
       {{/isContainer}}

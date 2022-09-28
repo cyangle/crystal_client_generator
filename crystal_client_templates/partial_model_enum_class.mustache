@@ -3,7 +3,7 @@
 
     property data : {{dataType}}
 
-    {{#lambda.uppercase}}enum_validator{{/lambda.uppercase}} = EnumValidator.new("{{{name}}}", "{{{dataType}}}", [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
+    {{#lambda.uppercase}}enum_validator{{/lambda.uppercase}} = OpenApi::EnumValidator.new("{{{name}}}", "{{{dataType}}}", [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
 
     delegate to_json_object_key, to: @data
     delegate error_message, to: {{#lambda.uppercase}}enum_validator{{/lambda.uppercase}}

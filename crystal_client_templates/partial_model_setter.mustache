@@ -27,29 +27,15 @@
     {{^isEnum}}
     {{^allowableValues}}
     {{#isModel}}
-      if _{{{name}}}.is_a?(OpenApi::Validatable)
-        _{{{name}}}.validate
-      end
+      _{{{name}}}.validate if _{{{name}}}.is_a?(OpenApi::Validatable)
     {{/isModel}}
     {{#isContainer}}
     {{#items.isModel}}
     {{#isArray}}
-      if _{{{name}}}.is_a?(Array)
-        _{{{name}}}.each do |item|
-          if item.is_a?(OpenApi::Validatable)
-            item.validate
-          end
-        end
-      end
+      OpenApi::ArrayValidator.validate(array: _{{{name}}}) if _{{{name}}}.is_a?(Array)
     {{/isArray}}
     {{#isMap}}
-      if _{{{name}}}.is_a?(Hash)
-        _{{{name}}}.each do |_key, value|
-          if value.is_a?(OpenApi::Validatable)
-            value.validate
-          end
-        end
-      end
+      OpenApi::HashValidator.validate(hash: _{{{name}}}) if _{{{name}}}.is_a?(Hash)
     {{/isMap}}
     {{/items.isModel}}
     {{/isContainer}}
