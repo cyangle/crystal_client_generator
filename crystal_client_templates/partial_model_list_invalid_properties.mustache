@@ -7,7 +7,7 @@
 
       if _{{{name}}} = @{{{name}}}
       {{#isEnum}}
-        invalid_properties.push(OpenApi::EnumValidator.error_message("{{{name}}}", {{#lambda.uppercase}}valid_values_for_{{{name}}}{{/lambda.uppercase}})) unless OpenApi::EnumValidator.valid?("{{{name}}}", _{{{name}}}, {{#lambda.uppercase}}valid_values_for_{{{name}}}{{/lambda.uppercase}})
+        invalid_properties.push(OpenApi::EnumValidator.error_message("{{{name}}}", {{#lambda.uppercase}}valid_values_for_{{{name}}}{{/lambda.uppercase}})) unless OpenApi::EnumValidator.valid?(_{{{name}}}, {{#lambda.uppercase}}valid_values_for_{{{name}}}{{/lambda.uppercase}})
       {{/isEnum}}
       {{^isEnum}}
       {{^allowableValues}}

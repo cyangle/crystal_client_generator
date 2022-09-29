@@ -6,7 +6,7 @@
       {{/required}}
       if _{{{name}}} = @{{{name}}}
       {{#isEnum}}
-        return false unless OpenApi::EnumValidator.valid?("{{{name}}}", _{{{name}}}, {{#lambda.uppercase}}valid_values_for_{{{name}}}{{/lambda.uppercase}})
+        return false unless OpenApi::EnumValidator.valid?(_{{{name}}}, {{#lambda.uppercase}}valid_values_for_{{{name}}}{{/lambda.uppercase}})
       {{/isEnum}}
       {{^isEnum}}
       {{^allowableValues}}
