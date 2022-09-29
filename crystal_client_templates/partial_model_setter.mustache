@@ -17,12 +17,7 @@
       end
       _{{{name}}} = {{{name}}}.not_nil!
     {{#isEnum}}
-    {{#isContainer}}
-      {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.all_valid!(_{{{name}}}{{#isMap}}.values{{/isMap}})
-    {{/isContainer}}
-    {{^isContainer}}
-      {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}}.valid!(_{{{name}}})
-    {{/isContainer}}
+      OpenApi::EnumValidator.validate("{{{name}}}", _{{{name}}}{{#isMap}}.values{{/isMap}}, {{#lambda.uppercase}}valid_values_for_{{{name}}}{{/lambda.uppercase}})
     {{/isEnum}}
     {{^isEnum}}
     {{^allowableValues}}
@@ -85,7 +80,7 @@
     {{/hasValidation}}
     {{/allowableValues}}
     {{#allowableValues}}
-      _{{{name}}}.valid!
+      _{{{name}}}.validate
     {{/allowableValues}}
     {{/isEnum}}
       @{{{name}}} = _{{{name}}}

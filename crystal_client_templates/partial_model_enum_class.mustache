@@ -1,12 +1,14 @@
   class {{classname}}
+    include OpenApi::Validatable
     include OpenApi::Json
 
     property data : {{dataType}}
 
-    {{#lambda.uppercase}}enum_validator{{/lambda.uppercase}} = OpenApi::EnumValidator.new("{{{name}}}", "{{{dataType}}}", [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
+    ERROR_MESSAGE = %{invalid value for "{{{name}}}", must be one of [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}].}
+
+    VALID_VALUES = StaticArray[{{#allowableValues}}{{#enumVars}}{{#isContainer}}{{^items.isString}}{{{items.dataType}}}.new({{/items.isString}}{{/isContainer}}{{^isContainer}}{{^isString}}{{{dataType}}}.new({{/isString}}{{/isContainer}}{{{value}}}{{#isContainer}}{{^items.isString}}){{/items.isString}}{{/isContainer}}{{^isContainer}}{{^isString}}){{/isString}}{{/isContainer}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
 
     delegate to_json_object_key, to: @data
-    delegate error_message, to: {{#lambda.uppercase}}enum_validator{{/lambda.uppercase}}
 
     def self.from_json(value : JSON::PullParser) : {{classname}}
       new(value)
@@ -25,18 +27,28 @@
     end
 
     def self.new!(data : {{dataType}})
-      new(data).tap(&.valid!)
+      new(data).tap(&.validate)
     end
 
     def initialize(@data : {{dataType}})
     end
 
-    def valid?
-      {{#lambda.uppercase}}enum_validator{{/lambda.uppercase}}.valid?(@data, false)
+    def error_message : String
+      ERROR_MESSAGE
     end
 
-    def valid!
-      {{#lambda.uppercase}}enum_validator{{/lambda.uppercase}}.valid!(@data, false)
+    def list_invalid_properties : Array(String)
+      errors = Array(String).new
+      errors.push(error_message) unless valid?
+      errors
+    end
+
+    def valid? : Bool
+      OpenApi::EnumValidator.valid?("{{{name}}}", data, VALID_VALUES, false)
+    end
+
+    def validate : Nil
+      OpenApi::EnumValidator.validate("{{{name}}}", data, VALID_VALUES, false)
     end
 
     def to_json(json : JSON::Builder) : Nil
