@@ -17,7 +17,7 @@
       end
       _{{{name}}} = {{{name}}}.not_nil!
     {{#isEnum}}
-      OpenApi::EnumValidator.validate("{{{name}}}", _{{{name}}}{{#isMap}}.values{{/isMap}}, {{#lambda.uppercase}}valid_values_for_{{{name}}}{{/lambda.uppercase}})
+      OpenApi::EnumValidator.validate("{{{name}}}", _{{{name}}}, {{#lambda.uppercase}}valid_values_for_{{{name}}}{{/lambda.uppercase}})
     {{/isEnum}}
     {{^isEnum}}
     {{^allowableValues}}

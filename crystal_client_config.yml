@@ -5,6 +5,10 @@ files:
     folder: src/ext
     destinationFilename: time.cr
     templateType: SupportingFiles
+  ext/primitive.cr:
+    folder: src/ext
+    destinationFilename: primitive.cr
+    templateType: SupportingFiles
   ext/open_api/json.cr:
     folder: src/ext/open_api
     destinationFilename: json.cr
