@@ -41,45 +41,44 @@
     {{/isContainer}}
     {{#hasValidation}}
       {{#maxLength}}
-      if _{{{name}}}.to_s.size > {{{maxLength}}}
-        raise ArgumentError.new("invalid value for \"{{{name}}}\", the character length must be smaller than or equal to {{{maxLength}}}.")
+      if max_length_error = OpenApi::PrimitiveValidator.max_length_error("{{{name}}}", _{{{name}}}.to_s.size, {{{maxLength}}})
+        raise ArgumentError.new(max_length_error)
       end
 
       {{/maxLength}}
       {{#minLength}}
-      if _{{{name}}}.to_s.size < {{{minLength}}}
-        raise ArgumentError.new("invalid value for \"{{{name}}}\", the character length must be great than or equal to {{{minLength}}}.")
+      if min_length_error = OpenApi::PrimitiveValidator.min_length_error("{{{name}}}", _{{{name}}}.to_s.size, {{{minLength}}})
+        raise ArgumentError.new(min_length_error)
       end
 
       {{/minLength}}
       {{#maximum}}
-      if _{{{name}}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
-        raise ArgumentError.new("invalid value for \"{{{name}}}\", must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{{maximum}}}.")
+      if max_number_error = OpenApi::PrimitiveValidator.max_number_error("{{{name}}}", _{{{name}}}, {{{maximum}}})
+        raise ArgumentError.new(max_number_error)
       end
 
       {{/maximum}}
       {{#minimum}}
-      if _{{{name}}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
-        raise ArgumentError.new("invalid value for \"{{{name}}}\", must be greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{{minimum}}}.")
+      if min_number_error = OpenApi::PrimitiveValidator.min_number_error("{{{name}}}", _{{{name}}}, {{{minimum}}})
+        raise ArgumentError.new(min_number_error)
       end
 
       {{/minimum}}
       {{#pattern}}
-      pattern = {{{pattern}}}
-      if _{{{name}}} !~ pattern
-        raise ArgumentError.new("invalid value for \"{{{name}}}\", must conform to the pattern #{pattern}.")
+      if pattern_error = OpenApi::PrimitiveValidator.pattern_error("{{{name}}}", _{{{name}}}, {{#lambda.uppercase}}pattern_for_{{{name}}}{{/lambda.uppercase}})
+        raise ArgumentError.new(pattern_error)
       end
 
       {{/pattern}}
       {{#maxItems}}
-      if _{{{name}}}.size > {{{maxItems}}}
-        raise ArgumentError.new("invalid value for \"{{{name}}}\", number of items must be less than or equal to {{{maxItems}}}.")
+      if max_items_error = OpenApi::PrimitiveValidator.max_items_error("{{{name}}}", _{{{name}}}.size, {{{maxItems}}})
+        raise ArgumentError.new(max_items_error)
       end
 
       {{/maxItems}}
       {{#minItems}}
-      if _{{{name}}}.size < {{{minItems}}}
-        raise ArgumentError.new("invalid value for \"{{{name}}}\", number of items must be greater than or equal to {{{minItems}}}.")
+      if min_items_error = OpenApi::PrimitiveValidator.min_items_error("{{{name}}}", _{{{name}}}.size, {{{minItems}}})
+        raise ArgumentError.new(min_items_error)
       end
 
       {{/minItems}}

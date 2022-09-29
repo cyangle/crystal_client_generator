@@ -11,6 +11,10 @@
     property? {{{name}}}_present : Bool = false
     {{/required}}
     {{/isNullable}}
+    {{#pattern}}
+
+    {{#lambda.uppercase}}pattern_for_{{{name}}}{{/lambda.uppercase}} = {{{pattern}}}
+    {{/pattern}}
     {{#isEnum}}
 
     {{#lambda.uppercase}}enum_validator_for_{{{name}}}{{/lambda.uppercase}} = OpenApi::EnumValidator.new("{{{name}}}", "{{{dataType}}}", [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])

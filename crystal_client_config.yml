@@ -37,3 +37,7 @@ files:
     folder: src/validators
     destinationFilename: hash_validator.cr
     templateType: SupportingFiles
+  validators/primitive_validator.cr:
+    folder: src/validators
+    destinationFilename: primitive_validator.cr
+    templateType: SupportingFiles

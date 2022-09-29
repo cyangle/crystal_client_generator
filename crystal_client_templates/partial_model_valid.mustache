@@ -12,8 +12,8 @@
       return false if @{{{name}}}.nil?
       {{/isNullable}}
       {{/required}}
-      {{^allowableValues}}
       if _{{{name}}} = @{{{name}}}
+      {{^allowableValues}}
       {{#isModel}}
         return false if _{{{name}}}.is_a?(OpenApi::Validatable) && !_{{{name}}}.valid?
       {{/isModel}}
@@ -41,7 +41,7 @@
         return false if _{{{name}}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
       {{/minimum}}
       {{#pattern}}
-        return false if _{{{name}}} !~ {{{pattern}}}
+        return false if _{{{name}}} !~ {{#lambda.uppercase}}pattern_for_{{{name}}}{{/lambda.uppercase}}
       {{/pattern}}
       {{#maxItems}}
         return false if _{{{name}}}.size > {{{maxItems}}}
@@ -50,9 +50,9 @@
         return false if _{{{name}}}.size < {{{minItems}}}
       {{/minItems}}
       {{/hasValidation}}
-      end
       {{/allowableValues}}
       {{#allowableValues}}
-      return false if !@{{{name}}}.nil? && !@{{{name}}}.not_nil!.valid?
+        return false if !_{{{name}}}.valid?
       {{/allowableValues}}
+      end
       {{/isEnum}}

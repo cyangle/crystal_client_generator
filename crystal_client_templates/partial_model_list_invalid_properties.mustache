@@ -14,8 +14,8 @@
       invalid_properties.push("\"{{{name}}}\" is required and cannot be null") if @{{{name}}}.nil?
       {{/isNullable}}
       {{/required}}
-      {{^allowableValues}}
       if _{{{name}}} = @{{{name}}}
+      {{^allowableValues}}
       {{#isModel}}
         invalid_properties.concat(_{{{name}}}.list_invalid_properties_for("{{{name}}}")) if _{{{name}}}.is_a?(OpenApi::Validatable)
       {{/isModel}}
@@ -32,52 +32,51 @@
       {{/isContainer}}
       {{#hasValidation}}
         {{#maxLength}}
-        if _{{{name}}}.to_s.size > {{{maxLength}}}
-          invalid_properties.push("invalid value for \"{{{name}}}\", the character length must be smaller than or equal to {{{maxLength}}}.")
+        if max_length_error = OpenApi::PrimitiveValidator.max_length_error("{{{name}}}", _{{{name}}}.to_s.size, {{{maxLength}}})
+          invalid_properties.push(max_length_error)
         end
         {{/maxLength}}
         {{#minLength}}
 
-        if _{{{name}}}.to_s.size < {{{minLength}}}
-          invalid_properties.push("invalid value for \"{{{name}}}\", the character length must be great than or equal to {{{minLength}}}.")
+        if min_length_error = OpenApi::PrimitiveValidator.min_length_error("{{{name}}}", _{{{name}}}.to_s.size, {{{minLength}}})
+          invalid_properties.push(min_length_error)
         end
         {{/minLength}}
         {{#maximum}}
 
-        if _{{{name}}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
-          invalid_properties.push("invalid value for \"{{{name}}}\", must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{{maximum}}}.")
+        if max_number_error = OpenApi::PrimitiveValidator.max_number_error("{{{name}}}", _{{{name}}}, {{{maximum}}})
+          invalid_properties.push(max_number_error)
         end
         {{/maximum}}
         {{#minimum}}
 
-        if _{{{name}}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
-          invalid_properties.push("invalid value for \"{{{name}}}\", must be greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{{minimum}}}.")
+        if min_number_error = OpenApi::PrimitiveValidator.min_number_error("{{{name}}}", _{{{name}}}, {{{minimum}}})
+          invalid_properties.push(min_number_error)
         end
         {{/minimum}}
         {{#pattern}}
 
-        pattern = {{{pattern}}}
-        if _{{{name}}} !~ pattern
-          invalid_properties.push("invalid value for \"{{{name}}}\", must conform to the pattern #{pattern}.")
+        if pattern_error = OpenApi::PrimitiveValidator.pattern_error("{{{name}}}", _{{{name}}}, {{#lambda.uppercase}}pattern_for_{{{name}}}{{/lambda.uppercase}})
+          invalid_properties.push(pattern_error)
         end
         {{/pattern}}
         {{#maxItems}}
 
-        if _{{{name}}}.size > {{{maxItems}}}
-          invalid_properties.push("invalid value for \"{{{name}}}\", number of items must be less than or equal to {{{maxItems}}}."
+        if max_items_error = OpenApi::PrimitiveValidator.max_items_error("{{{name}}}", _{{{name}}}.size, {{{maxItems}}})
+          invalid_properties.push(max_items_error)
         end
         {{/maxItems}}
         {{#minItems}}
 
-        if _{{{name}}}.size < {{{minItems}}}
-          invalid_properties.push("invalid value for \"{{{name}}}\", number of items must be greater than or equal to {{{minItems}}}."
+        if min_items_error = OpenApi::PrimitiveValidator.min_items_error("{{{name}}}", _{{{name}}}.size, {{{minItems}}})
+          invalid_properties.push(min_items_error)
         end
         {{/minItems}}
       {{/hasValidation}}
-      end
       {{/allowableValues}}
       {{#allowableValues}}
 
-      invalid_properties.push(@{{{name}}}.not_nil!.error_message) if !@{{{name}}}.nil? && !@{{{name}}}.not_nil!.valid?
+        invalid_properties.push(_{{{name}}}.error_message) if !_{{{name}}}.valid?
       {{/allowableValues}}
+      end
       {{/isEnum}}
