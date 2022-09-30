@@ -15,36 +15,31 @@
       {{/isModel}}
       {{#isContainer}}
         {{#items.isModel}}
-          {{#isArray}}
-        return false if _{{{name}}}.is_a?(Array) && !OpenApi::ArrayValidator.valid?(array: _{{{name}}})
-          {{/isArray}}
-          {{#isMap}}
-        return false if _{{{name}}}.is_a?(Hash) && !OpenApi::HashValidator.valid?(hash: _{{{name}}})
-          {{/isMap}}
+        return false if _{{{name}}}.is_a?({{#isArray}}Array{{/isArray}}{{#isMap}}Hash{{/isMap}}) && !OpenApi::ContainerValidator.valid?(container: _{{{name}}})
         {{/items.isModel}}
       {{/isContainer}}
       {{#hasValidation}}
       {{#maxLength}}
-        return false if _{{{name}}}.to_s.size > {{{maxLength}}}
+        return false if {{^isDate}}{{^isDateTime}}_{{{name}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format(_{{{name}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format(_{{{name}}}){{/isDateTime}}.size > {{#lambda.uppercase}}max_length_for_{{{name}}}{{/lambda.uppercase}}
       {{/maxLength}}
       {{#minLength}}
-        return false if _{{{name}}}.to_s.size < {{{minLength}}}
+        return false if {{^isDate}}{{^isDateTime}}_{{{name}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format(_{{{name}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format(_{{{name}}}){{/isDateTime}}.size < {{#lambda.uppercase}}min_length_for_{{{name}}}{{/lambda.uppercase}}
       {{/minLength}}
       {{#maximum}}
-        return false if _{{{name}}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
+        return false if _{{{name}}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{#lambda.uppercase}}max_for_{{{name}}}{{/lambda.uppercase}}
       {{/maximum}}
       {{#minimum}}
-        return false if _{{{name}}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
+        return false if _{{{name}}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{#lambda.uppercase}}min_for_{{{name}}}{{/lambda.uppercase}}
       {{/minimum}}
+      {{#maxItems}}
+        return false if _{{{name}}}.size > {{#lambda.uppercase}}max_items_for_{{{name}}}{{/lambda.uppercase}}
+      {{/maxItems}}
+      {{#minItems}}
+        return false if _{{{name}}}.size < {{#lambda.uppercase}}min_items_for_{{{name}}}{{/lambda.uppercase}}
+      {{/minItems}}
       {{#pattern}}
         return false if _{{{name}}} !~ {{#lambda.uppercase}}pattern_for_{{{name}}}{{/lambda.uppercase}}
       {{/pattern}}
-      {{#maxItems}}
-        return false if _{{{name}}}.size > {{{maxItems}}}
-      {{/maxItems}}
-      {{#minItems}}
-        return false if _{{{name}}}.size < {{{minItems}}}
-      {{/minItems}}
       {{/hasValidation}}
       {{/allowableValues}}
       {{#allowableValues}}

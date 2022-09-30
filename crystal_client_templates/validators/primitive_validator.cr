@@ -54,5 +54,50 @@ module OpenApi
       return if pattern.matches?(value)
       PATTERN_ERROR % [name, pattern.source]
     end
+
+    def self.validate_min_length(name : String, length : Int, min : Int) : Nil
+      return unless length < min
+      raise ArgumentError.new(MIN_LENGTH_ERROR % [name, min.to_s])
+    end
+
+    def self.validate_max_length(name : String, length : Int, max : Int) : Nil
+      return unless length > max
+      raise ArgumentError.new(MAX_LENGTH_ERROR % [name, max.to_s])
+    end
+
+    def self.validate_min_number(name : String, value : Number, min : Number, exclusive : Bool = false) : Nil
+      if exclusive
+        return unless value <= min
+        raise ArgumentError.new(EXCLUSIVE_MIN_NUMBER_ERROR % [name, min.to_s])
+      else
+        return unless value < min
+        raise ArgumentError.new(MIN_NUMBER_ERROR % [name, min.to_s])
+      end
+    end
+
+    def self.validate_max_number(name : String, value : Number, max : Number, exclusive : Bool = false) : Nil
+      if exclusive
+        return unless value >= max
+        raise ArgumentError.new(EXCLUSIVE_MAX_NUMBER_ERROR % [name, max.to_s])
+      else
+        return unless value > max
+        raise ArgumentError.new(MAX_NUMBER_ERROR % [name, max.to_s])
+      end
+    end
+
+    def self.validate_min_items(name : String, value : Int, min : Int) : Nil
+      return unless value < min
+      raise ArgumentError.new(MIN_ITEMS_ERROR % [name, min.to_s])
+    end
+
+    def self.validate_max_items(name : String, value : Int, max : Int) : Nil
+      return unless value > max
+      raise ArgumentError.new(MAX_ITEMS_ERROR % [name, max.to_s])
+    end
+
+    def self.validate_pattern(name : String, value : String, pattern : Regex) : Nil
+      return if pattern.matches?(value)
+      raise ArgumentError.new(PATTERN_ERROR % [name, pattern.source])
+    end
   end
 end

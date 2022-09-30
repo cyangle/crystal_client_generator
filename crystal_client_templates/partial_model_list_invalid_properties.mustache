@@ -16,57 +16,51 @@
       {{/isModel}}
       {{#isContainer}}
         {{#items.isModel}}
-          {{#isArray}}
-        
-        invalid_properties.concat(OpenApi::ArrayValidator.list_invalid_properties_for(key: "{{{name}}}", array: _{{{name}}})) if _{{{name}}}.is_a?(Array)
-          {{/isArray}}
-          {{#isMap}}
-        invalid_properties.concat(OpenApi::HashValidator.list_invalid_properties_for(key: "{{{name}}}", hash: _{{{name}}})) if _{{{name}}}.is_a?(Hash)
-          {{/isMap}}
+        invalid_properties.concat(OpenApi::ContainerValidator.list_invalid_properties_for(key: "{{{name}}}", container: _{{{name}}})) if _{{{name}}}.is_a?({{#isArray}}Array{{/isArray}}{{#isMap}}Hash{{/isMap}})
         {{/items.isModel}}
       {{/isContainer}}
       {{#hasValidation}}
         {{#maxLength}}
-        if max_length_error = OpenApi::PrimitiveValidator.max_length_error("{{{name}}}", _{{{name}}}.to_s.size, {{{maxLength}}})
+        if max_length_error = OpenApi::PrimitiveValidator.max_length_error("{{{name}}}", _{{{name}}}.to_s.size, {{#lambda.uppercase}}max_length_for_{{{name}}}{{/lambda.uppercase}})
           invalid_properties.push(max_length_error)
         end
         {{/maxLength}}
         {{#minLength}}
 
-        if min_length_error = OpenApi::PrimitiveValidator.min_length_error("{{{name}}}", _{{{name}}}.to_s.size, {{{minLength}}})
+        if min_length_error = OpenApi::PrimitiveValidator.min_length_error("{{{name}}}", _{{{name}}}.to_s.size, {{#lambda.uppercase}}min_length_for_{{{name}}}{{/lambda.uppercase}})
           invalid_properties.push(min_length_error)
         end
         {{/minLength}}
         {{#maximum}}
 
-        if max_number_error = OpenApi::PrimitiveValidator.max_number_error("{{{name}}}", _{{{name}}}, {{{maximum}}})
+        if max_number_error = OpenApi::PrimitiveValidator.max_number_error("{{{name}}}", _{{{name}}}, {{#lambda.uppercase}}max_for_{{{name}}}{{/lambda.uppercase}}{{#exclusiveMaximum}}, true{{/exclusiveMaximum}})
           invalid_properties.push(max_number_error)
         end
         {{/maximum}}
         {{#minimum}}
 
-        if min_number_error = OpenApi::PrimitiveValidator.min_number_error("{{{name}}}", _{{{name}}}, {{{minimum}}})
+        if min_number_error = OpenApi::PrimitiveValidator.min_number_error("{{{name}}}", _{{{name}}}, {{#lambda.uppercase}}min_for_{{{name}}}{{/lambda.uppercase}}{{#exclusiveMinimum}}, true{{/exclusiveMinimum}})
           invalid_properties.push(min_number_error)
         end
         {{/minimum}}
+        {{#maxItems}}
+
+        if max_items_error = OpenApi::PrimitiveValidator.max_items_error("{{{name}}}", _{{{name}}}.size, {{#lambda.uppercase}}max_items_for_{{{name}}}{{/lambda.uppercase}})
+          invalid_properties.push(max_items_error)
+        end
+        {{/maxItems}}
+        {{#minItems}}
+
+        if min_items_error = OpenApi::PrimitiveValidator.min_items_error("{{{name}}}", _{{{name}}}.size, {{#lambda.uppercase}}min_items_for_{{{name}}}{{/lambda.uppercase}})
+          invalid_properties.push(min_items_error)
+        end
+        {{/minItems}}
         {{#pattern}}
 
         if pattern_error = OpenApi::PrimitiveValidator.pattern_error("{{{name}}}", _{{{name}}}, {{#lambda.uppercase}}pattern_for_{{{name}}}{{/lambda.uppercase}})
           invalid_properties.push(pattern_error)
         end
         {{/pattern}}
-        {{#maxItems}}
-
-        if max_items_error = OpenApi::PrimitiveValidator.max_items_error("{{{name}}}", _{{{name}}}.size, {{{maxItems}}})
-          invalid_properties.push(max_items_error)
-        end
-        {{/maxItems}}
-        {{#minItems}}
-
-        if min_items_error = OpenApi::PrimitiveValidator.min_items_error("{{{name}}}", _{{{name}}}.size, {{{minItems}}})
-          invalid_properties.push(min_items_error)
-        end
-        {{/minItems}}
       {{/hasValidation}}
       {{/allowableValues}}
       {{#allowableValues}}

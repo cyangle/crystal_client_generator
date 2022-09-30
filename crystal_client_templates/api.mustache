@@ -20,14 +20,14 @@ module {{moduleName}}
     {{/notes}}
     {{#allParams}}
     {{#required}}
-    # @param {{paramName}} [{{{dataType}}}{{^required}}?{{/required}}]{{#description}} {{{description}}}{{/description}}
+    # @param {{paramName}} [{{>partial_model_generic_property_data_type}}]{{#description}} {{{description}}}{{/description}}
     {{/required}}
     {{^required}}
-    # @optional @param {{paramName}} [{{{dataType}}}{{^required}}?{{/required}}]{{#description}} {{{description}}}{{/description}}
+    # @optional @param {{paramName}} [{{>partial_model_generic_property_data_type}}]{{#description}} {{{description}}}{{/description}}
     {{/required}}
     {{/allParams}}
     # @return [{{{returnType}}}{{^returnType}}nil{{/returnType}}]
-    def {{operationId}}({{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}{{paramName}} : {{{dataType}}}{{#isNullable}}?{{/isNullable}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}{{paramName}} : {{{dataType}}}?{{^defaultValue}} = nil{{/defaultValue}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalParams}})
+    def {{operationId}}({{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/optionalParams}})
       {{#returnType}}data, _status_code, _headers = {{/returnType}}{{operationId}}_with_http_info({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
       {{#returnType}}data{{/returnType}}{{^returnType}}nil{{/returnType}}
     end
@@ -40,14 +40,14 @@ module {{moduleName}}
     {{/notes}}
     {{#allParams}}
     {{#required}}
-    # @param {{paramName}} [{{{dataType}}}{{^required}}?{{/required}}]{{#description}} {{{description}}}{{/description}}
+    # @param {{paramName}} [{{>partial_model_generic_property_data_type}}]{{#description}} {{{description}}}{{/description}}
     {{/required}}
     {{^required}}
-    # @optional @param {{paramName}} [{{{dataType}}}{{^required}}?{{/required}}]{{#description}} {{{description}}}{{/description}}
+    # @optional @param {{paramName}} [{{>partial_model_generic_property_data_type}}]{{#description}} {{{description}}}{{/description}}
     {{/required}}
     {{/allParams}}
     # @return [Array<({{{returnType}}}{{^returnType}}nil{{/returnType}}, Integer, Hash)>] {{#returnType}}{{{.}}} data{{/returnType}}{{^returnType}}nil{{/returnType}}, response status code and response headers
-    def {{operationId}}_with_http_info({{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}{{paramName}} : {{{dataType}}}{{#isNullable}}?{{/isNullable}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}{{paramName}} : {{{dataType}}}?{{^defaultValue}} = nil{{/defaultValue}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalParams}})
+    def {{operationId}}_with_http_info({{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/optionalParams}})
       request = build_api_request_for_{{operationId}}({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
 
       data, status_code, headers = @api_client.execute_api_request(request)
@@ -67,83 +67,84 @@ module {{moduleName}}
     {{/notes}}
     {{#allParams}}
     {{#required}}
-    # @param {{paramName}} [{{{dataType}}}{{^required}}?{{/required}}]{{#description}} {{{description}}}{{/description}}
+    # @param {{paramName}} [{{>partial_model_generic_property_data_type}}]{{#description}} {{{description}}}{{/description}}
     {{/required}}
     {{^required}}
-    # @optional @param {{paramName}} [{{{dataType}}}{{^required}}?{{/required}}]{{#description}} {{{description}}}{{/description}}
+    # @optional @param {{paramName}} [{{>partial_model_generic_property_data_type}}]{{#description}} {{{description}}}{{/description}}
     {{/required}}
     {{/allParams}}
     # @return nil
-    def {{operationId}}({{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}{{paramName}} : {{{dataType}}}{{#isNullable}}?{{/isNullable}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}{{paramName}} : {{{dataType}}}?{{^defaultValue}} = nil{{/defaultValue}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalParams}}{{#hasParams}}, {{/hasParams}}&block : Crest::Response ->)
+    def {{operationId}}({{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/optionalParams}}{{#hasParams}}, {{/hasParams}}&block : Crest::Response ->)
       build_api_request_for_{{operationId}}({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute(&block)
     end
 
+    {{#allParams}}
+    {{#isEnum}}
+    {{#lambda.uppercase}}valid_values_for_{{{paramName}}}{{/lambda.uppercase}} = StaticArray[{{#allowableValues}}{{#enumVars}}{{#isContainer}}{{^items.isString}}{{{items.dataType}}}.new({{/items.isString}}{{/isContainer}}{{^isContainer}}{{^isString}}{{{dataType}}}.new({{/isString}}{{/isContainer}}{{{value}}}{{#isContainer}}{{^items.isString}}){{/items.isString}}{{/isContainer}}{{^isContainer}}{{^isString}}){{/isString}}{{/isContainer}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
+    {{/isEnum}}
+    {{#pattern}}
+    {{#lambda.uppercase}}pattern_for_{{{paramName}}}{{/lambda.uppercase}} = {{{pattern}}}
+    {{/pattern}}
+    {{/allParams}}
     # @return Crest::Request
-    def build_api_request_for_{{operationId}}({{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}{{paramName}} : {{{dataType}}}{{#isNullable}}?{{/isNullable}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}{{paramName}} : {{{dataType}}}?{{^defaultValue}} = nil{{/defaultValue}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalParams}}) : Crest::Request
+    def build_api_request_for_{{operationId}}({{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/optionalParams}}) : Crest::Request
       if @api_client.config.debugging
         Log.debug { "Calling API: {{classname}}.{{operationId}} ..." }
       end
+
+      if @api_client.config.client_side_validation
       {{#allParams}}
-      {{#isEnum}}
-      {{#collectionFormat}}
-      allowable_values = [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
-      if @api_client.config.client_side_validation {{#required}}{{#isNullable}}&& !{{{paramName}}}.nil? {{/isNullable}}{{/required}}{{^required}}&& !{{{paramName}}}.nil? {{/required}}&& !{{{paramName}}}.all? { |item| allowable_values.includes?(item) }
-        raise ArgumentError.new("invalid value for \"{{{paramName}}}\", must include one of #{allowable_values}")
-      end
-      {{/collectionFormat}}
-      {{^collectionFormat}}
-      allowable_values = [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
-      if @api_client.config.client_side_validation {{#required}}{{#isNullable}}&& !{{{paramName}}}.nil? {{/isNullable}}{{/required}}{{^required}}&& !{{{paramName}}}.nil? {{/required}}&& !allowable_values.includes?({{{paramName}}})
-        raise ArgumentError.new("invalid value for \"{{{paramName}}}\", must be one of #{allowable_values}")
-      end
-      {{/collectionFormat}}
-      {{/isEnum}}
-      {{#hasValidation}}
-      {{#maxLength}}
-      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{^isDate}}{{^isDateTime}}{{{paramName}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format({{{paramName}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format({{{paramName}}}){{/isDateTime}}.size > {{{maxLength}}}
-        raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, the character length must be smaller than or equal to {{{maxLength}}}.")
-      end
-
-      {{/maxLength}}
-      {{#minLength}}
-      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{^isDate}}{{^isDateTime}}{{{paramName}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format({{{paramName}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format({{{paramName}}}){{/isDateTime}}.size < {{{minLength}}}
-        raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, the character length must be great than or equal to {{{minLength}}}.")
-      end
-
-      {{/minLength}}
-      {{#maximum}}
-      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{{paramName}}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
-        raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{{maximum}}}.")
-      end
-
-      {{/maximum}}
-      {{#minimum}}
-      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{{paramName}}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
-        raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, must be greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{{minimum}}}.")
-      end
-
-      {{/minimum}}
-      {{#pattern}}
-      pattern = {{{pattern}}}
-      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{{paramName}}} !~ pattern
-        raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, must conform to the pattern #{pattern}.")
-      end
-
-      {{/pattern}}
-      {{#maxItems}}
-      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{{paramName}}}.size > {{{maxItems}}}
-        raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, number of items must be less than or equal to {{{maxItems}}}.")
-      end
-
-      {{/maxItems}}
-      {{#minItems}}
-      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{{paramName}}}.size < {{{minItems}}}
-        raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, number of items must be greater than or equal to {{{minItems}}}.")
-      end
-
-      {{/minItems}}
-      {{/hasValidation}}
+        {{#required}}
+        {{^isNullable}}
+        raise ArgumentError.new("\"{{{paramName}}}\" is required and cannot be null") if {{{paramName}}}.nil?
+        {{/isNullable}}
+        {{/required}}
+        if _{{{paramName}}} = {{{paramName}}}
+          {{#isEnum}}
+          OpenApi::EnumValidator.validate("{{{paramName}}}", _{{{paramName}}}, {{#lambda.uppercase}}valid_values_for_{{{paramName}}}{{/lambda.uppercase}})
+          {{/isEnum}}
+          {{^isEnum}}
+          {{^allowableValues}}
+          {{#isModel}}
+          _{{{paramName}}}.validate if _{{{paramName}}}.is_a?(OpenApi::Validatable)
+          {{/isModel}}
+          {{#isContainer}}
+          {{#items.isModel}}
+          OpenApi::ContainerValidator.validate(container: _{{{paramName}}}) if _{{{paramName}}}.is_a?({{#isArray}}Array{{/isArray}}{{#isMap}}Hash{{/isMap}})
+          {{/items.isModel}}
+          {{/isContainer}}
+          {{#hasValidation}}
+          {{#maxLength}}
+          OpenApi::PrimitiveValidator.validate_max_length("{{{paramName}}}", {{^isDate}}{{^isDateTime}}{{{paramName}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format({{{paramName}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format({{{paramName}}}){{/isDateTime}}.size, {{{maxLength}}})
+          {{/maxLength}}
+          {{#minLength}}
+          OpenApi::PrimitiveValidator.validate_min_length("{{{paramName}}}", {{^isDate}}{{^isDateTime}}{{{paramName}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format({{{paramName}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format({{{paramName}}}){{/isDateTime}}.size, {{{minLength}}})
+          {{/minLength}}
+          {{#maximum}}
+          OpenApi::PrimitiveValidator.validate_max_number("{{{paramName}}}", _{{{paramName}}}, {{{maximum}}}{{#exclusiveMaximum}}, true{{/exclusiveMaximum}})
+          {{/maximum}}
+          {{#minimum}}
+          OpenApi::PrimitiveValidator.validate_min_number("{{{paramName}}}", _{{{paramName}}}, {{{minimum}}}{{#exclusiveMinimum}}, true{{/exclusiveMinimum}})
+          {{/minimum}}
+          {{#maxItems}}
+          OpenApi::PrimitiveValidator.validate_max_items("{{{paramName}}}", _{{{paramName}}}.size, {{{maxItems}}})
+          {{/maxItems}}
+          {{#minItems}}
+          OpenApi::PrimitiveValidator.validate_min_items("{{{paramName}}}", _{{{paramName}}}.size, {{{minItems}}})
+          {{/minItems}}
+          {{#pattern}}
+          OpenApi::PrimitiveValidator.validate_pattern("{{{paramName}}}", _{{{paramName}}}, {{#lambda.uppercase}}pattern_for_{{{paramName}}}{{/lambda.uppercase}})
+          {{/pattern}}
+          {{/hasValidation}}
+          {{/allowableValues}}
+          {{#allowableValues}}
+           _{{{paramName}}}.validate
+          {{/allowableValues}}
+          {{/isEnum}}
+        end
       {{/allParams}}
+      end
+
       # resource path
       local_var_path = "{{{path}}}"{{#pathParams}}.sub("{" + "{{baseName}}" + "}", URI.encode_path({{paramName}}.to_s){{^strictSpecBehavior}}.gsub("%2F", "/"){{/strictSpecBehavior}}){{/pathParams}}
 

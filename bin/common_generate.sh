@@ -23,6 +23,10 @@ echo "Post process code"
 ./bin/post_process
 echo "Run crystal tool format"
 crystal tool format
+echo "Post process code"
+./bin/post_process
+echo "Run crystal tool format"
+crystal tool format
 echo "Install shards"
 shards update
 echo "Run ameba"

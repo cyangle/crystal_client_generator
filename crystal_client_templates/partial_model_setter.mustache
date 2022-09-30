@@ -4,84 +4,58 @@
     def {{{name}}}=({{{name}}} : {{>partial_model_generic_property_data_type}})
       if {{{name}}}.nil?
       {{#required}}
-        {{#isNullable}}
+      {{#isNullable}}
         return @{{{name}}} = nil
-        {{/isNullable}}
-        {{^isNullable}}
+      {{/isNullable}}
+      {{^isNullable}}
         raise ArgumentError.new("\"{{{name}}}\" is required and cannot be null")
-        {{/isNullable}}
+      {{/isNullable}}
       {{/required}}
       {{^required}}
         return @{{{name}}} = nil
       {{/required}}
       end
       _{{{name}}} = {{{name}}}.not_nil!
-    {{#isEnum}}
+      {{#isEnum}}
       OpenApi::EnumValidator.validate("{{{name}}}", _{{{name}}}, {{#lambda.uppercase}}valid_values_for_{{{name}}}{{/lambda.uppercase}})
-    {{/isEnum}}
-    {{^isEnum}}
-    {{^allowableValues}}
-    {{#isModel}}
+      {{/isEnum}}
+      {{^isEnum}}
+      {{^allowableValues}}
+      {{#isModel}}
       _{{{name}}}.validate if _{{{name}}}.is_a?(OpenApi::Validatable)
-    {{/isModel}}
-    {{#isContainer}}
-    {{#items.isModel}}
-    {{#isArray}}
-      OpenApi::ArrayValidator.validate(array: _{{{name}}}) if _{{{name}}}.is_a?(Array)
-    {{/isArray}}
-    {{#isMap}}
-      OpenApi::HashValidator.validate(hash: _{{{name}}}) if _{{{name}}}.is_a?(Hash)
-    {{/isMap}}
-    {{/items.isModel}}
-    {{/isContainer}}
-    {{#hasValidation}}
+      {{/isModel}}
+      {{#isContainer}}
+      {{#items.isModel}}
+      OpenApi::ContainerValidator.validate(container: _{{{name}}}) if _{{{name}}}.is_a?({{#isArray}}Array{{/isArray}}{{#isMap}}Hash{{/isMap}})
+      {{/items.isModel}}
+      {{/isContainer}}
+      {{#hasValidation}}
       {{#maxLength}}
-      if max_length_error = OpenApi::PrimitiveValidator.max_length_error("{{{name}}}", _{{{name}}}.to_s.size, {{{maxLength}}})
-        raise ArgumentError.new(max_length_error)
-      end
-
+      OpenApi::PrimitiveValidator.validate_max_length("{{{name}}}", {{^isDate}}{{^isDateTime}}_{{{name}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format(_{{{name}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format(_{{{name}}}){{/isDateTime}}.size, {{#lambda.uppercase}}max_length_for_{{{name}}}{{/lambda.uppercase}})
       {{/maxLength}}
       {{#minLength}}
-      if min_length_error = OpenApi::PrimitiveValidator.min_length_error("{{{name}}}", _{{{name}}}.to_s.size, {{{minLength}}})
-        raise ArgumentError.new(min_length_error)
-      end
-
+      OpenApi::PrimitiveValidator.validate_min_length("{{{name}}}", {{^isDate}}{{^isDateTime}}_{{{name}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format(_{{{name}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format(_{{{name}}}){{/isDateTime}}.size, {{#lambda.uppercase}}min_length_for_{{{name}}}{{/lambda.uppercase}})
       {{/minLength}}
       {{#maximum}}
-      if max_number_error = OpenApi::PrimitiveValidator.max_number_error("{{{name}}}", _{{{name}}}, {{{maximum}}})
-        raise ArgumentError.new(max_number_error)
-      end
-
+      OpenApi::PrimitiveValidator.validate_max_number("{{{name}}}", _{{{name}}}, {{#lambda.uppercase}}max_for_{{{name}}}{{/lambda.uppercase}}{{#exclusiveMaximum}}, true{{/exclusiveMaximum}})
       {{/maximum}}
       {{#minimum}}
-      if min_number_error = OpenApi::PrimitiveValidator.min_number_error("{{{name}}}", _{{{name}}}, {{{minimum}}})
-        raise ArgumentError.new(min_number_error)
-      end
-
+      OpenApi::PrimitiveValidator.validate_min_number("{{{name}}}", _{{{name}}}, {{#lambda.uppercase}}min_for_{{{name}}}{{/lambda.uppercase}}{{#exclusiveMinimum}}, true{{/exclusiveMinimum}})
       {{/minimum}}
-      {{#pattern}}
-      if pattern_error = OpenApi::PrimitiveValidator.pattern_error("{{{name}}}", _{{{name}}}, {{#lambda.uppercase}}pattern_for_{{{name}}}{{/lambda.uppercase}})
-        raise ArgumentError.new(pattern_error)
-      end
-
-      {{/pattern}}
       {{#maxItems}}
-      if max_items_error = OpenApi::PrimitiveValidator.max_items_error("{{{name}}}", _{{{name}}}.size, {{{maxItems}}})
-        raise ArgumentError.new(max_items_error)
-      end
-
+      OpenApi::PrimitiveValidator.validate_max_items("{{{name}}}", _{{{name}}}.size, {{#lambda.uppercase}}max_items_for_{{{name}}}{{/lambda.uppercase}})
       {{/maxItems}}
       {{#minItems}}
-      if min_items_error = OpenApi::PrimitiveValidator.min_items_error("{{{name}}}", _{{{name}}}.size, {{{minItems}}})
-        raise ArgumentError.new(min_items_error)
-      end
-
+      OpenApi::PrimitiveValidator.validate_min_items("{{{name}}}", _{{{name}}}.size, {{#lambda.uppercase}}min_items_for_{{{name}}}{{/lambda.uppercase}})
       {{/minItems}}
-    {{/hasValidation}}
-    {{/allowableValues}}
-    {{#allowableValues}}
+      {{#pattern}}
+      OpenApi::PrimitiveValidator.validate_pattern("{{{name}}}", _{{{name}}}, {{#lambda.uppercase}}pattern_for_{{{name}}}{{/lambda.uppercase}})
+      {{/pattern}}
+      {{/hasValidation}}
+      {{/allowableValues}}
+      {{#allowableValues}}
       _{{{name}}}.validate
-    {{/allowableValues}}
-    {{/isEnum}}
+      {{/allowableValues}}
+      {{/isEnum}}
       @{{{name}}} = _{{{name}}}
     end

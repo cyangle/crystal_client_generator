@@ -33,13 +33,9 @@ files:
     folder: src/validators
     destinationFilename: enum_validator.cr
     templateType: SupportingFiles
-  validators/array_validator.cr:
+  validators/container_validator.cr:
     folder: src/validators
-    destinationFilename: array_validator.cr
-    templateType: SupportingFiles
-  validators/hash_validator.cr:
-    folder: src/validators
-    destinationFilename: hash_validator.cr
+    destinationFilename: container_validator.cr
     templateType: SupportingFiles
   validators/primitive_validator.cr:
     folder: src/validators

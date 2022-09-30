@@ -4,6 +4,30 @@
     {{/description}}
     @[JSON::Field(key: "{{{baseName}}}", type: {{>partial_model_generic_property_data_type}}, default: {{>partial_model_generic_property_default_value}}, required: {{#required}}true{{/required}}{{^required}}false{{/required}}, nullable: {{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{#isNullable}}{{#required}}, emit_null: true{{/required}}{{^required}}, emit_null: true, presence: true, ignore_serialize: {{{name}}}.nil? && !{{{name}}}_present?{{/required}}{{/isNullable}}{{^isNullable}}, emit_null: false{{/isNullable}}{{#isDate}}, converter: Time::ISO8601DateConverter{{/isDate}}{{#isDateTime}}, converter: Time::RFC3339Converter{{/isDateTime}})]
     {{#anyOf}}{{#-first}}property{{/-first}}{{/anyOf}}{{^anyOf}}getter{{/anyOf}} {{{name}}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}
+    {{#maxLength}}
+    {{#lambda.uppercase}}max_length_for_{{{name}}}{{/lambda.uppercase}} = {{{maxLength}}}
+    {{/maxLength}}
+    {{#minLength}}
+    {{#lambda.uppercase}}min_length_for_{{{name}}}{{/lambda.uppercase}} = {{{minLength}}}
+    {{/minLength}}
+    {{#maximum}}
+    {{#lambda.uppercase}}max_for_{{{name}}}{{/lambda.uppercase}} = {{{dataType}}}.new("{{{maximum}}}")
+    {{/maximum}}
+    {{#minimum}}
+    {{#lambda.uppercase}}min_for_{{{name}}}{{/lambda.uppercase}} = {{{dataType}}}.new("{{{minimum}}}")
+    {{/minimum}}
+    {{#maxItems}}
+    {{#lambda.uppercase}}max_items_for_{{{name}}}{{/lambda.uppercase}} = {{{maxItems}}}
+    {{/maxItems}}
+    {{#minItems}}
+    {{#lambda.uppercase}}max_items_for_{{{name}}}{{/lambda.uppercase}} = {{{minItems}}}
+    {{/minItems}}
+    {{#pattern}}
+    {{#lambda.uppercase}}pattern_for_{{{name}}}{{/lambda.uppercase}} = {{{pattern}}}
+    {{/pattern}}
+    {{#isEnum}}
+    {{#lambda.uppercase}}valid_values_for_{{{name}}}{{/lambda.uppercase}} = StaticArray[{{#allowableValues}}{{#enumVars}}{{#isContainer}}{{^items.isString}}{{{items.dataType}}}.new({{/items.isString}}{{/isContainer}}{{^isContainer}}{{^isString}}{{{dataType}}}.new({{/isString}}{{/isContainer}}{{{value}}}{{#isContainer}}{{^items.isString}}){{/items.isString}}{{/isContainer}}{{^isContainer}}{{^isString}}){{/isString}}{{/isContainer}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
+    {{/isEnum}}
 
     {{#isNullable}}
     {{^required}}
@@ -11,10 +35,3 @@
     property? {{{name}}}_present : Bool = false
     {{/required}}
     {{/isNullable}}
-    {{#pattern}}
-
-    {{#lambda.uppercase}}pattern_for_{{{name}}}{{/lambda.uppercase}} = {{{pattern}}}
-    {{/pattern}}
-    {{#isEnum}}
-    {{#lambda.uppercase}}valid_values_for_{{{name}}}{{/lambda.uppercase}} = StaticArray[{{#allowableValues}}{{#enumVars}}{{#isContainer}}{{^items.isString}}{{{items.dataType}}}.new({{/items.isString}}{{/isContainer}}{{^isContainer}}{{^isString}}{{{dataType}}}.new({{/isString}}{{/isContainer}}{{{value}}}{{#isContainer}}{{^items.isString}}){{/items.isString}}{{/isContainer}}{{^isContainer}}{{^isString}}){{/isString}}{{/isContainer}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
-    {{/isEnum}}
