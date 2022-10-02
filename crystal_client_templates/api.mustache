@@ -79,12 +79,30 @@ module {{moduleName}}
     end
 
     {{#allParams}}
-    {{#isEnum}}
-    {{#lambda.uppercase}}valid_values_for_{{{paramName}}}{{/lambda.uppercase}} = StaticArray[{{#allowableValues}}{{#enumVars}}{{#isContainer}}{{^items.isString}}{{{items.dataType}}}.new({{/items.isString}}{{/isContainer}}{{^isContainer}}{{^isString}}{{{dataType}}}.new({{/isString}}{{/isContainer}}{{{value}}}{{#isContainer}}{{^items.isString}}){{/items.isString}}{{/isContainer}}{{^isContainer}}{{^isString}}){{/isString}}{{/isContainer}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
-    {{/isEnum}}
+    {{#maxLength}}
+    {{#lambda.uppercase}}{{operationId}}_max_length_for_{{{paramName}}}{{/lambda.uppercase}} = {{{maxLength}}}
+    {{/maxLength}}
+    {{#minLength}}
+    {{#lambda.uppercase}}{{operationId}}_min_length_for_{{{paramName}}}{{/lambda.uppercase}} = {{{minLength}}}
+    {{/minLength}}
+    {{#maximum}}
+    {{#lambda.uppercase}}{{operationId}}_max_for_{{{paramName}}}{{/lambda.uppercase}} = {{{dataType}}}.new("{{{maximum}}}")
+    {{/maximum}}
+    {{#minimum}}
+    {{#lambda.uppercase}}{{operationId}}_min_for_{{{paramName}}}{{/lambda.uppercase}} = {{{dataType}}}.new("{{{minimum}}}")
+    {{/minimum}}
+    {{#maxItems}}
+    {{#lambda.uppercase}}{{operationId}}_max_items_for_{{{paramName}}}{{/lambda.uppercase}} = {{{maxItems}}}
+    {{/maxItems}}
+    {{#minItems}}
+    {{#lambda.uppercase}}{{operationId}}_min_items_for_{{{paramName}}}{{/lambda.uppercase}} = {{{minItems}}}
+    {{/minItems}}
     {{#pattern}}
-    {{#lambda.uppercase}}pattern_for_{{{paramName}}}{{/lambda.uppercase}} = {{{pattern}}}
+    {{#lambda.uppercase}}{{operationId}}_pattern_for_{{{paramName}}}{{/lambda.uppercase}} = {{{pattern}}}
     {{/pattern}}
+    {{#isEnum}}
+    {{#lambda.uppercase}}{{operationId}}_valid_values_for_{{{paramName}}}{{/lambda.uppercase}} = StaticArray[{{#allowableValues}}{{#enumVars}}{{#isContainer}}{{^items.isString}}{{{items.dataType}}}.new({{/items.isString}}{{/isContainer}}{{^isContainer}}{{^isString}}{{{dataType}}}.new({{/isString}}{{/isContainer}}{{{value}}}{{#isContainer}}{{^items.isString}}){{/items.isString}}{{/isContainer}}{{^isContainer}}{{^isString}}){{/isString}}{{/isContainer}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
+    {{/isEnum}}
     {{/allParams}}
     # @return Crest::Request
     def build_api_request_for_{{operationId}}({{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/optionalParams}}) : Crest::Request
@@ -101,7 +119,7 @@ module {{moduleName}}
         {{/required}}
         if _{{{paramName}}} = {{{paramName}}}
           {{#isEnum}}
-          OpenApi::EnumValidator.validate("{{{paramName}}}", _{{{paramName}}}, {{#lambda.uppercase}}valid_values_for_{{{paramName}}}{{/lambda.uppercase}})
+          OpenApi::EnumValidator.validate("{{{paramName}}}", _{{{paramName}}}, {{#lambda.uppercase}}{{operationId}}_valid_values_for_{{{paramName}}}{{/lambda.uppercase}})
           {{/isEnum}}
           {{^isEnum}}
           {{^allowableValues}}
@@ -115,25 +133,25 @@ module {{moduleName}}
           {{/isContainer}}
           {{#hasValidation}}
           {{#maxLength}}
-          OpenApi::PrimitiveValidator.validate_max_length("{{{paramName}}}", {{^isDate}}{{^isDateTime}}{{{paramName}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format({{{paramName}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format({{{paramName}}}){{/isDateTime}}.size, {{{maxLength}}})
+          OpenApi::PrimitiveValidator.validate_max_length("{{{paramName}}}", {{^isDate}}{{^isDateTime}}{{{paramName}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format({{{paramName}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format({{{paramName}}}){{/isDateTime}}.size, {{#lambda.uppercase}}{{operationId}}_max_length_for_{{{paramName}}}{{/lambda.uppercase}})
           {{/maxLength}}
           {{#minLength}}
-          OpenApi::PrimitiveValidator.validate_min_length("{{{paramName}}}", {{^isDate}}{{^isDateTime}}{{{paramName}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format({{{paramName}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format({{{paramName}}}){{/isDateTime}}.size, {{{minLength}}})
+          OpenApi::PrimitiveValidator.validate_min_length("{{{paramName}}}", {{^isDate}}{{^isDateTime}}{{{paramName}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format({{{paramName}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format({{{paramName}}}){{/isDateTime}}.size, {{#lambda.uppercase}}{{operationId}}_min_length_for_{{{paramName}}}{{/lambda.uppercase}})
           {{/minLength}}
           {{#maximum}}
-          OpenApi::PrimitiveValidator.validate_max_number("{{{paramName}}}", _{{{paramName}}}, {{{maximum}}}{{#exclusiveMaximum}}, true{{/exclusiveMaximum}})
+          OpenApi::PrimitiveValidator.validate_max_number("{{{paramName}}}", _{{{paramName}}}, {{#lambda.uppercase}}{{operationId}}_max_for_{{{paramName}}}{{/lambda.uppercase}}{{#exclusiveMaximum}}, true{{/exclusiveMaximum}})
           {{/maximum}}
           {{#minimum}}
-          OpenApi::PrimitiveValidator.validate_min_number("{{{paramName}}}", _{{{paramName}}}, {{{minimum}}}{{#exclusiveMinimum}}, true{{/exclusiveMinimum}})
+          OpenApi::PrimitiveValidator.validate_min_number("{{{paramName}}}", _{{{paramName}}}, {{#lambda.uppercase}}{{operationId}}_min_for_{{{paramName}}}{{/lambda.uppercase}}{{#exclusiveMinimum}}, true{{/exclusiveMinimum}})
           {{/minimum}}
           {{#maxItems}}
-          OpenApi::PrimitiveValidator.validate_max_items("{{{paramName}}}", _{{{paramName}}}.size, {{{maxItems}}})
+          OpenApi::PrimitiveValidator.validate_max_items("{{{paramName}}}", _{{{paramName}}}.size, {{#lambda.uppercase}}{{operationId}}_max_items_for_{{{paramName}}}{{/lambda.uppercase}})
           {{/maxItems}}
           {{#minItems}}
-          OpenApi::PrimitiveValidator.validate_min_items("{{{paramName}}}", _{{{paramName}}}.size, {{{minItems}}})
+          OpenApi::PrimitiveValidator.validate_min_items("{{{paramName}}}", _{{{paramName}}}.size, {{#lambda.uppercase}}{{operationId}}_min_items_for_{{{paramName}}}{{/lambda.uppercase}})
           {{/minItems}}
           {{#pattern}}
-          OpenApi::PrimitiveValidator.validate_pattern("{{{paramName}}}", _{{{paramName}}}, {{#lambda.uppercase}}pattern_for_{{{paramName}}}{{/lambda.uppercase}})
+          OpenApi::PrimitiveValidator.validate_pattern("{{{paramName}}}", _{{{paramName}}}, {{#lambda.uppercase}}{{operationId}}_pattern_for_{{{paramName}}}{{/lambda.uppercase}})
           {{/pattern}}
           {{/hasValidation}}
           {{/allowableValues}}

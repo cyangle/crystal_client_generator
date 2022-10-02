@@ -2,10 +2,6 @@ module OpenApi
   class EnumValidator
     ERROR_MESSAGE = "invalid value for \"%s\", must be one of %s."
 
-    def self.error_message(name : String, allowable_values : StaticArray(T, N)) : String forall T
-      ERROR_MESSAGE % [name, allowable_values.to_s]
-    end
-
     def self.valid?(value : T?, allowable_values : StaticArray(T, N), allow_nil : Bool = true) : Bool forall T
       return true if allow_nil && value.nil?
 

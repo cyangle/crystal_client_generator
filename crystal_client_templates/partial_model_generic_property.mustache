@@ -20,12 +20,13 @@
     {{#lambda.uppercase}}max_items_for_{{{name}}}{{/lambda.uppercase}} = {{{maxItems}}}
     {{/maxItems}}
     {{#minItems}}
-    {{#lambda.uppercase}}max_items_for_{{{name}}}{{/lambda.uppercase}} = {{{minItems}}}
+    {{#lambda.uppercase}}min_items_for_{{{name}}}{{/lambda.uppercase}} = {{{minItems}}}
     {{/minItems}}
     {{#pattern}}
     {{#lambda.uppercase}}pattern_for_{{{name}}}{{/lambda.uppercase}} = {{{pattern}}}
     {{/pattern}}
     {{#isEnum}}
+    {{#lambda.uppercase}}error_message_for_{{{name}}}{{/lambda.uppercase}} = "invalid value for \"{{{name}}}\", must be one of {{#allowableValues}}{{{values}}}{{/allowableValues}}."
     {{#lambda.uppercase}}valid_values_for_{{{name}}}{{/lambda.uppercase}} = StaticArray[{{#allowableValues}}{{#enumVars}}{{#isContainer}}{{^items.isString}}{{{items.dataType}}}.new({{/items.isString}}{{/isContainer}}{{^isContainer}}{{^isString}}{{{dataType}}}.new({{/isString}}{{/isContainer}}{{{value}}}{{#isContainer}}{{^items.isString}}){{/items.isString}}{{/isContainer}}{{^isContainer}}{{^isString}}){{/isString}}{{/isContainer}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
     {{/isEnum}}
 
