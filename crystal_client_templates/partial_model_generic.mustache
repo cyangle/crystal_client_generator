@@ -8,18 +8,23 @@
     include OpenApi::Json
 
     {{#hasRequired}}
-    # Required properties
+    # Required Properties
     {{/hasRequired}}
     {{#requiredVars}}
 {{>partial_model_generic_property}}
     {{/requiredVars}}
+    {{#hasRequired}}
+    # End of Required Properties
+    {{/hasRequired}}
     {{#hasOptional}}
 
-    # Optional properties
+    # Optional Properties
     {{/hasOptional}}
     {{#optionalVars}}
 {{>partial_model_generic_property}}
     {{/optionalVars}}
+    {{#hasOptional}}
+    {{/hasOptional}}
     {{#anyOf}}
     {{#-first}}
     # List of class defined in anyOf (OpenAPI v3)
