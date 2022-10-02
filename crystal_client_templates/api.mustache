@@ -7,6 +7,8 @@ module {{moduleName}}
   class {{classname}}
     property api_client : ApiClient
 
+    delegate client_side_validation, debugging, to: @api_client.config
+
     def initialize(api_client = ApiClient.default)
       @api_client = api_client
     end
@@ -52,7 +54,7 @@ module {{moduleName}}
 
       data, status_code, headers = @api_client.execute_api_request(request)
 
-      if @api_client.config.debugging
+      if debugging
         Log.debug { "API called: {{classname}}#{{operationId}}\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}" }
       end
 
@@ -106,11 +108,11 @@ module {{moduleName}}
     {{/allParams}}
     # @return Crest::Request
     def build_api_request_for_{{operationId}}({{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/optionalParams}}) : Crest::Request
-      if @api_client.config.debugging
+      if debugging
         Log.debug { "Calling API: {{classname}}.{{operationId}} ..." }
       end
 
-      if @api_client.config.client_side_validation
+      if client_side_validation
       {{#allParams}}
         {{#required}}
         {{^isNullable}}
