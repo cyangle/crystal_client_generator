@@ -120,7 +120,7 @@ module {{moduleName}}
         raise ArgumentError.new("\"{{{paramName}}}\" is required and cannot be null") if {{{paramName}}}.nil?
         {{/isNullable}}
         {{/required}}
-        if _{{{paramName}}} = {{{paramName}}}
+        unless (_{{{paramName}}} = {{{paramName}}}).nil?
           {{#isEnum}}
           OpenApi::EnumValidator.validate("{{{paramName}}}", _{{{paramName}}}, {{#lambda.uppercase}}{{operationId}}_valid_values_for_{{{paramName}}}{{/lambda.uppercase}})
           {{/isEnum}}

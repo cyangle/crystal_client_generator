@@ -4,7 +4,7 @@
       return false if @{{{name}}}.nil?
       {{/isNullable}}
       {{/required}}
-      if _{{{name}}} = @{{{name}}}
+      unless (_{{{name}}} = @{{{name}}}).nil?
       {{#isEnum}}
         return false unless OpenApi::EnumValidator.valid?(_{{{name}}}, {{#lambda.uppercase}}valid_values_for_{{{name}}}{{/lambda.uppercase}})
       {{/isEnum}}
@@ -38,7 +38,7 @@
         return false if _{{{name}}}.size < {{#lambda.uppercase}}min_items_for_{{{name}}}{{/lambda.uppercase}}
       {{/minItems}}
       {{#pattern}}
-        return false if _{{{name}}} !~ {{#lambda.uppercase}}pattern_for_{{{name}}}{{/lambda.uppercase}}
+        return false if !{{#lambda.uppercase}}pattern_for_{{{name}}}{{/lambda.uppercase}}.matches?(_{{{name}}})
       {{/pattern}}
       {{/hasValidation}}
       {{/allowableValues}}

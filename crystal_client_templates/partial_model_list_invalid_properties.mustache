@@ -5,7 +5,7 @@
       {{/isNullable}}
       {{/required}}
 
-      if _{{{name}}} = @{{{name}}}
+      unless (_{{{name}}} = @{{{name}}}).nil?
       {{#isEnum}}
         invalid_properties.push({{#lambda.uppercase}}error_message_for_{{{name}}}{{/lambda.uppercase}}) unless OpenApi::EnumValidator.valid?(_{{{name}}}, {{#lambda.uppercase}}valid_values_for_{{{name}}}{{/lambda.uppercase}})
       {{/isEnum}}
