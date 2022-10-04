@@ -113,6 +113,13 @@ module {{moduleName}}
       (json_content_type || content_types.first).not_nil!
     end
 
+    # Build HTTP header value for array
+    # HTTP header values are always comma separated
+    # @param [Array] params
+    def build_header_param(params : Array) : String
+      params.map(&.to_s).join(",")
+    end
+
     # Build parameter value according to the given collection format.
     # @param [String] collection_format one of csv, ssv, tsv, pipes and multi
     def build_collection_param(params : Array, collection_format : String) : String | Array(String)

@@ -186,7 +186,7 @@ module {{moduleName}}
       header_params["Content-Type"] = @api_client.select_header_content_type([{{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}])
       {{/hasConsumes}}
       {{#headerParams}}
-      header_params["{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, "{{{collectionFormat}}}"){{/collectionFormat}}{{^collectionFormat}}{{^isDate}}{{^isDateTime}}{{{paramName}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format({{{paramName}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format({{{paramName}}}){{/isDateTime}}{{/collectionFormat}} if !{{{paramName}}}.nil?{{#collectionFormat}} && !{{{paramName}}}.empty?{{/collectionFormat}}
+      header_params["{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_header_param({{{paramName}}}){{/collectionFormat}}{{^collectionFormat}}{{^isDate}}{{^isDateTime}}{{{paramName}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format({{{paramName}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format({{{paramName}}}){{/isDateTime}}{{/collectionFormat}} if !{{{paramName}}}.nil?{{#collectionFormat}} && !{{{paramName}}}.empty?{{/collectionFormat}}
       {{/headerParams}}
 
       # form parameters
