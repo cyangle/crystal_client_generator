@@ -104,7 +104,7 @@ module {{moduleName}}
     {{#lambda.uppercase}}{{operationId}}_pattern_for_{{{paramName}}}{{/lambda.uppercase}} = {{{pattern}}}
     {{/pattern}}
     {{#isEnum}}
-    {{#lambda.uppercase}}{{operationId}}_valid_values_for_{{{paramName}}}{{/lambda.uppercase}} = StaticArray[{{#allowableValues}}{{#enumVars}}{{#isContainer}}{{^items.isString}}{{{items.dataType}}}.new({{/items.isString}}{{/isContainer}}{{^isContainer}}{{^isString}}{{{dataType}}}.new({{/isString}}{{/isContainer}}{{{value}}}{{#isContainer}}{{^items.isString}}){{/items.isString}}{{/isContainer}}{{^isContainer}}{{^isString}}){{/isString}}{{/isContainer}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
+    {{#lambda.uppercase}}{{operationId}}_valid_values_for_{{{paramName}}}{{/lambda.uppercase}} = {{#allowableValues}}{{#enumVars}}{{#-first}}{{#isContainer}}{{{items.dataType}}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}{{/-first}}{{/enumVars}}{{/allowableValues}}.static_array({{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}})
     {{/isEnum}}
     {{/allParams}}
     # @return Crest::Request

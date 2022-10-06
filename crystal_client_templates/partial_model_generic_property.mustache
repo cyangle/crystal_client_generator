@@ -27,7 +27,7 @@
     {{/pattern}}
     {{#isEnum}}
     {{#lambda.uppercase}}error_message_for_{{{name}}}{{/lambda.uppercase}} = "invalid value for \"{{{name}}}\", must be one of {{#allowableValues}}{{{values}}}{{/allowableValues}}."
-    {{#lambda.uppercase}}valid_values_for_{{{name}}}{{/lambda.uppercase}} = StaticArray[{{#allowableValues}}{{#enumVars}}{{#isContainer}}{{^items.isString}}{{{items.dataType}}}.new({{/items.isString}}{{/isContainer}}{{^isContainer}}{{^isString}}{{{dataType}}}.new({{/isString}}{{/isContainer}}{{{value}}}{{#isContainer}}{{^items.isString}}){{/items.isString}}{{/isContainer}}{{^isContainer}}{{^isString}}){{/isString}}{{/isContainer}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]
+    {{#lambda.uppercase}}valid_values_for_{{{name}}}{{/lambda.uppercase}} = {{#allowableValues}}{{#enumVars}}{{#-first}}{{#isContainer}}{{{items.dataType}}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}{{/-first}}{{/enumVars}}{{/allowableValues}}.static_array({{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}})
     {{/isEnum}}
 
     {{#isNullable}}
