@@ -24,11 +24,11 @@ echo "Running in folder: ${PWD}"
 echo "Post process code"
 ./bin/post_process
 echo "Run crystal tool format"
-crystal tool format
+crystal tool format --exclude ./local
 echo "Post process code"
 ./bin/post_process
 echo "Run crystal tool format"
-crystal tool format
+crystal tool format --exclude ./local
 echo "Install shards"
 shards update
 echo "Run ameba"

@@ -36,10 +36,10 @@ IGNORED_PROPERTY_LIST = [
 
 TAG_REGEX = /^\/v1\/([^\/]+)/.freeze
 
-spec_path = File.join(__dir__, ARGV[0] || "stripe_v196_spec3.json")
-out_file_path = File.join(__dir__, ARGV[1] || "stripe_v196_spec3_fixed.json")
-new_schemas_path = File.join(__dir__, ARGV[1] || "stripe_v196_spec3_new_schemas.json")
-grouped_schemas_path = File.join(__dir__, ARGV[1] || "stripe_v196_spec3_grouped_schemas.json")
+spec_path = File.join(__dir__, ARGV[0] || "stripe_api_spec.json")
+out_file_path = File.join(__dir__, ARGV[1] || "stripe_api_spec_fixed.json")
+new_schemas_path = File.join(__dir__, ARGV[1] || "stripe_api_spec_new_schemas.json")
+grouped_schemas_path = File.join(__dir__, ARGV[1] || "stripe_api_spec_grouped_schemas.json")
 api_endpoints_path = File.join(__dir__, ARGV[1] || "stripe_api_endpoints.txt")
 
 api_endpoints = File.read(api_endpoints_path).split("\n")
