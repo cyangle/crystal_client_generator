@@ -1,14 +1,14 @@
 module OpenApi
   class PrimitiveValidator
-    MAX_LENGTH_ERROR = "invalid value for \"%s\", the character length must be smaller than or equal to %s."
-    MIN_LENGTH_ERROR = "invalid value for \"%s\", the character length must be greater than or equal to %s."
-    MIN_NUMBER_ERROR = "invalid value for \"%s\", must be greater than or equal to %s."
-    MAX_NUMBER_ERROR = "invalid value for \"%s\", must be smaller than or equal to %s."
+    MAX_LENGTH_ERROR           = "invalid value for \"%s\", the character length must be smaller than or equal to %s."
+    MIN_LENGTH_ERROR           = "invalid value for \"%s\", the character length must be greater than or equal to %s."
+    MIN_NUMBER_ERROR           = "invalid value for \"%s\", must be greater than or equal to %s."
+    MAX_NUMBER_ERROR           = "invalid value for \"%s\", must be smaller than or equal to %s."
     EXCLUSIVE_MIN_NUMBER_ERROR = "invalid value for \"%s\", the character length must be greater than %s."
     EXCLUSIVE_MAX_NUMBER_ERROR = "invalid value for \"%s\", the character length must be smaller than %s."
-    MIN_ITEMS_ERROR = "invalid value for \"%s\", number of items must be greater than or equal to %s."
-    MAX_ITEMS_ERROR = "invalid value for \"%s\", number of items must be smaller than or equal to %s."
-    PATTERN_ERROR = "invalid value for \"%s\", must conform to the pattern %s."
+    MIN_ITEMS_ERROR            = "invalid value for \"%s\", number of items must be greater than or equal to %s."
+    MAX_ITEMS_ERROR            = "invalid value for \"%s\", number of items must be smaller than or equal to %s."
+    PATTERN_ERROR              = "invalid value for \"%s\", must conform to the pattern %s."
 
     def self.min_length_error(name : String, length : Int, min : Int) : String?
       return unless length < min

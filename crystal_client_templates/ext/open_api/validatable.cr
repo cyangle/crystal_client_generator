@@ -8,7 +8,7 @@ module OpenApi
     end
 
     def list_invalid_properties_for(key : String) : Array(String)
-      list_invalid_properties.map {|msg| "#{key}: #{msg}"}
+      list_invalid_properties.map { |msg| "#{key}: #{msg}" }
     end
   end
 end
