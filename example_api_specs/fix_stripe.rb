@@ -4,6 +4,7 @@
 require "json"
 require "pry"
 require "active_support/all"
+require "deepsort"
 
 MISSING_SCHEMAS = {}.freeze
 
@@ -28,6 +29,10 @@ DEFAULT_PROPERTY_NAMES = %w[
   sip.sip_domain.sip_auth.sip_auth_registrations
   usage
 ].freeze
+
+IGNORED_PROPERTY_LIST = [
+  ["data", "has_more", "object", "url"].to_set
+]
 
 spec_path = File.join(__dir__, ARGV[0] || "stripe_v196_spec3.json")
 out_file_path = File.join(__dir__, ARGV[1] || "stripe_v196_spec3_fixed.json")
@@ -72,6 +77,11 @@ def fill_schemas(paths, schemas, strict=false)
   end
 end
 
+spec["components"]["schemas"].each do |key, value|
+  extract_schema(value["properties"], loose_global_schemas)
+  extract_schema(value["properties"], strict_global_schemas, true)
+end
+
 fill_schemas(paths, loose_global_schemas)
 fill_schemas(paths, strict_global_schemas, true)
 
@@ -79,7 +89,7 @@ def group_schema(schemas)
   schemas
     .map {|schema| schema.delete("description"); schema}
     .uniq
-    .group_by {|schema| schema["title"]}
+    .group_by {|schema| schema["title"].underscore }
 end
 
 loose_grouped_schemas = group_schema(loose_global_schemas)
@@ -112,23 +122,45 @@ new_schemas.delete("param")
 
 puts new_schemas.keys.size
 
-spec_schemas = spec["components"]["schemas"].deep_merge!(new_schemas)
+spec_schemas = new_schemas.merge(spec["components"]["schemas"])
 
-schema_keys = spec_schemas.keys
+schema_dict = spec_schemas.each_with_object({}) do |(key, schema), obj|
+  properties = []
+  properties = schema["properties"].keys if schema["properties"] && schema["properties"].is_a?(Hash)
+  obj[key] = properties
+end
 
-def update_schema_with_ref(schema, keys)
+def find_schema_name(schema, schema_dict)
+  return unless schema.is_a?(Hash)
+  title = schema["title"].to_s.underscore
+  schema_name = schema_dict.find do |key, value|
+    key == title
+  end&.first
+
+  property_set = (schema["properties"] || []).to_set
+  return schema_name if IGNORED_PROPERTY_LIST.any? { |ipl| ipl == property_set }
+  return schema_name unless schema_name.nil? && schema["type"] == "object" && schema["properties"] && schema["properties"].keys.size > 1
+
+  property_names = schema["properties"].keys
+  schema_name ||= schema_dict.find do |key, value|
+    value == property_names
+  end&.first
+
+  schema_name
+end
+
+def update_schema_with_ref(schema, schema_dict)
   if schema.is_a?(Array)
     schema.each do |value|
-      update_schema_with_ref(value, keys)
+      update_schema_with_ref(value, schema_dict)
     end
   elsif schema.is_a?(Hash)
-    if schema.is_a?(Hash) && schema["title"].is_a?(String) && keys.include?(schema["title"])
-      title = schema["title"].dup
+    if schema_name = find_schema_name(schema, schema_dict)
       schema.clear
-      schema["$ref"] = "#/components/schemas/#{title}"
-    elsif schema.is_a?(Hash)
+      schema["$ref"] = "#/components/schemas/#{schema_name}"
+    else
       schema.each do |_key, value|
-        update_schema_with_ref(value, keys)
+        update_schema_with_ref(value, schema_dict)
       end
     end
   end
@@ -136,17 +168,22 @@ end
 
 spec_schemas.each do |key, schema|
   schema.each do |_key, value|
-    update_schema_with_ref(value, schema_keys)
+    update_schema_with_ref(value, schema_dict)
   end
 end
 
-update_schema_with_ref(paths, schema_keys)
+update_schema_with_ref(paths, schema_dict)
 
 spec["components"]["schemas"] = spec_schemas
+spec["paths"].each do |path, value|
+  next unless value.has_key?("get")
+  value["get"].delete("requestBody") if value["get"] && value["get"].is_a?(Hash) && value.dig("get", "requestBody", "content", "application/x-www-form-urlencoded", "schema", "properties").empty?
+  value["delete"].delete("requestBody") if value["delete"] && value["delete"].is_a?(Hash) && value.dig("delete", "requestBody", "content", "application/x-www-form-urlencoded", "schema", "properties").empty?
+end
 
-File.write(grouped_schemas_path, JSON.pretty_generate(uniq_grouped_schemas))
-File.write(new_schemas_path, JSON.pretty_generate(new_schemas))
+File.write(grouped_schemas_path, JSON.pretty_generate(uniq_grouped_schemas.deep_sort))
+File.write(new_schemas_path, JSON.pretty_generate(new_schemas.deep_sort))
 
 spec_str = JSON.pretty_generate(spec)
 
-File.write(out_file_path, JSON.pretty_generate(JSON.parse(spec_str)))
+File.write(out_file_path, JSON.pretty_generate(JSON.parse(spec_str).deep_sort))
