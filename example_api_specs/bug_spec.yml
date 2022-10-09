@@ -1,0 +1,86 @@
+openapi: 3.0.0
+info:
+  description: >-
+    This spec is mainly for testing Petstore server and contains fake endpoints,
+    models. Please do not use this for any other purpose. Special characters: "
+    \
+  version: 1.0.0
+  title: OpenAPI Petstore
+  license:
+    name: Apache-2.0
+    url: "https://www.apache.org/licenses/LICENSE-2.0.html"
+tags:
+  - name: fake
+paths:
+  /fake:
+    get:
+      tags:
+        - fake
+      operationId: fake
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          style: form
+        - name: scope
+          in: query
+          required: true
+          style: deepObject
+          explode: true
+          schema:
+            $ref: "#/components/schemas/scope_param"
+      responses:
+        "200":
+          description: The instance started successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: string
+  /fake2:
+    get:
+      tags:
+        - fake
+      operationId: fake2
+      parameters:
+        - name: scope
+          in: query
+          required: true
+          style: deepObject
+          explode: true
+          schema:
+            $ref: "#/components/schemas/scope_param"
+      responses:
+        "200":
+          description: The instance started successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: string
+servers:
+  - url: https://localhost:8080/{version}
+    description: The local server
+    variables:
+      version:
+        enum:
+          - "v1"
+          - "v2"
+        default: "v2"
+  - url: https://127.0.0.1/no_variable
+    description: The local server without variables
+components:
+  schemas:
+    scope_param:
+      type: object
+      title: scope_param
+      properties:
+        type:
+          enum: ["account", "user"]
+          type: "string"
+        user:
+          maxLength: 5000,
+          type: "string"
+      required: ["type"]
