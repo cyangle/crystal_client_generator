@@ -53167,7 +53167,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "account_links"
+        ]
       }
     },
     "/v1/accounts": {
@@ -53259,7 +53262,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "accounts"
+        ]
       },
       "post": {
         "description": "<p>With <a href=\"/docs/connect\">Connect</a>, you can create Stripe accounts for your users.\nTo do this, you’ll first need to <a href=\"https://dashboard.stripe.com/account/applications/settings\">register your platform</a>.</p>",
@@ -53442,7 +53448,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "accounts"
+        ]
       }
     },
     "/v1/accounts/{account}": {
@@ -53482,7 +53491,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "accounts"
+        ]
       },
       "get": {
         "description": "<p>Retrieves the details of an account.</p>",
@@ -53535,7 +53547,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "accounts"
+        ]
       },
       "post": {
         "description": "<p>Updates a <a href=\"/docs/connect/accounts\">connected account</a> by setting the values of the parameters passed. Any parameters not provided are left unchanged. Most parameters can be changed only for Custom accounts. (These are marked <strong>Custom Only</strong> below.) Parameters marked <strong>Custom and Express</strong> are not supported for Standard accounts.</p>\n\n<p>To update your own account, use the <a href=\"https://dashboard.stripe.com/account\">Dashboard</a>. Refer to our <a href=\"/docs/connect/updating-accounts\">Connect</a> documentation to learn more about updating accounts.</p>",
@@ -53700,7 +53715,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "accounts"
+        ]
       }
     },
     "/v1/accounts/{account}/capabilities": {
@@ -53755,7 +53773,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "accounts"
+        ]
       }
     },
     "/v1/accounts/{account}/capabilities/{capability}": {
@@ -53819,7 +53840,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "accounts"
+        ]
       },
       "post": {
         "description": "<p>Updates an existing Account Capability.</p>",
@@ -53897,7 +53921,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "accounts"
+        ]
       }
     },
     "/v1/accounts/{account}/external_accounts": {
@@ -53982,7 +54009,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "accounts"
+        ]
       },
       "post": {
         "description": "<p>Create an external account for a given account.</p>",
@@ -54084,7 +54114,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "accounts"
+        ]
       }
     },
     "/v1/accounts/{account}/external_accounts/{id}": {
@@ -54133,7 +54166,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "accounts"
+        ]
       },
       "get": {
         "description": "<p>Retrieve a specified external account for a given account.</p>",
@@ -54195,7 +54231,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "accounts"
+        ]
       },
       "post": {
         "description": "<p>Updates the metadata, account holder name, account holder type of a bank account belonging to a <a href=\"/docs/connect/custom-accounts\">Custom account</a>, and optionally sets it as the default for its currency. Other bank account details are not editable by design.</p>\n\n<p>You can re-enable a disabled bank account by performing an update call without providing any arguments or changes.</p>",
@@ -54365,7 +54404,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "accounts"
+        ]
       }
     },
     "/v1/accounts/{account}/login_links": {
@@ -54432,7 +54474,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "accounts"
+        ]
       }
     },
     "/v1/accounts/{account}/persons": {
@@ -54530,7 +54575,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "accounts"
+        ]
       },
       "post": {
         "description": "<p>Creates a new person.</p>",
@@ -54781,7 +54829,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "accounts"
+        ]
       }
     },
     "/v1/accounts/{account}/persons/{person}": {
@@ -54831,7 +54882,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "accounts"
+        ]
       },
       "get": {
         "description": "<p>Retrieves an existing person.</p>",
@@ -54894,7 +54948,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "accounts"
+        ]
       },
       "post": {
         "description": "<p>Updates an existing person.</p>",
@@ -55155,7 +55212,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "accounts"
+        ]
       }
     },
     "/v1/accounts/{account}/reject": {
@@ -55230,7 +55290,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "accounts"
+        ]
       }
     },
     "/v1/application_fees": {
@@ -55335,7 +55398,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "application_fees"
+        ]
       }
     },
     "/v1/application_fees/{fee}/refunds/{id}": {
@@ -55400,7 +55466,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "application_fees"
+        ]
       },
       "post": {
         "description": "<p>Updates the specified application fee refund by setting the values of the parameters passed. Any parameters not provided will be left unchanged.</p>\n\n<p>This request only accepts metadata as an argument.</p>",
@@ -55496,7 +55565,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "application_fees"
+        ]
       }
     },
     "/v1/application_fees/{id}": {
@@ -55551,7 +55623,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "application_fees"
+        ]
       }
     },
     "/v1/application_fees/{id}/refund": {
@@ -55625,7 +55700,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "application_fees"
+        ]
       }
     },
     "/v1/application_fees/{id}/refunds": {
@@ -55712,7 +55790,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "application_fees"
+        ]
       },
       "post": {
         "description": "<p>Refunds an application fee that has previously been collected but not yet refunded.\nFunds will be refunded to the Stripe account from which the fee was originally collected.</p>\n\n<p>You can optionally refund only part of an application fee.\nYou can do so multiple times, until the entire fee has been refunded.</p>\n\n<p>Once entirely refunded, an application fee can’t be refunded again.\nThis method will raise an error when called on an already-refunded application fee,\nor when trying to refund more money than is left on an application fee.</p>",
@@ -55792,7 +55873,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "application_fees"
+        ]
       }
     },
     "/v1/apps/secrets": {
@@ -55880,7 +55964,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "apps"
+        ]
       },
       "post": {
         "description": "<p>Create or replace a secret in the secret store.</p>",
@@ -55960,7 +56047,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "apps"
+        ]
       }
     },
     "/v1/apps/secrets/delete": {
@@ -56031,7 +56121,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "apps"
+        ]
       }
     },
     "/v1/apps/secrets/find": {
@@ -56098,7 +56191,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "apps"
+        ]
       }
     },
     "/v1/balance": {
@@ -56143,7 +56239,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "balance"
+        ]
       }
     },
     "/v1/balance_transactions": {
@@ -56280,7 +56379,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "balance_transactions"
+        ]
       }
     },
     "/v1/balance_transactions/{id}": {
@@ -56335,7 +56437,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "balance_transactions"
+        ]
       }
     },
     "/v1/billing_portal/configurations": {
@@ -56432,7 +56537,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "billing_portal"
+        ]
       },
       "post": {
         "description": "<p>Creates a configuration that describes the functionality and behavior of a PortalSession</p>",
@@ -56539,7 +56647,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "billing_portal"
+        ]
       }
     },
     "/v1/billing_portal/configurations/{configuration}": {
@@ -56594,7 +56705,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "billing_portal"
+        ]
       },
       "post": {
         "description": "<p>Updates a configuration that describes the functionality of the customer portal.</p>",
@@ -56723,7 +56837,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "billing_portal"
+        ]
       }
     },
     "/v1/billing_portal/sessions": {
@@ -56852,7 +56969,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "billing_portal"
+        ]
       }
     },
     "/v1/charges": {
@@ -56977,7 +57097,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "charges"
+        ]
       },
       "post": {
         "description": "<p>To charge a credit card or other payment source, you create a <code>Charge</code> object. If your API key is in test mode, the supplied payment source (e.g., card) won’t actually be charged, although everything else will occur as if in live mode. (Stripe assumes that the charge would have completed successfully).</p>",
@@ -57161,7 +57284,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "charges"
+        ]
       }
     },
     "/v1/charges/search": {
@@ -57238,7 +57364,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "charges"
+        ]
       }
     },
     "/v1/charges/{charge}": {
@@ -57293,7 +57422,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "charges"
+        ]
       },
       "post": {
         "description": "<p>Updates the specified charge by setting the values of the parameters passed. Any parameters not provided will be left unchanged.</p>",
@@ -57412,7 +57544,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "charges"
+        ]
       }
     },
     "/v1/charges/{charge}/capture": {
@@ -57516,7 +57651,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "charges"
+        ]
       }
     },
     "/v1/checkout/sessions": {
@@ -57637,7 +57775,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "checkout"
+        ]
       },
       "post": {
         "description": "<p>Creates a Session object.</p>",
@@ -57984,7 +58125,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "checkout"
+        ]
       }
     },
     "/v1/checkout/sessions/{session}": {
@@ -58039,7 +58183,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "checkout"
+        ]
       }
     },
     "/v1/checkout/sessions/{session}/expire": {
@@ -58106,7 +58253,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "checkout"
+        ]
       }
     },
     "/v1/checkout/sessions/{session}/line_items": {
@@ -58193,7 +58343,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "checkout"
+        ]
       }
     },
     "/v1/country_specs": {
@@ -58270,7 +58423,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "country_specs"
+        ]
       }
     },
     "/v1/country_specs/{country}": {
@@ -58325,7 +58481,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "country_specs"
+        ]
       }
     },
     "/v1/coupons": {
@@ -58420,7 +58579,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "coupons"
+        ]
       },
       "post": {
         "description": "<p>You can create coupons easily via the <a href=\"https://dashboard.stripe.com/coupons\">coupon management</a> page of the Stripe dashboard. Coupon creation is also accessible via the API if you need to create coupons on the fly.</p>\n\n<p>A coupon has either a <code>percent_off</code> or an <code>amount_off</code> and <code>currency</code>. If you set an <code>amount_off</code>, that amount will be subtracted from any invoice’s subtotal. For example, an invoice with a subtotal of <currency>100</currency> will have a final total of <currency>0</currency> if a coupon with an <code>amount_off</code> of <amount>200</amount> is applied to it and an invoice with a subtotal of <currency>300</currency> will have a final total of <currency>100</currency> if a coupon with an <code>amount_off</code> of <amount>200</amount> is applied to it.</p>",
@@ -58556,7 +58718,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "coupons"
+        ]
       }
     },
     "/v1/coupons/{coupon}": {
@@ -58596,7 +58761,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "coupons"
+        ]
       },
       "get": {
         "description": "<p>Retrieves the coupon with the given ID.</p>",
@@ -58649,7 +58817,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "coupons"
+        ]
       },
       "post": {
         "description": "<p>Updates the metadata of a coupon. Other coupon details (currency, duration, amount_off) are, by design, not editable.</p>",
@@ -58751,7 +58922,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "coupons"
+        ]
       }
     },
     "/v1/credit_notes": {
@@ -58850,7 +59024,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "credit_notes"
+        ]
       },
       "post": {
         "description": "<p>Issue a credit note to adjust the amount of a finalized invoice. For a <code>status=open</code> invoice, a credit note reduces\nits <code>amount_due</code>. For a <code>status=paid</code> invoice, a credit note does not affect its <code>amount_due</code>. Instead, it can result\nin any combination of the following:</p>\n\n<ul>\n<li>Refund: create a new refund (using <code>refund_amount</code>) or link an existing refund (using <code>refund</code>).</li>\n<li>Customer balance credit: credit the customer’s balance (using <code>credit_amount</code>) which will be automatically applied to their next invoice when it’s finalized.</li>\n<li>Outside of Stripe credit: record the amount that is or will be credited outside of Stripe (using <code>out_of_band_amount</code>).</li>\n</ul>\n\n<p>For post-payment credit notes the sum of the refund, credit and outside of Stripe amounts must equal the credit note total.</p>\n\n<p>You may issue multiple credit notes for an invoice. Each credit note will increment the invoice’s <code>pre_payment_credit_notes_amount</code>\nor <code>post_payment_credit_notes_amount</code> depending on its <code>status</code> at the time of credit note creation.</p>",
@@ -58968,7 +59145,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "credit_notes"
+        ]
       }
     },
     "/v1/credit_notes/preview": {
@@ -59129,7 +59309,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "credit_notes"
+        ]
       }
     },
     "/v1/credit_notes/preview/lines": {
@@ -59322,7 +59505,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "credit_notes"
+        ]
       }
     },
     "/v1/credit_notes/{credit_note}/lines": {
@@ -59409,7 +59595,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "credit_notes"
+        ]
       }
     },
     "/v1/credit_notes/{id}": {
@@ -59464,7 +59653,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "credit_notes"
+        ]
       },
       "post": {
         "description": "<p>Updates an existing credit note.</p>",
@@ -59545,7 +59737,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "credit_notes"
+        ]
       }
     },
     "/v1/credit_notes/{id}/void": {
@@ -59612,7 +59807,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "credit_notes"
+        ]
       }
     },
     "/v1/customers": {
@@ -59728,7 +59926,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "customers"
+        ]
       },
       "post": {
         "description": "<p>Creates a new customer object.</p>",
@@ -59948,7 +60149,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "customers"
+        ]
       }
     },
     "/v1/customers/search": {
@@ -60025,7 +60229,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "customers"
+        ]
       }
     },
     "/v1/customers/{customer}": {
@@ -60065,7 +60272,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "customers"
+        ]
       },
       "get": {
         "description": "<p>Retrieves a Customer object.</p>",
@@ -60125,7 +60335,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "customers"
+        ]
       },
       "post": {
         "description": "<p>Updates the specified customer by setting the values of the parameters passed. Any parameters not provided will be left unchanged. For example, if you pass the <strong>source</strong> parameter, that becomes the customer’s active source (e.g., a card) to be used for all charges in the future. When you update a customer to a new valid card source by passing the <strong>source</strong> parameter: for each of the customer’s current subscriptions, if the subscription bills automatically and is in the <code>past_due</code> state, then the latest open invoice for the subscription with automatic collection enabled will be retried. This retry will not count as an automatic retry, and will not affect the next regularly scheduled payment for the invoice. Changing the <strong>default_source</strong> for a customer will not trigger this behavior.</p>\n\n<p>This request accepts mostly the same arguments as the customer creation call.</p>",
@@ -60390,7 +60603,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "customers"
+        ]
       }
     },
     "/v1/customers/{customer}/balance_transactions": {
@@ -60477,7 +60693,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "customers"
+        ]
       },
       "post": {
         "description": "<p>Creates an immutable transaction that updates the customer’s credit <a href=\"/docs/billing/customer/balance\">balance</a>.</p>",
@@ -60580,7 +60799,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "customers"
+        ]
       }
     },
     "/v1/customers/{customer}/balance_transactions/{transaction}": {
@@ -60644,7 +60866,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "customers"
+        ]
       },
       "post": {
         "description": "<p>Most credit balance transaction fields are immutable, but you may update its <code>description</code> and <code>metadata</code>.</p>",
@@ -60745,7 +60970,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "customers"
+        ]
       }
     },
     "/v1/customers/{customer}/cash_balance": {
@@ -60800,7 +61028,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "customers"
+        ]
       },
       "post": {
         "description": "<p>Changes the settings on a customer’s cash balance.</p>",
@@ -60872,7 +61103,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "customers"
+        ]
       }
     },
     "/v1/customers/{customer}/discount": {
@@ -60912,7 +61146,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "customers"
+        ]
       },
       "get": {
         "description": "",
@@ -60965,7 +61202,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "customers"
+        ]
       }
     },
     "/v1/customers/{customer}/payment_methods": {
@@ -61091,7 +61331,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "customers"
+        ]
       }
     },
     "/v1/customers/{customer}/payment_methods/{payment_method}": {
@@ -61156,7 +61399,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "customers"
+        ]
       }
     },
     "/v1/customers/{customer}/sources": {
@@ -61252,7 +61498,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "customers"
+        ]
       },
       "post": {
         "description": "<p>When you create a new credit card, you must specify a customer or recipient on which to create it.</p>\n\n<p>If the card’s owner has no default card, then the new card will become the default.\nHowever, if the owner already has a default, then it will not change.\nTo change the default, you should <a href=\"/docs/api#update_customer\">update the customer</a> to have a new <code>default_source</code>.</p>",
@@ -61372,7 +61621,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "customers"
+        ]
       }
     },
     "/v1/customers/{customer}/sources/{id}": {
@@ -61455,7 +61707,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "customers"
+        ]
       },
       "get": {
         "description": "<p>Retrieve a specified source for a given customer.</p>",
@@ -61518,7 +61773,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "customers"
+        ]
       },
       "post": {
         "description": "<p>Update a specified source for a given customer.</p>",
@@ -61690,7 +61948,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "customers"
+        ]
       }
     },
     "/v1/customers/{customer}/sources/{id}/verify": {
@@ -61778,7 +62039,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "customers"
+        ]
       }
     },
     "/v1/customers/{customer}/tax_ids": {
@@ -61865,7 +62129,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "customers"
+        ]
       },
       "post": {
         "description": "<p>Creates a new <code>TaxID</code> object for a customer.</p>",
@@ -61992,7 +62259,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "customers"
+        ]
       }
     },
     "/v1/customers/{customer}/tax_ids/{id}": {
@@ -62041,7 +62311,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "customers"
+        ]
       },
       "get": {
         "description": "<p>Retrieves the <code>TaxID</code> object with the given identifier.</p>",
@@ -62103,7 +62376,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "customers"
+        ]
       }
     },
     "/v1/disputes": {
@@ -62219,7 +62495,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "disputes"
+        ]
       }
     },
     "/v1/disputes/{dispute}": {
@@ -62274,7 +62553,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "disputes"
+        ]
       },
       "post": {
         "description": "<p>When you get a dispute, contacting your customer is always the best first step. If that doesn’t work, you can submit evidence to help us resolve the dispute in your favor. You can do this in your <a href=\"https://dashboard.stripe.com/disputes\">dashboard</a>, but if you prefer, you can use the API to submit evidence programmatically.</p>\n\n<p>Depending on your dispute type, different evidence fields will give you a better chance of winning your dispute. To figure out which evidence fields to provide, see our <a href=\"/docs/disputes/categories\">guide to dispute types</a>.</p>",
@@ -62371,7 +62653,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "disputes"
+        ]
       }
     },
     "/v1/disputes/{dispute}/close": {
@@ -62438,7 +62723,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "disputes"
+        ]
       }
     },
     "/v1/events": {
@@ -62568,7 +62856,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "events"
+        ]
       }
     },
     "/v1/events/{id}": {
@@ -62623,7 +62914,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "events"
+        ]
       }
     },
     "/v1/exchange_rates": {
@@ -62700,7 +62994,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "exchange_rates"
+        ]
       }
     },
     "/v1/exchange_rates/{rate_id}": {
@@ -62755,7 +63052,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "exchange_rates"
+        ]
       }
     },
     "/v1/file_links": {
@@ -62868,7 +63168,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "file_links"
+        ]
       },
       "post": {
         "description": "<p>Creates a new file link object.</p>",
@@ -62955,7 +63258,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "file_links"
+        ]
       }
     },
     "/v1/file_links/{link}": {
@@ -63009,7 +63315,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "file_links"
+        ]
       },
       "post": {
         "description": "<p>Updates an existing file link object. Expired links can no longer be updated.</p>",
@@ -63120,7 +63429,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "file_links"
+        ]
       }
     },
     "/v1/files": {
@@ -63243,7 +63555,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "files"
+        ]
       },
       "post": {
         "description": "<p>To upload a file to Stripe, you’ll need to send a request of type <code>multipart/form-data</code>. The request should contain the file you would like to upload, as well as the parameters for creating a file.</p>\n\n<p>All of Stripe’s officially supported Client libraries should have support for sending <code>multipart/form-data</code>.</p>",
@@ -63333,6 +63648,9 @@
           {
             "url": "https://files.stripe.com/"
           }
+        ],
+        "tags": [
+          "files"
         ]
       }
     },
@@ -63388,7 +63706,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "files"
+        ]
       }
     },
     "/v1/financial_connections/accounts": {
@@ -63487,7 +63808,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "financial_connections"
+        ]
       }
     },
     "/v1/financial_connections/accounts/{account}": {
@@ -63542,7 +63866,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "financial_connections"
+        ]
       }
     },
     "/v1/financial_connections/accounts/{account}/disconnect": {
@@ -63609,7 +63936,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "financial_connections"
+        ]
       }
     },
     "/v1/financial_connections/accounts/{account}/refresh": {
@@ -63695,7 +64025,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "financial_connections"
+        ]
       }
     },
     "/v1/financial_connections/sessions": {
@@ -63792,7 +64125,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "financial_connections"
+        ]
       }
     },
     "/v1/financial_connections/sessions/{session}": {
@@ -63847,7 +64183,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "financial_connections"
+        ]
       }
     },
     "/v1/identity/verification_reports": {
@@ -63967,7 +64306,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "identity"
+        ]
       }
     },
     "/v1/identity/verification_reports/{report}": {
@@ -64022,7 +64364,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "identity"
+        ]
       }
     },
     "/v1/identity/verification_sessions": {
@@ -64132,7 +64477,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "identity"
+        ]
       },
       "post": {
         "description": "<p>Creates a VerificationSession object.</p>\n\n<p>After the VerificationSession is created, display a verification modal using the session <code>client_secret</code> or send your users to the session’s <code>url</code>.</p>\n\n<p>If your API key is in test mode, verification checks won’t actually process, though everything else will occur as if in live mode.</p>\n\n<p>Related guide: <a href=\"/docs/identity/verify-identity-documents\">Verify your users’ identity documents</a>.</p>",
@@ -64219,7 +64567,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "identity"
+        ]
       }
     },
     "/v1/identity/verification_sessions/{session}": {
@@ -64274,7 +64625,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "identity"
+        ]
       },
       "post": {
         "description": "<p>Updates a VerificationSession object.</p>\n\n<p>When the session status is <code>requires_input</code>, you can use this method to update the\nverification check and options.</p>",
@@ -64366,7 +64720,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "identity"
+        ]
       }
     },
     "/v1/identity/verification_sessions/{session}/cancel": {
@@ -64433,7 +64790,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "identity"
+        ]
       }
     },
     "/v1/identity/verification_sessions/{session}/redact": {
@@ -64500,7 +64860,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "identity"
+        ]
       }
     },
     "/v1/invoiceitems": {
@@ -64626,7 +64989,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "invoiceitems"
+        ]
       },
       "post": {
         "description": "<p>Creates an item to be added to a draft invoice (up to 250 items per invoice). If no invoice is specified, the item will be on the next invoice created for the customer specified.</p>",
@@ -64800,7 +65166,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "invoiceitems"
+        ]
       }
     },
     "/v1/invoiceitems/{invoiceitem}": {
@@ -64840,7 +65209,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "invoiceitems"
+        ]
       },
       "get": {
         "description": "<p>Retrieves the invoice item with the given ID.</p>",
@@ -64893,7 +65265,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "invoiceitems"
+        ]
       },
       "post": {
         "description": "<p>Updates the amount or description of an invoice item on an upcoming invoice. Updating an invoice item is only possible before the invoice it’s attached to is closed.</p>",
@@ -65067,7 +65442,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "invoiceitems"
+        ]
       }
     },
     "/v1/invoices": {
@@ -65232,7 +65610,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "invoices"
+        ]
       },
       "post": {
         "description": "<p>This endpoint creates a draft invoice for a given customer. The invoice remains a draft until you <a href=\"#finalize_invoice\">finalize</a> the invoice, which allows you to <a href=\"#pay_invoice\">pay</a> or <a href=\"#send_invoice\">send</a> the invoice to your customers.</p>",
@@ -65505,7 +65886,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "invoices"
+        ]
       }
     },
     "/v1/invoices/search": {
@@ -65582,7 +65966,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "invoices"
+        ]
       }
     },
     "/v1/invoices/upcoming": {
@@ -65916,7 +66303,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "invoices"
+        ]
       }
     },
     "/v1/invoices/upcoming/lines": {
@@ -66282,7 +66672,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "invoices"
+        ]
       }
     },
     "/v1/invoices/{invoice}": {
@@ -66322,7 +66715,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "invoices"
+        ]
       },
       "get": {
         "description": "<p>Retrieves the invoice with the given ID.</p>",
@@ -66375,7 +66771,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "invoices"
+        ]
       },
       "post": {
         "description": "<p>Draft invoices are fully editable. Once an invoice is <a href=\"/docs/billing/invoices/workflow#finalized\">finalized</a>,\nmonetary values, as well as <code>collection_method</code>, become uneditable.</p>\n\n<p>If you would like to stop the Stripe Billing engine from automatically finalizing, reattempting payments on,\nsending reminders for, or <a href=\"/docs/billing/invoices/reconciliation\">automatically reconciling</a> invoices, pass\n<code>auto_advance=false</code>.</p>",
@@ -66665,7 +67064,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "invoices"
+        ]
       }
     },
     "/v1/invoices/{invoice}/finalize": {
@@ -66736,7 +67138,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "invoices"
+        ]
       }
     },
     "/v1/invoices/{invoice}/lines": {
@@ -66823,7 +67228,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "invoices"
+        ]
       }
     },
     "/v1/invoices/{invoice}/mark_uncollectible": {
@@ -66890,7 +67298,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "invoices"
+        ]
       }
     },
     "/v1/invoices/{invoice}/pay": {
@@ -66984,7 +67395,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "invoices"
+        ]
       }
     },
     "/v1/invoices/{invoice}/send": {
@@ -67051,7 +67465,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "invoices"
+        ]
       }
     },
     "/v1/invoices/{invoice}/void": {
@@ -67118,7 +67535,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "invoices"
+        ]
       }
     },
     "/v1/issuing/authorizations": {
@@ -67250,7 +67670,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "issuing"
+        ]
       }
     },
     "/v1/issuing/authorizations/{authorization}": {
@@ -67305,7 +67728,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "issuing"
+        ]
       },
       "post": {
         "description": "<p>Updates the specified Issuing <code>Authorization</code> object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.</p>",
@@ -67391,7 +67817,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "issuing"
+        ]
       }
     },
     "/v1/issuing/authorizations/{authorization}/approve": {
@@ -67483,7 +67912,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "issuing"
+        ]
       }
     },
     "/v1/issuing/authorizations/{authorization}/decline": {
@@ -67571,7 +68003,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "issuing"
+        ]
       }
     },
     "/v1/issuing/cardholders": {
@@ -67716,7 +68151,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "issuing"
+        ]
       },
       "post": {
         "description": "<p>Creates a new Issuing <code>Cardholder</code> object that can be issued cards.</p>",
@@ -67842,7 +68280,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "issuing"
+        ]
       }
     },
     "/v1/issuing/cardholders/{cardholder}": {
@@ -67897,7 +68338,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "issuing"
+        ]
       },
       "post": {
         "description": "<p>Updates the specified Issuing <code>Cardholder</code> object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.</p>",
@@ -68017,7 +68461,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "issuing"
+        ]
       }
     },
     "/v1/issuing/cards": {
@@ -68184,7 +68631,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "issuing"
+        ]
       },
       "post": {
         "description": "<p>Creates an Issuing <code>Card</code> object.</p>",
@@ -68310,7 +68760,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "issuing"
+        ]
       }
     },
     "/v1/issuing/cards/{card}": {
@@ -68365,7 +68818,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "issuing"
+        ]
       },
       "post": {
         "description": "<p>Updates the specified Issuing <code>Card</code> object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.</p>",
@@ -68483,7 +68939,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "issuing"
+        ]
       }
     },
     "/v1/issuing/disputes": {
@@ -68606,7 +69065,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "issuing"
+        ]
       },
       "post": {
         "description": "<p>Creates an Issuing <code>Dispute</code> object. Individual pieces of evidence within the <code>evidence</code> object are optional at this point. Stripe only validates that required evidence is present during submission. Refer to <a href=\"/docs/issuing/purchases/disputes#dispute-reasons-and-evidence\">Dispute reasons and evidence</a> for more details about evidence requirements.</p>",
@@ -68693,7 +69155,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "issuing"
+        ]
       }
     },
     "/v1/issuing/disputes/{dispute}": {
@@ -68748,7 +69213,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "issuing"
+        ]
       },
       "post": {
         "description": "<p>Updates the specified Issuing <code>Dispute</code> object by setting the values of the parameters passed. Any parameters not provided will be left unchanged. Properties on the <code>evidence</code> object can be unset by passing in an empty string.</p>",
@@ -68845,7 +69313,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "issuing"
+        ]
       }
     },
     "/v1/issuing/disputes/{dispute}/submit": {
@@ -68933,7 +69404,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "issuing"
+        ]
       }
     },
     "/v1/issuing/transactions": {
@@ -69064,7 +69538,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "issuing"
+        ]
       }
     },
     "/v1/issuing/transactions/{transaction}": {
@@ -69119,7 +69596,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "issuing"
+        ]
       },
       "post": {
         "description": "<p>Updates the specified Issuing <code>Transaction</code> object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.</p>",
@@ -69205,7 +69685,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "issuing"
+        ]
       }
     },
     "/v1/mandates/{mandate}": {
@@ -69259,7 +69742,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "mandates"
+        ]
       }
     },
     "/v1/orders": {
@@ -69345,7 +69831,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "orders"
+        ]
       },
       "post": {
         "description": "<p>Creates a new <code>open</code> order object.</p>",
@@ -69545,7 +70034,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "orders"
+        ]
       }
     },
     "/v1/orders/{id}": {
@@ -69600,7 +70092,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "orders"
+        ]
       },
       "post": {
         "description": "<p>Updates the specific order by setting the values of the parameters passed. Any parameters not provided will be left unchanged.</p>",
@@ -69878,7 +70373,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "orders"
+        ]
       }
     },
     "/v1/payment_intents": {
@@ -69984,7 +70482,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payment_intents"
+        ]
       },
       "post": {
         "description": "<p>Creates a PaymentIntent object.</p>\n\n<p>After the PaymentIntent is created, attach a payment method and <a href=\"/docs/api/payment_intents/confirm\">confirm</a>\nto continue the payment. You can read more about the different payment flows\navailable via the Payment Intents API <a href=\"/docs/payments/payment-intents\">here</a>.</p>\n\n<p>When <code>confirm=true</code> is used during creation, it is equivalent to creating\nand confirming the PaymentIntent in the same call. You may use any parameters\navailable in the <a href=\"/docs/api/payment_intents/confirm\">confirm API</a> when <code>confirm=true</code>\nis supplied.</p>",
@@ -70226,7 +70727,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payment_intents"
+        ]
       }
     },
     "/v1/payment_intents/search": {
@@ -70303,7 +70807,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payment_intents"
+        ]
       }
     },
     "/v1/payment_intents/{intent}": {
@@ -70369,7 +70876,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payment_intents"
+        ]
       },
       "post": {
         "description": "<p>Updates properties on a PaymentIntent object without confirming.</p>\n\n<p>Depending on which properties you update, you may need to confirm the\nPaymentIntent again. For example, updating the <code>payment_method</code> will\nalways require you to confirm the PaymentIntent again. If you prefer to\nupdate and confirm at the same time, we recommend updating properties via\nthe <a href=\"/docs/api/payment_intents/confirm\">confirm API</a> instead.</p>",
@@ -70596,7 +71106,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payment_intents"
+        ]
       }
     },
     "/v1/payment_intents/{intent}/apply_customer_balance": {
@@ -70671,7 +71184,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payment_intents"
+        ]
       }
     },
     "/v1/payment_intents/{intent}/cancel": {
@@ -70750,7 +71266,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payment_intents"
+        ]
       }
     },
     "/v1/payment_intents/{intent}/capture": {
@@ -70842,7 +71361,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payment_intents"
+        ]
       }
     },
     "/v1/payment_intents/{intent}/confirm": {
@@ -71057,7 +71579,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payment_intents"
+        ]
       }
     },
     "/v1/payment_intents/{intent}/increment_authorization": {
@@ -71163,7 +71688,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payment_intents"
+        ]
       }
     },
     "/v1/payment_intents/{intent}/verify_microdeposits": {
@@ -71251,7 +71779,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payment_intents"
+        ]
       }
     },
     "/v1/payment_links": {
@@ -71338,7 +71869,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payment_links"
+        ]
       },
       "post": {
         "description": "<p>Creates a payment link.</p>",
@@ -71583,7 +72117,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payment_links"
+        ]
       }
     },
     "/v1/payment_links/{payment_link}": {
@@ -71638,7 +72175,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payment_links"
+        ]
       },
       "post": {
         "description": "<p>Updates a payment link.</p>",
@@ -71838,7 +72378,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payment_links"
+        ]
       }
     },
     "/v1/payment_links/{payment_link}/line_items": {
@@ -71925,7 +72468,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payment_links"
+        ]
       }
     },
     "/v1/payment_methods": {
@@ -72052,7 +72598,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payment_methods"
+        ]
       },
       "post": {
         "description": "<p>Creates a PaymentMethod object. Read the <a href=\"/docs/stripe-js/reference#stripe-create-payment-method\">Stripe.js reference</a> to learn how to create PaymentMethods via Stripe.js.</p>\n\n<p>Instead of creating a PaymentMethod directly, we recommend using the <a href=\"/docs/payments/accept-a-payment\">PaymentIntents</a> API to accept a payment immediately or the <a href=\"/docs/payments/save-and-reuse\">SetupIntent</a> API to collect payment method details ahead of a future payment.</p>",
@@ -72681,7 +73230,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payment_methods"
+        ]
       }
     },
     "/v1/payment_methods/{payment_method}": {
@@ -72736,7 +73288,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payment_methods"
+        ]
       },
       "post": {
         "description": "<p>Updates a PaymentMethod object. A PaymentMethod must be attached a customer to be updated.</p>",
@@ -72853,7 +73408,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payment_methods"
+        ]
       }
     },
     "/v1/payment_methods/{payment_method}/attach": {
@@ -72928,7 +73486,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payment_methods"
+        ]
       }
     },
     "/v1/payment_methods/{payment_method}/detach": {
@@ -72995,7 +73556,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payment_methods"
+        ]
       }
     },
     "/v1/payouts": {
@@ -73127,7 +73691,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payouts"
+        ]
       },
       "post": {
         "description": "<p>To send funds to your own bank account, you create a new payout object. Your <a href=\"#balance\">Stripe balance</a> must be able to cover the payout amount, or you’ll receive an “Insufficient Funds” error.</p>\n\n<p>If your API key is in test mode, money won’t actually be sent, though everything else will occur as if in live mode.</p>\n\n<p>If you are creating a manual payout on a Stripe account that uses multiple payment source types, you’ll need to specify the source type balance that the payout should draw from. The <a href=\"#balance_object\">balance object</a> details available and pending amounts by source type.</p>",
@@ -73239,7 +73806,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payouts"
+        ]
       }
     },
     "/v1/payouts/{payout}": {
@@ -73294,7 +73864,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payouts"
+        ]
       },
       "post": {
         "description": "<p>Updates the specified payout by setting the values of the parameters passed. Any parameters not provided will be left unchanged. This request accepts only the metadata as arguments.</p>",
@@ -73380,7 +73953,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payouts"
+        ]
       }
     },
     "/v1/payouts/{payout}/cancel": {
@@ -73447,7 +74023,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payouts"
+        ]
       }
     },
     "/v1/payouts/{payout}/reverse": {
@@ -73525,7 +74104,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "payouts"
+        ]
       }
     },
     "/v1/prices": {
@@ -73691,7 +74273,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "prices"
+        ]
       },
       "post": {
         "description": "<p>Creates a new price for an existing product. The price can be recurring or one-time.</p>",
@@ -73869,7 +74454,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "prices"
+        ]
       }
     },
     "/v1/prices/search": {
@@ -73946,7 +74534,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "prices"
+        ]
       }
     },
     "/v1/prices/{price}": {
@@ -74001,7 +74592,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "prices"
+        ]
       },
       "post": {
         "description": "<p>Updates the specified price by setting the values of the parameters passed. Any parameters not provided are left unchanged.</p>",
@@ -74135,7 +74729,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "prices"
+        ]
       }
     },
     "/v1/products": {
@@ -74276,7 +74873,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "products"
+        ]
       },
       "post": {
         "description": "<p>Creates a new product object.</p>",
@@ -74410,7 +75010,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "products"
+        ]
       }
     },
     "/v1/products/search": {
@@ -74487,7 +75090,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "products"
+        ]
       }
     },
     "/v1/products/{id}": {
@@ -74527,7 +75133,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "products"
+        ]
       },
       "get": {
         "description": "<p>Retrieves the details of an existing product. Supply the unique product ID from either a product creation request or the product list, and Stripe will return the corresponding product information.</p>",
@@ -74580,7 +75189,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "products"
+        ]
       },
       "post": {
         "description": "<p>Updates the specific product by setting the values of the parameters passed. Any parameters not provided will be left unchanged.</p>",
@@ -74774,7 +75386,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "products"
+        ]
       }
     },
     "/v1/promotion_codes": {
@@ -74912,7 +75527,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "promotion_codes"
+        ]
       },
       "post": {
         "description": "<p>A promotion code points to a coupon. You can optionally restrict the code to a specific customer, redemption limit, and expiration date.</p>",
@@ -75014,7 +75632,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "promotion_codes"
+        ]
       }
     },
     "/v1/promotion_codes/{promotion_code}": {
@@ -75069,7 +75690,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "promotion_codes"
+        ]
       },
       "post": {
         "description": "<p>Updates the specified promotion code by setting the values of the parameters passed. Most fields are, by design, not editable.</p>",
@@ -75166,7 +75790,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "promotion_codes"
+        ]
       }
     },
     "/v1/quotes": {
@@ -75281,7 +75908,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "quotes"
+        ]
       },
       "post": {
         "description": "<p>A quote models prices and services for a customer. Default options for <code>header</code>, <code>description</code>, <code>footer</code>, and <code>expires_at</code> can be set in the dashboard via the <a href=\"https://dashboard.stripe.com/settings/billing/quote\">quote template</a>.</p>",
@@ -75537,7 +76167,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "quotes"
+        ]
       }
     },
     "/v1/quotes/{quote}": {
@@ -75592,7 +76225,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "quotes"
+        ]
       },
       "post": {
         "description": "<p>A quote models prices and services for a customer.</p>",
@@ -75848,7 +76484,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "quotes"
+        ]
       }
     },
     "/v1/quotes/{quote}/accept": {
@@ -75915,7 +76554,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "quotes"
+        ]
       }
     },
     "/v1/quotes/{quote}/cancel": {
@@ -75982,7 +76624,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "quotes"
+        ]
       }
     },
     "/v1/quotes/{quote}/computed_upfront_line_items": {
@@ -76069,7 +76714,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "quotes"
+        ]
       }
     },
     "/v1/quotes/{quote}/finalize": {
@@ -76141,7 +76789,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "quotes"
+        ]
       }
     },
     "/v1/quotes/{quote}/line_items": {
@@ -76228,7 +76879,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "quotes"
+        ]
       }
     },
     "/v1/quotes/{quote}/pdf": {
@@ -76284,7 +76938,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "quotes"
+        ]
       }
     },
     "/v1/radar/early_fraud_warnings": {
@@ -76382,7 +77039,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "radar"
+        ]
       }
     },
     "/v1/radar/early_fraud_warnings/{early_fraud_warning}": {
@@ -76437,7 +77097,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "radar"
+        ]
       }
     },
     "/v1/radar/value_list_items": {
@@ -76553,7 +77216,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "radar"
+        ]
       },
       "post": {
         "description": "<p>Creates a new <code>ValueListItem</code> object, which is added to the specified parent value list.</p>",
@@ -76620,7 +77286,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "radar"
+        ]
       }
     },
     "/v1/radar/value_list_items/{item}": {
@@ -76660,7 +77329,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "radar"
+        ]
       },
       "get": {
         "description": "<p>Retrieves a <code>ValueListItem</code> object.</p>",
@@ -76713,7 +77385,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "radar"
+        ]
       }
     },
     "/v1/radar/value_lists": {
@@ -76829,7 +77504,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "radar"
+        ]
       },
       "post": {
         "description": "<p>Creates a new <code>ValueList</code> object, which can then be referenced in rules.</p>",
@@ -76922,7 +77600,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "radar"
+        ]
       }
     },
     "/v1/radar/value_lists/{value_list}": {
@@ -76962,7 +77643,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "radar"
+        ]
       },
       "get": {
         "description": "<p>Retrieves a <code>ValueList</code> object.</p>",
@@ -77015,7 +77699,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "radar"
+        ]
       },
       "post": {
         "description": "<p>Updates a <code>ValueList</code> object by setting the values of the parameters passed. Any parameters not provided will be left unchanged. Note that <code>item_type</code> is immutable.</p>",
@@ -77101,7 +77788,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "radar"
+        ]
       }
     },
     "/v1/refunds": {
@@ -77214,7 +77904,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "refunds"
+        ]
       },
       "post": {
         "description": "<p>Create a refund.</p>",
@@ -77335,7 +78028,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "refunds"
+        ]
       }
     },
     "/v1/refunds/{refund}": {
@@ -77389,7 +78085,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "refunds"
+        ]
       },
       "post": {
         "description": "<p>Updates the specified refund by setting the values of the parameters passed. Any parameters not provided will be left unchanged.</p>\n\n<p>This request only accepts <code>metadata</code> as an argument.</p>",
@@ -77474,7 +78173,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "refunds"
+        ]
       }
     },
     "/v1/reporting/report_runs": {
@@ -77568,7 +78270,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "reporting"
+        ]
       },
       "post": {
         "description": "<p>Creates a new object and begin running the report. (Certain report types require a <a href=\"https://stripe.com/docs/keys#test-live-modes\">live-mode API key</a>.)</p>",
@@ -77635,7 +78340,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "reporting"
+        ]
       }
     },
     "/v1/reporting/report_runs/{report_run}": {
@@ -77690,7 +78398,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "reporting"
+        ]
       }
     },
     "/v1/reporting/report_types": {
@@ -77735,7 +78446,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "reporting"
+        ]
       }
     },
     "/v1/reporting/report_types/{report_type}": {
@@ -77789,7 +78503,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "reporting"
+        ]
       }
     },
     "/v1/reviews": {
@@ -77883,7 +78600,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "reviews"
+        ]
       }
     },
     "/v1/reviews/{review}": {
@@ -77938,7 +78658,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "reviews"
+        ]
       }
     },
     "/v1/reviews/{review}/approve": {
@@ -78005,7 +78728,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "reviews"
+        ]
       }
     },
     "/v1/setup_attempts": {
@@ -78111,7 +78837,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "setup_attempts"
+        ]
       }
     },
     "/v1/setup_intents": {
@@ -78238,7 +78967,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "setup_intents"
+        ]
       },
       "post": {
         "description": "<p>Creates a SetupIntent object.</p>\n\n<p>After the SetupIntent is created, attach a payment method and <a href=\"/docs/api/setup_intents/confirm\">confirm</a>\nto collect any required permissions to charge the payment method later.</p>",
@@ -78396,7 +79128,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "setup_intents"
+        ]
       }
     },
     "/v1/setup_intents/{intent}": {
@@ -78462,7 +79197,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "setup_intents"
+        ]
       },
       "post": {
         "description": "<p>Updates a SetupIntent object.</p>",
@@ -78608,7 +79346,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "setup_intents"
+        ]
       }
     },
     "/v1/setup_intents/{intent}/cancel": {
@@ -78685,7 +79426,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "setup_intents"
+        ]
       }
     },
     "/v1/setup_intents/{intent}/confirm": {
@@ -78795,7 +79539,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "setup_intents"
+        ]
       }
     },
     "/v1/setup_intents/{intent}/verify_microdeposits": {
@@ -78883,7 +79630,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "setup_intents"
+        ]
       }
     },
     "/v1/shipping_rates": {
@@ -78998,7 +79748,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "shipping_rates"
+        ]
       },
       "post": {
         "description": "<p>Creates a new shipping rate object.</p>",
@@ -79104,7 +79857,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "shipping_rates"
+        ]
       }
     },
     "/v1/shipping_rates/{shipping_rate_token}": {
@@ -79159,7 +79915,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "shipping_rates"
+        ]
       },
       "post": {
         "description": "<p>Updates an existing shipping rate object.</p>",
@@ -79265,7 +80024,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "shipping_rates"
+        ]
       }
     },
     "/v1/sigma/scheduled_query_runs": {
@@ -79342,7 +80104,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "sigma"
+        ]
       }
     },
     "/v1/sigma/scheduled_query_runs/{scheduled_query_run}": {
@@ -79397,7 +80162,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "sigma"
+        ]
       }
     },
     "/v1/skus": {
@@ -79535,7 +80303,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "skus"
+        ]
       },
       "post": {
         "description": "<p>Creates a new SKU associated with a product.</p>",
@@ -79657,7 +80428,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "skus"
+        ]
       }
     },
     "/v1/skus/{id}": {
@@ -79697,7 +80471,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "skus"
+        ]
       },
       "get": {
         "description": "<p>Retrieves the details of an existing SKU. Supply the unique SKU identifier from either a SKU creation request or from the product, and Stripe will return the corresponding SKU information.</p>",
@@ -79757,7 +80534,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "skus"
+        ]
       },
       "post": {
         "description": "<p>Updates the specific SKU by setting the values of the parameters passed. Any parameters not provided will be left unchanged.</p>\n\n<p>Note that a SKU’s <code>attributes</code> are not editable. Instead, you would need to deactivate the existing SKU and create a new one with the new attribute values.</p>",
@@ -79902,7 +80682,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "skus"
+        ]
       }
     },
     "/v1/sources": {
@@ -80054,7 +80837,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "sources"
+        ]
       }
     },
     "/v1/sources/{source}": {
@@ -80120,7 +80906,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "sources"
+        ]
       },
       "post": {
         "description": "<p>Updates the specified source by setting the values of the parameters passed. Any parameters not provided will be left unchanged.</p>\n\n<p>This request accepts the <code>metadata</code> and <code>owner</code> as arguments. It is also possible to update type specific information for selected payment methods. Please refer to our <a href=\"/docs/sources\">payment method guides</a> for more detail.</p>",
@@ -80231,7 +81020,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "sources"
+        ]
       }
     },
     "/v1/subscription_items": {
@@ -80317,7 +81109,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "subscription_items"
+        ]
       },
       "post": {
         "description": "<p>Adds a new item to an existing subscription. No existing items will be changed or replaced.</p>",
@@ -80469,7 +81264,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "subscription_items"
+        ]
       }
     },
     "/v1/subscription_items/{item}": {
@@ -80542,7 +81340,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "subscription_items"
+        ]
       },
       "get": {
         "description": "<p>Retrieves the subscription item with the given ID.</p>",
@@ -80595,7 +81396,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "subscription_items"
+        ]
       },
       "post": {
         "description": "<p>Updates the plan or quantity of an item on a current subscription.</p>",
@@ -80765,7 +81569,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "subscription_items"
+        ]
       }
     },
     "/v1/subscription_items/{subscription_item}/usage_record_summaries": {
@@ -80851,7 +81658,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "subscription_items"
+        ]
       }
     },
     "/v1/subscription_items/{subscription_item}/usage_records": {
@@ -80951,7 +81761,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "subscription_items"
+        ]
       }
     },
     "/v1/subscription_schedules": {
@@ -81121,7 +81934,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "subscription_schedules"
+        ]
       },
       "post": {
         "description": "<p>Creates a new subscription schedule object. Each customer can have up to 500 active or scheduled subscriptions.</p>",
@@ -81252,7 +82068,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "subscription_schedules"
+        ]
       }
     },
     "/v1/subscription_schedules/{schedule}": {
@@ -81307,7 +82126,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "subscription_schedules"
+        ]
       },
       "post": {
         "description": "<p>Updates an existing subscription schedule.</p>",
@@ -81430,7 +82252,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "subscription_schedules"
+        ]
       }
     },
     "/v1/subscription_schedules/{schedule}/cancel": {
@@ -81505,7 +82330,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "subscription_schedules"
+        ]
       }
     },
     "/v1/subscription_schedules/{schedule}/release": {
@@ -81576,7 +82404,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "subscription_schedules"
+        ]
       }
     },
     "/v1/subscriptions": {
@@ -81773,7 +82604,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "subscriptions"
+        ]
       },
       "post": {
         "description": "<p>Creates a new subscription on an existing customer. Each customer can have up to 500 active or scheduled subscriptions.</p>\n\n<p>When you create a subscription with <code>collection_method=charge_automatically</code>, the first invoice is finalized as part of the request.\nThe <code>payment_behavior</code> parameter determines the exact behavior of the initial payment.</p>\n\n<p>To start subscriptions where the first invoice always begins in a <code>draft</code> status, use <a href=\"/docs/billing/subscriptions/subscription-schedules#managing\">subscription schedules</a> instead.\nSchedules provide the flexibility to model more complex billing configurations that change over time.</p>",
@@ -82072,7 +82906,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "subscriptions"
+        ]
       }
     },
     "/v1/subscriptions/search": {
@@ -82149,7 +82986,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "subscriptions"
+        ]
       }
     },
     "/v1/subscriptions/{subscription_exposed_id}": {
@@ -82224,7 +83064,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "subscriptions"
+        ]
       },
       "get": {
         "description": "<p>Retrieves the subscription with the given ID.</p>",
@@ -82277,7 +83120,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "subscriptions"
+        ]
       },
       "post": {
         "description": "<p>Updates an existing subscription on a customer to match the specified parameters. When changing plans or quantities, we will optionally prorate the price we charge next month to make up for any price changes. To preview how the proration will be calculated, use the <a href=\"#upcoming_invoice\">upcoming invoice</a> endpoint.</p>",
@@ -82619,7 +83465,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "subscriptions"
+        ]
       }
     },
     "/v1/subscriptions/{subscription_exposed_id}/discount": {
@@ -82674,7 +83523,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "subscriptions"
+        ]
       }
     },
     "/v1/tax_rates": {
@@ -82789,7 +83641,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "tax_rates"
+        ]
       },
       "post": {
         "description": "<p>Creates a new tax rate.</p>",
@@ -82909,7 +83764,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "tax_rates"
+        ]
       }
     },
     "/v1/tax_rates/{tax_rate}": {
@@ -82964,7 +83822,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "tax_rates"
+        ]
       },
       "post": {
         "description": "<p>Updates an existing tax rate.</p>",
@@ -83093,7 +83954,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "tax_rates"
+        ]
       }
     },
     "/v1/terminal/configurations": {
@@ -83180,7 +84044,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "terminal"
+        ]
       },
       "post": {
         "description": "<p>Creates a new <code>Configuration</code> object.</p>",
@@ -83265,7 +84132,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "terminal"
+        ]
       }
     },
     "/v1/terminal/configurations/{configuration}": {
@@ -83305,7 +84175,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "terminal"
+        ]
       },
       "get": {
         "description": "<p>Retrieves a <code>Configuration</code> object.</p>",
@@ -83365,7 +84238,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "terminal"
+        ]
       },
       "post": {
         "description": "<p>Updates a new <code>Configuration</code> object.</p>",
@@ -83491,7 +84367,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "terminal"
+        ]
       }
     },
     "/v1/terminal/connection_tokens": {
@@ -83551,7 +84430,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "terminal"
+        ]
       }
     },
     "/v1/terminal/locations": {
@@ -83628,7 +84510,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "terminal"
+        ]
       },
       "post": {
         "description": "<p>Creates a new <code>Location</code> object.\nFor further details, including which address fields are required in each country, see the <a href=\"/docs/terminal/fleet/locations\">Manage locations</a> guide.</p>",
@@ -83723,7 +84608,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "terminal"
+        ]
       }
     },
     "/v1/terminal/locations/{location}": {
@@ -83763,7 +84651,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "terminal"
+        ]
       },
       "get": {
         "description": "<p>Retrieves a <code>Location</code> object.</p>",
@@ -83823,7 +84714,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "terminal"
+        ]
       },
       "post": {
         "description": "<p>Updates a <code>Location</code> object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.</p>",
@@ -83933,7 +84827,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "terminal"
+        ]
       }
     },
     "/v1/terminal/readers": {
@@ -84054,7 +84951,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "terminal"
+        ]
       },
       "post": {
         "description": "<p>Creates a new <code>Reader</code> object.</p>",
@@ -84146,7 +85046,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "terminal"
+        ]
       }
     },
     "/v1/terminal/readers/{reader}": {
@@ -84186,7 +85089,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "terminal"
+        ]
       },
       "get": {
         "description": "<p>Retrieves a <code>Reader</code> object.</p>",
@@ -84246,7 +85152,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "terminal"
+        ]
       },
       "post": {
         "description": "<p>Updates a <code>Reader</code> object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.</p>",
@@ -84344,7 +85253,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "terminal"
+        ]
       }
     },
     "/v1/terminal/readers/{reader}/cancel_action": {
@@ -84411,7 +85323,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "terminal"
+        ]
       }
     },
     "/v1/terminal/readers/{reader}/process_payment_intent": {
@@ -84493,7 +85408,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "terminal"
+        ]
       }
     },
     "/v1/terminal/readers/{reader}/process_setup_intent": {
@@ -84573,7 +85491,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "terminal"
+        ]
       }
     },
     "/v1/terminal/readers/{reader}/set_reader_display": {
@@ -84657,7 +85578,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "terminal"
+        ]
       }
     },
     "/v1/test_helpers/issuing/cards/{card}/shipping/deliver": {
@@ -84724,7 +85648,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "test_helpers"
+        ]
       }
     },
     "/v1/test_helpers/issuing/cards/{card}/shipping/fail": {
@@ -84791,7 +85718,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "test_helpers"
+        ]
       }
     },
     "/v1/test_helpers/issuing/cards/{card}/shipping/return": {
@@ -84858,7 +85788,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "test_helpers"
+        ]
       }
     },
     "/v1/test_helpers/issuing/cards/{card}/shipping/ship": {
@@ -84925,7 +85858,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "test_helpers"
+        ]
       }
     },
     "/v1/test_helpers/terminal/readers/{reader}/present_payment_method": {
@@ -85007,7 +85943,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "test_helpers"
+        ]
       }
     },
     "/v1/test_helpers/test_clocks": {
@@ -85084,7 +86023,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "test_helpers"
+        ]
       },
       "post": {
         "description": "<p>Creates a new test clock that can be attached to new customers and quotes.</p>",
@@ -85150,7 +86092,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "test_helpers"
+        ]
       }
     },
     "/v1/test_helpers/test_clocks/{test_clock}": {
@@ -85190,7 +86135,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "test_helpers"
+        ]
       },
       "get": {
         "description": "<p>Retrieves a test clock.</p>",
@@ -85243,7 +86191,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "test_helpers"
+        ]
       }
     },
     "/v1/test_helpers/test_clocks/{test_clock}/advance": {
@@ -85318,7 +86269,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "test_helpers"
+        ]
       }
     },
     "/v1/test_helpers/treasury/inbound_transfers/{id}/fail": {
@@ -85392,7 +86346,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "test_helpers"
+        ]
       }
     },
     "/v1/test_helpers/treasury/inbound_transfers/{id}/succeed": {
@@ -85459,7 +86416,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "test_helpers"
+        ]
       }
     },
     "/v1/test_helpers/treasury/outbound_payments/{id}/fail": {
@@ -85526,7 +86486,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "test_helpers"
+        ]
       }
     },
     "/v1/test_helpers/treasury/outbound_payments/{id}/post": {
@@ -85593,7 +86556,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "test_helpers"
+        ]
       }
     },
     "/v1/test_helpers/treasury/outbound_payments/{id}/return": {
@@ -85667,7 +86633,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "test_helpers"
+        ]
       }
     },
     "/v1/test_helpers/treasury/outbound_transfers/{outbound_transfer}/fail": {
@@ -85734,7 +86703,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "test_helpers"
+        ]
       }
     },
     "/v1/test_helpers/treasury/outbound_transfers/{outbound_transfer}/post": {
@@ -85801,7 +86773,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "test_helpers"
+        ]
       }
     },
     "/v1/test_helpers/treasury/outbound_transfers/{outbound_transfer}/return": {
@@ -85875,7 +86850,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "test_helpers"
+        ]
       }
     },
     "/v1/test_helpers/treasury/received_credits": {
@@ -85968,7 +86946,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "test_helpers"
+        ]
       }
     },
     "/v1/test_helpers/treasury/received_debits": {
@@ -86060,7 +87041,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "test_helpers"
+        ]
       }
     },
     "/v1/tokens": {
@@ -86171,7 +87155,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "tokens"
+        ]
       }
     },
     "/v1/tokens/{token}": {
@@ -86226,7 +87213,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "tokens"
+        ]
       }
     },
     "/v1/topups": {
@@ -86356,7 +87346,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "topups"
+        ]
       },
       "post": {
         "description": "<p>Top up the balance of an account</p>",
@@ -86461,7 +87454,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "topups"
+        ]
       }
     },
     "/v1/topups/{topup}": {
@@ -86516,7 +87512,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "topups"
+        ]
       },
       "post": {
         "description": "<p>Updates the metadata of a top-up. Other top-up details are not editable by design.</p>",
@@ -86607,7 +87606,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "topups"
+        ]
       }
     },
     "/v1/topups/{topup}/cancel": {
@@ -86674,7 +87676,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "topups"
+        ]
       }
     },
     "/v1/transfers": {
@@ -86790,7 +87795,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "transfers"
+        ]
       },
       "post": {
         "description": "<p>To send funds from your Stripe account to a connected account, you create a new transfer object. Your <a href=\"#balance\">Stripe balance</a> must be able to cover the transfer amount, or you’ll receive an “Insufficient Funds” error.</p>",
@@ -86894,7 +87902,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "transfers"
+        ]
       }
     },
     "/v1/transfers/{id}/reversals": {
@@ -86981,7 +87992,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "transfers"
+        ]
       },
       "post": {
         "description": "<p>When you create a new reversal, you must specify a transfer to create it on.</p>\n\n<p>When reversing transfers, you can optionally reverse part of the transfer. You can do so as many times as you wish until the entire transfer has been reversed.</p>\n\n<p>Once entirely reversed, a transfer can’t be reversed again. This method will return an error when called on an already-reversed transfer, or when trying to reverse more money than is left on a transfer.</p>",
@@ -87080,7 +88094,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "transfers"
+        ]
       }
     },
     "/v1/transfers/{transfer}": {
@@ -87135,7 +88152,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "transfers"
+        ]
       },
       "post": {
         "description": "<p>Updates the specified transfer by setting the values of the parameters passed. Any parameters not provided will be left unchanged.</p>\n\n<p>This request accepts only metadata as an argument.</p>",
@@ -87226,7 +88246,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "transfers"
+        ]
       }
     },
     "/v1/transfers/{transfer}/reversals/{id}": {
@@ -87291,7 +88314,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "transfers"
+        ]
       },
       "post": {
         "description": "<p>Updates the specified reversal by setting the values of the parameters passed. Any parameters not provided will be left unchanged.</p>\n\n<p>This request only accepts metadata and description as arguments.</p>",
@@ -87387,7 +88413,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "transfers"
+        ]
       }
     },
     "/v1/treasury/credit_reversals": {
@@ -87500,7 +88529,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       },
       "post": {
         "description": "<p>Reverses a ReceivedCredit and creates a CreditReversal object.</p>",
@@ -87572,7 +88604,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       }
     },
     "/v1/treasury/credit_reversals/{credit_reversal}": {
@@ -87627,7 +88662,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       }
     },
     "/v1/treasury/debit_reversals": {
@@ -87754,7 +88792,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       },
       "post": {
         "description": "<p>Reverses a ReceivedDebit and creates a DebitReversal object.</p>",
@@ -87826,7 +88867,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       }
     },
     "/v1/treasury/debit_reversals/{debit_reversal}": {
@@ -87881,7 +88925,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       }
     },
     "/v1/treasury/financial_accounts": {
@@ -87975,7 +89022,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       },
       "post": {
         "description": "<p>Creates a new FinancialAccount. For now, each connected account can only have one FinancialAccount.</p>",
@@ -88068,7 +89118,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       }
     },
     "/v1/treasury/financial_accounts/{financial_account}": {
@@ -88123,7 +89176,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       },
       "post": {
         "description": "<p>Updates the details of a FinancialAccount.</p>",
@@ -88213,7 +89269,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       }
     },
     "/v1/treasury/financial_accounts/{financial_account}/features": {
@@ -88268,7 +89327,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       },
       "post": {
         "description": "<p>Updates the Features associated with a FinancialAccount.</p>",
@@ -88382,7 +89444,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       }
     },
     "/v1/treasury/inbound_transfers": {
@@ -88485,7 +89550,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       },
       "post": {
         "description": "<p>Creates an InboundTransfer.</p>",
@@ -88582,7 +89650,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       }
     },
     "/v1/treasury/inbound_transfers/{id}": {
@@ -88637,7 +89708,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       }
     },
     "/v1/treasury/inbound_transfers/{inbound_transfer}/cancel": {
@@ -88704,7 +89778,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       }
     },
     "/v1/treasury/outbound_payments": {
@@ -88819,7 +89896,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       },
       "post": {
         "description": "<p>Creates an OutboundPayment.</p>",
@@ -88941,7 +90021,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       }
     },
     "/v1/treasury/outbound_payments/{id}": {
@@ -88996,7 +90079,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       }
     },
     "/v1/treasury/outbound_payments/{id}/cancel": {
@@ -89063,7 +90149,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       }
     },
     "/v1/treasury/outbound_transfers": {
@@ -89167,7 +90256,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       },
       "post": {
         "description": "<p>Creates an OutboundTransfer.</p>",
@@ -89270,7 +90362,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       }
     },
     "/v1/treasury/outbound_transfers/{outbound_transfer}": {
@@ -89325,7 +90420,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       }
     },
     "/v1/treasury/outbound_transfers/{outbound_transfer}/cancel": {
@@ -89392,7 +90490,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       }
     },
     "/v1/treasury/received_credits": {
@@ -89505,7 +90606,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       }
     },
     "/v1/treasury/received_credits/{id}": {
@@ -89560,7 +90664,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       }
     },
     "/v1/treasury/received_debits": {
@@ -89662,7 +90769,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       }
     },
     "/v1/treasury/received_debits/{id}": {
@@ -89717,7 +90827,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       }
     },
     "/v1/treasury/transaction_entries": {
@@ -89863,7 +90976,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       }
     },
     "/v1/treasury/transaction_entries/{id}": {
@@ -89918,7 +91034,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       }
     },
     "/v1/treasury/transactions": {
@@ -90063,7 +91182,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       }
     },
     "/v1/treasury/transactions/{id}": {
@@ -90118,7 +91240,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "treasury"
+        ]
       }
     },
     "/v1/webhook_endpoints": {
@@ -90195,7 +91320,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "webhook_endpoints"
+        ]
       },
       "post": {
         "description": "<p>A webhook endpoint must have a <code>url</code> and a list of <code>enabled_events</code>. You may optionally specify the Boolean <code>connect</code> parameter. If set to true, then a Connect webhook endpoint that notifies the specified <code>url</code> about events from all connected accounts is created; otherwise an account webhook endpoint that notifies the specified <code>url</code> only about events from your account is created. You can also create webhook endpoints in the <a href=\"https://dashboard.stripe.com/account/webhooks\">webhooks settings</a> section of the Dashboard.</p>",
@@ -90623,7 +91751,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "webhook_endpoints"
+        ]
       }
     },
     "/v1/webhook_endpoints/{webhook_endpoint}": {
@@ -90663,7 +91794,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "webhook_endpoints"
+        ]
       },
       "get": {
         "description": "<p>Retrieves the webhook endpoint with the given ID.</p>",
@@ -90716,7 +91850,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "webhook_endpoints"
+        ]
       },
       "post": {
         "description": "<p>Updates the webhook endpoint. You may edit the <code>url</code>, the list of <code>enabled_events</code>, and the status of your endpoint.</p>",
@@ -91047,7 +92184,10 @@
             },
             "description": "Error response."
           }
-        }
+        },
+        "tags": [
+          "webhook_endpoints"
+        ]
       }
     }
   },
@@ -91066,6 +92206,170 @@
   "servers": [
     {
       "url": "https://api.stripe.com/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "account_links"
+    },
+    {
+      "name": "accounts"
+    },
+    {
+      "name": "application_fees"
+    },
+    {
+      "name": "apps"
+    },
+    {
+      "name": "balance"
+    },
+    {
+      "name": "balance_transactions"
+    },
+    {
+      "name": "billing_portal"
+    },
+    {
+      "name": "charges"
+    },
+    {
+      "name": "checkout"
+    },
+    {
+      "name": "country_specs"
+    },
+    {
+      "name": "coupons"
+    },
+    {
+      "name": "credit_notes"
+    },
+    {
+      "name": "customers"
+    },
+    {
+      "name": "disputes"
+    },
+    {
+      "name": "events"
+    },
+    {
+      "name": "exchange_rates"
+    },
+    {
+      "name": "file_links"
+    },
+    {
+      "name": "files"
+    },
+    {
+      "name": "financial_connections"
+    },
+    {
+      "name": "identity"
+    },
+    {
+      "name": "invoiceitems"
+    },
+    {
+      "name": "invoices"
+    },
+    {
+      "name": "issuing"
+    },
+    {
+      "name": "mandates"
+    },
+    {
+      "name": "orders"
+    },
+    {
+      "name": "payment_intents"
+    },
+    {
+      "name": "payment_links"
+    },
+    {
+      "name": "payment_methods"
+    },
+    {
+      "name": "payouts"
+    },
+    {
+      "name": "prices"
+    },
+    {
+      "name": "products"
+    },
+    {
+      "name": "promotion_codes"
+    },
+    {
+      "name": "quotes"
+    },
+    {
+      "name": "radar"
+    },
+    {
+      "name": "refunds"
+    },
+    {
+      "name": "reporting"
+    },
+    {
+      "name": "reviews"
+    },
+    {
+      "name": "setup_attempts"
+    },
+    {
+      "name": "setup_intents"
+    },
+    {
+      "name": "shipping_rates"
+    },
+    {
+      "name": "sigma"
+    },
+    {
+      "name": "skus"
+    },
+    {
+      "name": "sources"
+    },
+    {
+      "name": "subscription_items"
+    },
+    {
+      "name": "subscription_schedules"
+    },
+    {
+      "name": "subscriptions"
+    },
+    {
+      "name": "tax_rates"
+    },
+    {
+      "name": "terminal"
+    },
+    {
+      "name": "test_helpers"
+    },
+    {
+      "name": "tokens"
+    },
+    {
+      "name": "topups"
+    },
+    {
+      "name": "transfers"
+    },
+    {
+      "name": "treasury"
+    },
+    {
+      "name": "webhook_endpoints"
     }
   ]
 }

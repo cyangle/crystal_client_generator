@@ -34,6 +34,8 @@ IGNORED_PROPERTY_LIST = [
   ["data", "has_more", "object", "url"].to_set
 ]
 
+TAG_REGEX = /^\/v1\/([^\/]+)/.freeze
+
 spec_path = File.join(__dir__, ARGV[0] || "stripe_v196_spec3.json")
 out_file_path = File.join(__dir__, ARGV[1] || "stripe_v196_spec3_fixed.json")
 new_schemas_path = File.join(__dir__, ARGV[1] || "stripe_v196_spec3_new_schemas.json")
@@ -180,6 +182,17 @@ spec["paths"].each do |path, value|
   value["get"].delete("requestBody") if value["get"] && value["get"].is_a?(Hash) && value.dig("get", "requestBody", "content", "application/x-www-form-urlencoded", "schema", "properties").empty?
   value["delete"].delete("requestBody") if value["delete"] && value["delete"].is_a?(Hash) && value.dig("delete", "requestBody", "content", "application/x-www-form-urlencoded", "schema", "properties").empty?
 end
+
+all_tags = []
+spec["paths"].each do |path, value|
+  tag = TAG_REGEX.match(path)[1]
+  all_tags.push(tag)
+  value.each do |key, operation|
+    operation["tags"] = [tag]
+  end
+end
+
+spec["tags"] = all_tags.uniq.map {|tag| {"name" => tag}}
 
 File.write(grouped_schemas_path, JSON.pretty_generate(uniq_grouped_schemas.deep_sort))
 File.write(new_schemas_path, JSON.pretty_generate(new_schemas.deep_sort))
