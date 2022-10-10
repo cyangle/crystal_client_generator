@@ -29,10 +29,10 @@ module {{moduleName}}
     # @optional @param {{paramName}} [{{>partial_model_generic_property_data_type}}]{{#description}} {{{description}}}{{/description}}
     {{/required}}
     {{/allParams}}
-    # @return [{{{returnType}}}{{^returnType}}nil{{/returnType}}]
-    def {{operationId}}({{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/optionalParams}}) : {{#returnType}}{{#isModel}}{{moduleName}}::{{/isModel}}{{{.}}}{{/returnType}}{{^returnType}}Nil{{/returnType}}
-      {{#returnType}}data, _status_code, _headers = {{/returnType}}{{operationId}}_with_http_info({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
-      {{#returnType}}data{{/returnType}}{{^returnType}}nil{{/returnType}}
+    # @return [{{>generic_return_property_data_type}}]
+    def {{operationId}}({{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/optionalParams}}) : {{>generic_return_property_data_type}}
+      {{#returnProperty}}data, _status_code, _headers = {{/returnProperty}}{{operationId}}_with_http_info({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
+      {{#returnProperty}}data{{/returnProperty}}{{^returnProperty}}nil{{/returnProperty}}
     end
 
     {{#summary}}
@@ -49,8 +49,8 @@ module {{moduleName}}
     # @optional @param {{paramName}} [{{>partial_model_generic_property_data_type}}]{{#description}} {{{description}}}{{/description}}
     {{/required}}
     {{/allParams}}
-    # @return [Array<({{{returnType}}}{{^returnType}}nil{{/returnType}}, Integer, Hash)>] {{#returnType}}{{{.}}} data{{/returnType}}{{^returnType}}nil{{/returnType}}, response status code and response headers
-    def {{operationId}}_with_http_info({{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/optionalParams}}) : Tuple({{#returnType}}{{#isModel}}{{moduleName}}::{{/isModel}}{{{.}}}{{/returnType}}{{^returnType}}Nil{{/returnType}}, Int32, Hash(String, Array(String) | String))
+    # @return [Tuple({{>generic_return_property_data_type}}, Integer, Hash)] {{>generic_return_property_data_type}}, response status code and response headers
+    def {{operationId}}_with_http_info({{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/optionalParams}}) : Tuple({{>generic_return_property_data_type}}, Int32, Hash(String, Array(String) | String))
       request = build_api_request_for_{{operationId}}({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
 
       body, status_code, headers = @api_client.execute_api_request(request)
@@ -59,7 +59,7 @@ module {{moduleName}}
         Log.debug { "API called: {{classname}}#{{operationId}}\nBody: #{body.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}" }
       end
 
-      return Tuple.new({{#returnType}}{{#isModel}}{{moduleName}}::{{/isModel}}{{{.}}}.from_json(body){{/returnType}}{{^returnType}}nil{{/returnType}}, status_code, headers)
+      Tuple.new({{#returnProperty}}{{>generic_return_property_data_type}}.from_json(body){{/returnProperty}}{{^returnProperty}}nil{{/returnProperty}}, status_code, headers)
     end
 
     {{#summary}}

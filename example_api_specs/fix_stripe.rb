@@ -128,7 +128,7 @@ spec_schemas = new_schemas.merge(spec["components"]["schemas"])
 
 schema_dict = spec_schemas.each_with_object({}) do |(key, schema), obj|
   properties = []
-  properties = schema["properties"].keys if schema["properties"] && schema["properties"].is_a?(Hash)
+  properties = schema["properties"].keys.to_set if schema["properties"] && schema["properties"].is_a?(Hash)
   obj[key] = properties
 end
 
@@ -139,13 +139,12 @@ def find_schema_name(schema, schema_dict)
     key == title
   end&.first
 
-  property_set = (schema["properties"] || []).to_set
+  property_set = (schema["properties"]&.keys || []).to_set
   return schema_name if IGNORED_PROPERTY_LIST.any? { |ipl| ipl == property_set }
   return schema_name unless schema_name.nil? && schema["type"] == "object" && schema["properties"] && schema["properties"].keys.size > 1
 
-  property_names = schema["properties"].keys
   schema_name ||= schema_dict.find do |key, value|
-    value == property_names
+    value == property_set
   end&.first
 
   schema_name

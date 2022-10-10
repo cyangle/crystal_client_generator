@@ -1,3 +1,5 @@
+require "big"
+
 struct Bool
   def self.new(value : String) : Bool
     value == "true"
@@ -37,5 +39,15 @@ class String
 
   def to_f32!
     to_f32
+  end
+end
+
+struct BigDecimal < Number
+  def self.new(value : JSON::PullParser) : BigDecimal
+    BigDecimal.new(value.read_string)
+  end
+
+  def to_json(json : JSON::Builder) : Nil
+    json.string(to_s)
   end
 end
