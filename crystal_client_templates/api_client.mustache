@@ -155,6 +155,7 @@ module {{moduleName}}
       # }
 
       update_params_for_auth! header_params, query_params, auth_names
+      header_params.merge!(default_headers)
 
       if !post_body.nil? && (post_body.is_a?(IO) || post_body.is_a?(String) && !post_body.empty?)
         # use JSON string in the payload
