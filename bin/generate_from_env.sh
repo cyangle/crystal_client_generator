@@ -13,7 +13,7 @@ echo "Running in folder: ${PWD}"
 [ -z "${image}" ] && echo "image is not set" && exit 1
 [ -z "${skip_form_model}" ] && echo "skip_form_model is not set" && exit 1
 
-export type_mappings=${type_mappings:-'--type-mappings=Object=JSON::Any,AnyType=JSON::Any'}
+export type_mappings=${type_mappings:-'--type-mappings=Object=JSON::Any,AnyType=JSON::Any,decimal=BigDecimal'}
 echo "type_mappings: $type_mappings"
 
 user=$(id -u)

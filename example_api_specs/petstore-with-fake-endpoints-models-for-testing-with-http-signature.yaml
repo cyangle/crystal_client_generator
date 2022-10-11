@@ -1266,6 +1266,9 @@ components:
         complete:
           type: boolean
           default: false
+        price:
+          type: string
+          format: decimal
       xml:
         name: Order
     Category:
