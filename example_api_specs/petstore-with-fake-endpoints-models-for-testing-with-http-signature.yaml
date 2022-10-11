@@ -57,11 +57,21 @@ paths:
       summary: Add a new pet to the store
       description: ""
       operationId: addPet
+      parameters:
+        - name: csrftoken
+          in: cookie
+          description: csrf token in cookie
+          required: true
+          style: form
+          schema:
+            type: string
+            minLength: 64
+            maxLength: 64
       responses:
         "405":
           description: Invalid input
       security:
-        - http_signature_test: []
+        - api_key_cookie: []
         - petstore_auth:
             - "write:pets"
             - "read:pets"
@@ -1219,6 +1229,10 @@ components:
       type: apiKey
       name: api_key_query
       in: query
+    api_key_cookie:
+      type: apiKey
+      name: api_key_cookie
+      in: cookie
     http_basic_test:
       type: http
       scheme: basic

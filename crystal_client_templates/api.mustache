@@ -189,6 +189,12 @@ module {{moduleName}}
       header_params["{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_header_param({{{paramName}}}){{/collectionFormat}}{{^collectionFormat}}{{^isDate}}{{^isDateTime}}{{{paramName}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format({{{paramName}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format({{{paramName}}}){{/isDateTime}}{{/collectionFormat}} if !{{{paramName}}}.nil?{{#collectionFormat}} && !{{{paramName}}}.empty?{{/collectionFormat}}
       {{/headerParams}}
 
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+      {{#cookieParams}}
+      cookie_params["{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_header_param({{{paramName}}}){{/collectionFormat}}{{^collectionFormat}}{{^isDate}}{{^isDateTime}}{{{paramName}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format({{{paramName}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format({{{paramName}}}){{/isDateTime}}{{/collectionFormat}} if !{{{paramName}}}.nil?{{#collectionFormat}} && !{{{paramName}}}.empty?{{/collectionFormat}}
+      {{/cookieParams}}
+
       # form parameters
       {{#hasFormParams}}
       form_params = Hash(String, (String | Array(String) | IO)).new
@@ -218,6 +224,7 @@ module {{moduleName}}
         post_body: post_body,
         auth_names: auth_names,
         header_params: header_params,
+        cookie_params: cookie_params,
         query_params: query_params,
         form_params: form_params
       )

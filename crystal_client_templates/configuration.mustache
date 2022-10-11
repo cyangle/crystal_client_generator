@@ -215,7 +215,7 @@ module {{moduleName}}
 {{#isApiKey}}
         "{{name}}" => {
           "type"  => "api_key",
-          "in"    => {{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}},
+          "in"    => {{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}},
           "key"   => "{{keyParamName}}",
           "value" => api_key_with_prefix("{{keyParamName}}"),
         },
