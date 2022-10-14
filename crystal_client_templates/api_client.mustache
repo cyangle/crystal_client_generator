@@ -168,6 +168,8 @@ module {{moduleName}}
       header_params.merge!(default_headers)
       cookie_params.merge!(default_cookies)
 
+      form_or_body : Hash(String, (String | Array(String) | IO)) | IO | String | Nil = nil
+
       if !post_body.nil? && (post_body.is_a?(IO) || post_body.is_a?(String) && !post_body.empty?)
         # use JSON string in the payload
         form_or_body = post_body
