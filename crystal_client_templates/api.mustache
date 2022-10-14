@@ -30,7 +30,11 @@ module {{moduleName}}
     {{/required}}
     {{/allParams}}
     # @return [{{>generic_return_property_data_type}}]
-    def {{operationId}}({{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/optionalParams}}) : {{>generic_return_property_data_type}}
+    def {{operationId}}(
+      {{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}
+      {{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}
+      {{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/optionalParams}}
+    ) : {{>generic_return_property_data_type}}
       {{#returnProperty}}data, _status_code, _headers = {{/returnProperty}}{{operationId}}_with_http_info({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
       {{#returnProperty}}data{{/returnProperty}}{{^returnProperty}}nil{{/returnProperty}}
     end
@@ -50,7 +54,11 @@ module {{moduleName}}
     {{/required}}
     {{/allParams}}
     # @return [Tuple({{>generic_return_property_data_type}}, Integer, Hash)] {{>generic_return_property_data_type}}, response status code and response headers
-    def {{operationId}}_with_http_info({{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/optionalParams}}) : Tuple({{>generic_return_property_data_type}}, Int32, Hash(String, Array(String) | String))
+    def {{operationId}}_with_http_info(
+      {{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}
+      {{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}
+      {{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/optionalParams}}
+    ) : Tuple({{>generic_return_property_data_type}}, Int32, Hash(String, Array(String) | String))
       request = build_api_request_for_{{operationId}}({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
 
       body, status_code, headers = @api_client.execute_api_request(request)
@@ -77,7 +85,12 @@ module {{moduleName}}
     {{/required}}
     {{/allParams}}
     # @return nil
-    def {{operationId}}({{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/optionalParams}}{{#hasParams}}, {{/hasParams}}&block : Crest::Response ->) : Nil
+    def {{operationId}}(
+      {{#hasParams}}{{^hasOnlyOneParam}}*,{{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}
+      {{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}},{{/requiredParams}}{{#optionalParams}}
+      {{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}},{{/optionalParams}}
+      &block : Crest::Response ->
+    ) : Nil
       build_api_request_for_{{operationId}}({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute(&block)
     end
 
@@ -108,7 +121,11 @@ module {{moduleName}}
     {{/isEnum}}
     {{/allParams}}
     # @return Crest::Request
-    def build_api_request_for_{{operationId}}({{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}{{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/optionalParams}}) : Crest::Request
+    def build_api_request_for_{{operationId}}(
+      {{#hasParams}}{{^hasOnlyOneParam}}*, {{/hasOnlyOneParam}}{{/hasParams}}{{#requiredParams}}
+      {{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}{{#hasOptionalParams}}, {{/hasOptionalParams}}{{/hasRequiredParams}}{{#optionalParams}}
+      {{paramName}} : {{>partial_model_generic_property_data_type}} = {{>partial_model_generic_property_default_value}}{{^-last}}, {{/-last}}{{/optionalParams}}
+    ) : Crest::Request
       if debugging
         Log.debug { "Calling API: {{classname}}.{{operationId}} ..." }
       end
