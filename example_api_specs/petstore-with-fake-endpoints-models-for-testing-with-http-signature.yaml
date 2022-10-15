@@ -594,6 +594,28 @@ paths:
         - api_key_query: []
       requestBody:
         $ref: "#/components/requestBodies/Client"
+  /fake/{id}:
+    get:
+      tags:
+        - fake
+      description: Returns a user based on a single ID, if the user does not have access to the pet
+      operationId: find pet by id
+      parameters:
+        - name: id
+          in: path
+          description: ID of pet to fetch
+          required: true
+          schema:
+            type: string
+            format: uuid
+            default: 954b95b6-43cf-4104-8354-dea4d9b10ddf
+      responses:
+        '200':
+          description: pet response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
   /fake:
     patch:
       tags:
@@ -1364,6 +1386,9 @@ components:
         - name
         - photoUrls
       properties:
+        uuid:
+          type: string
+          format: uuid
         id:
           type: integer
           format: int64
