@@ -70,7 +70,7 @@ module {{moduleName}}
     def update_params_for_auth!(
       header_params : Hash(String, String),
       cookie_params : Hash(String, String),
-      query_params : Hash(String, (String | Array(String))),
+      query_params : Hash(String, (String | Array(String) | JSON::Any)),
       auth_names : Array(String)
     ) : Nil
       auth_names.each do |auth_name|
@@ -153,8 +153,8 @@ module {{moduleName}}
       auth_names : Array(String) = Array(String).new,
       header_params : Hash(String, String) = Hash(String, String).new,
       cookie_params : Hash(String, String) = Hash(String, String).new,
-      query_params : Hash(String, (String | Array(String))) = Hash(String, (String | Array(String))).new,
-      form_params : Hash(String, (String | Array(String) | IO)) | Nil = nil
+      query_params : Hash(String, (String | Array(String) | JSON::Any)) = Hash(String, (String | Array(String) | JSON::Any)).new,
+      form_params : Hash(String, (String | Array(String) | JSON::Any | IO)) | Nil = nil
     ) : Crest::Request
       # ssl_options = {
       #   "ca_file" => @config.ssl_ca_file,
@@ -168,7 +168,7 @@ module {{moduleName}}
       header_params.merge!(default_headers)
       cookie_params.merge!(default_cookies)
 
-      form_or_body : Hash(String, (String | Array(String) | IO)) | IO | String | Nil = nil
+      form_or_body : Hash(String, (String | Array(String) | IO | JSON::Any)) | IO | String | Nil = nil
 
       if !post_body.nil? && (post_body.is_a?(IO) || post_body.is_a?(String) && !post_body.empty?)
         # use JSON string in the payload
