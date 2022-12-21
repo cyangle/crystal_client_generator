@@ -346,6 +346,46 @@
       "type": "object"
     }
   ],
+  "api_method_refund_list": [
+    {
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/components/schemas/refund"
+          },
+          "type": "array"
+        },
+        "has_more": {
+          "description": "True if this list has another page of items after this one that can be fetched.",
+          "type": "boolean"
+        },
+        "object": {
+          "description": "String representing the object's type. Objects of the same type share the same value. Always has the value `list`.",
+          "enum": [
+            "list"
+          ],
+          "type": "string"
+        },
+        "url": {
+          "description": "The URL where this list can be accessed.",
+          "maxLength": 5000,
+          "pattern": "^/v1/refunds",
+          "type": "string"
+        }
+      },
+      "required": [
+        "data",
+        "has_more",
+        "object",
+        "url"
+      ],
+      "title": "APIMethodRefundList",
+      "type": "object",
+      "x-expandableFields": [
+        "data"
+      ]
+    }
+  ],
   "apms_sources_source_list": [
     {
       "properties": {
@@ -3407,6 +3447,15 @@
       },
       "title": "currency_option",
       "type": "object"
+    },
+    {
+      "properties": {
+        "minimum_amount": {
+          "type": "integer"
+        }
+      },
+      "title": "currency_option",
+      "type": "object"
     }
   ],
   "currency_option_update": [
@@ -3811,10 +3860,7 @@
           "type": "integer"
         },
         "metadata": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "type": "object"
+          "$ref": "#/components/schemas/map_of_string"
         },
         "name": {
           "maxLength": 5000,
@@ -4066,6 +4112,8 @@
             "is_vat",
             "jp_cn",
             "jp_rn",
+            "jp_trn",
+            "ke_pin",
             "kr_brn",
             "li_uid",
             "mx_rfc",
@@ -5154,10 +5202,7 @@
         "metadata": {
           "oneOf": [
             {
-              "additionalProperties": {
-                "type": "string"
-              },
-              "type": "object"
+              "$ref": "#/components/schemas/map_of_string"
             },
             {
               "enum": [
@@ -5315,10 +5360,7 @@
           "type": "string"
         },
         "currency_options": {
-          "additionalProperties": {
-            "$ref": "#/components/schemas/shipping_rate_currency_option"
-          },
-          "type": "object"
+          "$ref": "#/components/schemas/map_of_shipping_rate_currency_option"
         }
       },
       "required": [
@@ -5333,10 +5375,7 @@
     {
       "properties": {
         "currency_options": {
-          "additionalProperties": {
-            "$ref": "#/components/schemas/currency_option_update"
-          },
-          "type": "object"
+          "$ref": "#/components/schemas/map_of_currency_option_update"
         }
       },
       "title": "fixed_amount_update",
@@ -5640,10 +5679,7 @@
         "metadata": {
           "oneOf": [
             {
-              "additionalProperties": {
-                "type": "string"
-              },
-              "type": "object"
+              "$ref": "#/components/schemas/map_of_string"
             },
             {
               "enum": [
@@ -5689,10 +5725,7 @@
           "type": "string"
         },
         "metadata": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "type": "object"
+          "$ref": "#/components/schemas/map_of_string"
         },
         "name": {
           "maxLength": 5000,
@@ -5868,10 +5901,7 @@
         "metadata": {
           "oneOf": [
             {
-              "additionalProperties": {
-                "type": "string"
-              },
-              "type": "object"
+              "$ref": "#/components/schemas/map_of_string"
             },
             {
               "enum": [
@@ -6859,10 +6889,7 @@
           "$ref": "#/components/schemas/fixed_amount"
         },
         "metadata": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "type": "object"
+          "$ref": "#/components/schemas/map_of_string"
         },
         "tax_behavior": {
           "enum": [
@@ -7678,10 +7705,7 @@
           "type": "string"
         },
         "metadata": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "type": "object"
+          "$ref": "#/components/schemas/map_of_string"
         },
         "on_behalf_of": {
           "type": "string"
@@ -7936,10 +7960,7 @@
           "type": "string"
         },
         "metadata": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "type": "object"
+          "$ref": "#/components/schemas/map_of_string"
         },
         "type": {
           "enum": [
@@ -8221,10 +8242,7 @@
           "type": "object"
         },
         "metadata": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "type": "object"
+          "$ref": "#/components/schemas/map_of_string"
         },
         "oxxo": {
           "properties": {
@@ -8733,10 +8751,109 @@
                   "type": "string"
                 },
                 "installments": {
-                  "$ref": "#/components/schemas/installments_param"
+                  "properties": {
+                    "enabled": {
+                      "type": "boolean"
+                    },
+                    "plan": {
+                      "oneOf": [
+                        {
+                          "enum": [
+                            ""
+                          ],
+                          "type": "string"
+                        },
+                        {
+                          "properties": {
+                            "count": {
+                              "type": "integer"
+                            },
+                            "interval": {
+                              "enum": [
+                                "month"
+                              ],
+                              "type": "string"
+                            },
+                            "type": {
+                              "enum": [
+                                "fixed_count"
+                              ],
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "count",
+                            "interval",
+                            "type"
+                          ],
+                          "title": "installment_plan",
+                          "type": "object"
+                        }
+                      ]
+                    }
+                  },
+                  "title": "installments_param",
+                  "type": "object"
                 },
                 "mandate_options": {
-                  "$ref": "#/components/schemas/payment_method_options_card_mandate_options"
+                  "properties": {
+                    "amount": {
+                      "type": "integer"
+                    },
+                    "amount_type": {
+                      "enum": [
+                        "fixed",
+                        "maximum"
+                      ],
+                      "type": "string"
+                    },
+                    "description": {
+                      "maxLength": 200,
+                      "type": "string"
+                    },
+                    "end_date": {
+                      "format": "unix-time",
+                      "type": "integer"
+                    },
+                    "interval": {
+                      "enum": [
+                        "day",
+                        "month",
+                        "sporadic",
+                        "week",
+                        "year"
+                      ],
+                      "type": "string"
+                    },
+                    "interval_count": {
+                      "type": "integer"
+                    },
+                    "reference": {
+                      "maxLength": 80,
+                      "type": "string"
+                    },
+                    "start_date": {
+                      "format": "unix-time",
+                      "type": "integer"
+                    },
+                    "supported_types": {
+                      "items": {
+                        "enum": [
+                          "india"
+                        ],
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "amount",
+                    "amount_type",
+                    "interval",
+                    "reference",
+                    "start_date"
+                  ],
+                  "type": "object"
                 },
                 "network": {
                   "enum": [
@@ -9874,10 +9991,7 @@
         "metadata": {
           "oneOf": [
             {
-              "additionalProperties": {
-                "type": "string"
-              },
-              "type": "object"
+              "$ref": "#/components/schemas/map_of_string"
             },
             {
               "enum": [
@@ -9977,7 +10091,66 @@
       "properties": {
         "add_invoice_items": {
           "items": {
-            "$ref": "#/components/schemas/add_invoice_item_entry"
+            "properties": {
+              "price": {
+                "maxLength": 5000,
+                "type": "string"
+              },
+              "price_data": {
+                "properties": {
+                  "currency": {
+                    "type": "string"
+                  },
+                  "product": {
+                    "maxLength": 5000,
+                    "type": "string"
+                  },
+                  "tax_behavior": {
+                    "enum": [
+                      "exclusive",
+                      "inclusive",
+                      "unspecified"
+                    ],
+                    "type": "string"
+                  },
+                  "unit_amount": {
+                    "type": "integer"
+                  },
+                  "unit_amount_decimal": {
+                    "format": "decimal",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "currency",
+                  "product"
+                ],
+                "title": "one_time_price_data",
+                "type": "object"
+              },
+              "quantity": {
+                "type": "integer"
+              },
+              "tax_rates": {
+                "oneOf": [
+                  {
+                    "enum": [
+                      ""
+                    ],
+                    "type": "string"
+                  },
+                  {
+                    "items": {
+                      "maxLength": 5000,
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "title": "add_invoice_item_entry",
+            "type": "object"
           },
           "type": "array"
         },
@@ -9985,7 +10158,16 @@
           "type": "number"
         },
         "automatic_tax": {
-          "$ref": "#/components/schemas/automatic_tax_config"
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "enabled"
+          ],
+          "title": "automatic_tax_config",
+          "type": "object"
         },
         "billing_cycle_anchor": {
           "enum": [
@@ -10004,6 +10186,355 @@
                 ""
               ],
               "type": "string"
+            }
+          ]
+        },
+        "collection_method": {
+          "enum": [
+            "charge_automatically",
+            "send_invoice"
+          ],
+          "type": "string"
+        },
+        "coupon": {
+          "maxLength": 5000,
+          "type": "string"
+        },
+        "default_payment_method": {
+          "maxLength": 5000,
+          "type": "string"
+        },
+        "default_tax_rates": {
+          "oneOf": [
+            {
+              "enum": [
+                ""
+              ],
+              "type": "string"
+            },
+            {
+              "items": {
+                "maxLength": 5000,
+                "type": "string"
+              },
+              "type": "array"
+            }
+          ]
+        },
+        "description": {
+          "maxLength": 500,
+          "type": "string"
+        },
+        "end_date": {
+          "oneOf": [
+            {
+              "enum": [
+                "now"
+              ],
+              "maxLength": 5000,
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ]
+        },
+        "invoice_settings": {
+          "properties": {
+            "days_until_due": {
+              "type": "integer"
+            }
+          },
+          "title": "subscription_schedules_param",
+          "type": "object"
+        },
+        "items": {
+          "items": {
+            "properties": {
+              "billing_thresholds": {
+                "oneOf": [
+                  {
+                    "enum": [
+                      ""
+                    ],
+                    "type": "string"
+                  },
+                  {
+                    "properties": {
+                      "usage_gte": {
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "usage_gte"
+                    ],
+                    "title": "item_billing_thresholds_param",
+                    "type": "object"
+                  }
+                ]
+              },
+              "price": {
+                "maxLength": 5000,
+                "type": "string"
+              },
+              "price_data": {
+                "properties": {
+                  "currency": {
+                    "type": "string"
+                  },
+                  "product": {
+                    "maxLength": 5000,
+                    "type": "string"
+                  },
+                  "recurring": {
+                    "properties": {
+                      "interval": {
+                        "enum": [
+                          "day",
+                          "month",
+                          "week",
+                          "year"
+                        ],
+                        "type": "string"
+                      },
+                      "interval_count": {
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "interval"
+                    ],
+                    "title": "recurring_adhoc",
+                    "type": "object"
+                  },
+                  "tax_behavior": {
+                    "enum": [
+                      "exclusive",
+                      "inclusive",
+                      "unspecified"
+                    ],
+                    "type": "string"
+                  },
+                  "unit_amount": {
+                    "type": "integer"
+                  },
+                  "unit_amount_decimal": {
+                    "format": "decimal",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "currency",
+                  "product",
+                  "recurring"
+                ],
+                "title": "recurring_price_data",
+                "type": "object"
+              },
+              "quantity": {
+                "type": "integer"
+              },
+              "tax_rates": {
+                "oneOf": [
+                  {
+                    "enum": [
+                      ""
+                    ],
+                    "type": "string"
+                  },
+                  {
+                    "items": {
+                      "maxLength": 5000,
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "title": "configuration_item_params",
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "iterations": {
+          "type": "integer"
+        },
+        "metadata": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object"
+        },
+        "proration_behavior": {
+          "enum": [
+            "always_invoice",
+            "create_prorations",
+            "none"
+          ],
+          "type": "string"
+        },
+        "start_date": {
+          "oneOf": [
+            {
+              "enum": [
+                "now"
+              ],
+              "maxLength": 5000,
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ]
+        },
+        "transfer_data": {
+          "properties": {
+            "amount_percent": {
+              "type": "number"
+            },
+            "destination": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "destination"
+          ],
+          "title": "transfer_data_specs",
+          "type": "object"
+        },
+        "trial": {
+          "type": "boolean"
+        },
+        "trial_end": {
+          "oneOf": [
+            {
+              "enum": [
+                "now"
+              ],
+              "maxLength": 5000,
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            }
+          ]
+        }
+      },
+      "required": [
+        "items"
+      ],
+      "title": "phase_configuration_params",
+      "type": "object"
+    },
+    {
+      "properties": {
+        "add_invoice_items": {
+          "items": {
+            "properties": {
+              "price": {
+                "maxLength": 5000,
+                "type": "string"
+              },
+              "price_data": {
+                "properties": {
+                  "currency": {
+                    "type": "string"
+                  },
+                  "product": {
+                    "maxLength": 5000,
+                    "type": "string"
+                  },
+                  "tax_behavior": {
+                    "enum": [
+                      "exclusive",
+                      "inclusive",
+                      "unspecified"
+                    ],
+                    "type": "string"
+                  },
+                  "unit_amount": {
+                    "type": "integer"
+                  },
+                  "unit_amount_decimal": {
+                    "format": "decimal",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "currency",
+                  "product"
+                ],
+                "title": "one_time_price_data",
+                "type": "object"
+              },
+              "quantity": {
+                "type": "integer"
+              },
+              "tax_rates": {
+                "oneOf": [
+                  {
+                    "enum": [
+                      ""
+                    ],
+                    "type": "string"
+                  },
+                  {
+                    "items": {
+                      "maxLength": 5000,
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "title": "add_invoice_item_entry",
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "application_fee_percent": {
+          "type": "number"
+        },
+        "automatic_tax": {
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "enabled"
+          ],
+          "title": "automatic_tax_config",
+          "type": "object"
+        },
+        "billing_cycle_anchor": {
+          "enum": [
+            "automatic",
+            "phase_start"
+          ],
+          "type": "string"
+        },
+        "billing_thresholds": {
+          "oneOf": [
+            {
+              "enum": [
+                ""
+              ],
+              "type": "string"
+            },
+            {
+              "properties": {
+                "amount_gte": {
+                  "type": "integer"
+                },
+                "reset_billing_cycle_anchor": {
+                  "type": "boolean"
+                }
+              },
+              "title": "billing_thresholds_param",
+              "type": "object"
             }
           ]
         },
@@ -10051,11 +10582,120 @@
           "type": "integer"
         },
         "invoice_settings": {
-          "$ref": "#/components/schemas/subscription_schedules_param"
+          "properties": {
+            "days_until_due": {
+              "type": "integer"
+            }
+          },
+          "title": "subscription_schedules_param",
+          "type": "object"
         },
         "items": {
           "items": {
-            "$ref": "#/components/schemas/configuration_item_params"
+            "properties": {
+              "billing_thresholds": {
+                "oneOf": [
+                  {
+                    "enum": [
+                      ""
+                    ],
+                    "type": "string"
+                  },
+                  {
+                    "properties": {
+                      "usage_gte": {
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "usage_gte"
+                    ],
+                    "title": "item_billing_thresholds_param",
+                    "type": "object"
+                  }
+                ]
+              },
+              "price": {
+                "maxLength": 5000,
+                "type": "string"
+              },
+              "price_data": {
+                "properties": {
+                  "currency": {
+                    "type": "string"
+                  },
+                  "product": {
+                    "maxLength": 5000,
+                    "type": "string"
+                  },
+                  "recurring": {
+                    "properties": {
+                      "interval": {
+                        "enum": [
+                          "day",
+                          "month",
+                          "week",
+                          "year"
+                        ],
+                        "type": "string"
+                      },
+                      "interval_count": {
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "interval"
+                    ],
+                    "title": "recurring_adhoc",
+                    "type": "object"
+                  },
+                  "tax_behavior": {
+                    "enum": [
+                      "exclusive",
+                      "inclusive",
+                      "unspecified"
+                    ],
+                    "type": "string"
+                  },
+                  "unit_amount": {
+                    "type": "integer"
+                  },
+                  "unit_amount_decimal": {
+                    "format": "decimal",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "currency",
+                  "product",
+                  "recurring"
+                ],
+                "title": "recurring_price_data",
+                "type": "object"
+              },
+              "quantity": {
+                "type": "integer"
+              },
+              "tax_rates": {
+                "oneOf": [
+                  {
+                    "enum": [
+                      ""
+                    ],
+                    "type": "string"
+                  },
+                  {
+                    "items": {
+                      "maxLength": 5000,
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "title": "configuration_item_params",
+            "type": "object"
           },
           "type": "array"
         },
@@ -10077,7 +10717,19 @@
           "type": "string"
         },
         "transfer_data": {
-          "$ref": "#/components/schemas/transfer_data_specs"
+          "properties": {
+            "amount_percent": {
+              "type": "number"
+            },
+            "destination": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "destination"
+          ],
+          "title": "transfer_data_specs",
+          "type": "object"
         },
         "trial": {
           "type": "boolean"
@@ -10364,10 +11016,7 @@
           "type": "string"
         },
         "currency_options": {
-          "additionalProperties": {
-            "$ref": "#/components/schemas/currency_option"
-          },
-          "type": "object"
+          "$ref": "#/components/schemas/map_of_currency_option"
         },
         "recurring": {
           "$ref": "#/components/schemas/recurring_adhoc"
@@ -10441,6 +11090,9 @@
       "properties": {
         "skip_tipping": {
           "type": "boolean"
+        },
+        "tipping": {
+          "$ref": "#/components/schemas/tipping_config"
         }
       },
       "title": "process_config",
@@ -10461,10 +11113,7 @@
           "type": "array"
         },
         "metadata": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "type": "object"
+          "$ref": "#/components/schemas/map_of_string"
         },
         "name": {
           "maxLength": 5000,
@@ -10553,10 +11202,7 @@
         "metadata": {
           "oneOf": [
             {
-              "additionalProperties": {
-                "type": "string"
-              },
-              "type": "object"
+              "$ref": "#/components/schemas/map_of_string"
             },
             {
               "enum": [
@@ -11131,6 +11777,46 @@
       ],
       "title": "redirect_params",
       "type": "object"
+    }
+  ],
+  "refund_list": [
+    {
+      "properties": {
+        "data": {
+          "description": "Details about each object.",
+          "items": {
+            "$ref": "#/components/schemas/refund"
+          },
+          "type": "array"
+        },
+        "has_more": {
+          "description": "True if this list has another page of items after this one that can be fetched.",
+          "type": "boolean"
+        },
+        "object": {
+          "description": "String representing the object's type. Objects of the same type share the same value. Always has the value `list`.",
+          "enum": [
+            "list"
+          ],
+          "type": "string"
+        },
+        "url": {
+          "description": "The URL where this list can be accessed.",
+          "maxLength": 5000,
+          "type": "string"
+        }
+      },
+      "required": [
+        "data",
+        "has_more",
+        "object",
+        "url"
+      ],
+      "title": "RefundList",
+      "type": "object",
+      "x-expandableFields": [
+        "data"
+      ]
     }
   ],
   "relationship_specs": [
@@ -12231,10 +12917,7 @@
           "type": "string"
         },
         "metadata": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "type": "object"
+          "$ref": "#/components/schemas/map_of_string"
         },
         "on_behalf_of": {
           "type": "string"
@@ -13548,10 +14231,7 @@
           "type": "string"
         },
         "metadata": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "type": "object"
+          "$ref": "#/components/schemas/map_of_string"
         },
         "transfer_data": {
           "$ref": "#/components/schemas/transfer_data_specs"
@@ -13631,10 +14311,7 @@
           ]
         },
         "metadata": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "type": "object"
+          "$ref": "#/components/schemas/map_of_string"
         },
         "price": {
           "maxLength": 5000,
@@ -13737,10 +14414,7 @@
         "metadata": {
           "oneOf": [
             {
-              "additionalProperties": {
-                "type": "string"
-              },
-              "type": "object"
+              "$ref": "#/components/schemas/map_of_string"
             },
             {
               "enum": [
@@ -14175,7 +14849,23 @@
                 {
                   "properties": {
                     "mandate_options": {
-                      "$ref": "#/components/schemas/invoice_mandate_options_card"
+                      "properties": {
+                        "amount": {
+                          "type": "integer"
+                        },
+                        "amount_type": {
+                          "enum": [
+                            "fixed",
+                            "maximum"
+                          ],
+                          "type": "string"
+                        },
+                        "description": {
+                          "maxLength": 200,
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
                     },
                     "network": {
                       "enum": [
@@ -14749,6 +15439,17 @@
       "type": "object"
     }
   ],
+  "tipping_config": [
+    {
+      "properties": {
+        "amount_eligible": {
+          "type": "integer"
+        }
+      },
+      "title": "tipping_config",
+      "type": "object"
+    }
+  ],
   "token_create_bank_account": [
     {
       "properties": {
@@ -14933,12 +15634,48 @@
       "properties": {
         "amount": {
           "type": "integer"
+        }
+      },
+      "title": "transfer_data_specs",
+      "type": "object"
+    },
+    {
+      "properties": {
+        "amount": {
+          "type": "integer"
         },
+        "destination": {
+          "maxLength": 5000,
+          "type": "string"
+        }
+      },
+      "required": [
+        "destination"
+      ],
+      "title": "transfer_data_specs",
+      "type": "object"
+    },
+    {
+      "properties": {
+        "amount": {
+          "type": "integer"
+        },
+        "destination": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "destination"
+      ],
+      "title": "transfer_data_specs",
+      "type": "object"
+    },
+    {
+      "properties": {
         "amount_percent": {
           "type": "number"
         },
         "destination": {
-          "maxLength": 5000,
           "type": "string"
         }
       },
@@ -15567,285 +16304,6 @@
         }
       },
       "title": "update_param",
-      "type": "object"
-    }
-  ],
-  "update_params": [
-    {
-      "properties": {
-        "settings": {
-          "properties": {
-            "application_fee_amount": {
-              "oneOf": [
-                {
-                  "enum": [
-                    ""
-                  ],
-                  "type": "string"
-                },
-                {
-                  "type": "integer"
-                }
-              ]
-            },
-            "payment_method_options": {
-              "properties": {
-                "acss_debit": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/payment_intent_payment_method_options_acss_debit"
-                    },
-                    {
-                      "enum": [
-                        ""
-                      ],
-                      "type": "string"
-                    }
-                  ]
-                },
-                "afterpay_clearpay": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/afterpay_clearpay_payment_method_options_param"
-                    },
-                    {
-                      "enum": [
-                        ""
-                      ],
-                      "type": "string"
-                    }
-                  ]
-                },
-                "alipay": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/payment_method_options_param"
-                    },
-                    {
-                      "enum": [
-                        ""
-                      ],
-                      "type": "string"
-                    }
-                  ]
-                },
-                "bancontact": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/payment_method_options_param"
-                    },
-                    {
-                      "enum": [
-                        ""
-                      ],
-                      "type": "string"
-                    }
-                  ]
-                },
-                "card": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/card_payment_method_options"
-                    },
-                    {
-                      "enum": [
-                        ""
-                      ],
-                      "type": "string"
-                    }
-                  ]
-                },
-                "customer_balance": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/checkout_customer_balance_payment_method_options"
-                    },
-                    {
-                      "enum": [
-                        ""
-                      ],
-                      "type": "string"
-                    }
-                  ]
-                },
-                "ideal": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/payment_method_options_param"
-                    },
-                    {
-                      "enum": [
-                        ""
-                      ],
-                      "type": "string"
-                    }
-                  ]
-                },
-                "klarna": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/payment_method_options_param"
-                    },
-                    {
-                      "enum": [
-                        ""
-                      ],
-                      "type": "string"
-                    }
-                  ]
-                },
-                "link": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/payment_intent_payment_method_options_link"
-                    },
-                    {
-                      "enum": [
-                        ""
-                      ],
-                      "type": "string"
-                    }
-                  ]
-                },
-                "oxxo": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/payment_method_options_param"
-                    },
-                    {
-                      "enum": [
-                        ""
-                      ],
-                      "type": "string"
-                    }
-                  ]
-                },
-                "p24": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/payment_method_options_param"
-                    },
-                    {
-                      "enum": [
-                        ""
-                      ],
-                      "type": "string"
-                    }
-                  ]
-                },
-                "sepa_debit": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/payment_intent_payment_method_options_sepa_debit"
-                    },
-                    {
-                      "enum": [
-                        ""
-                      ],
-                      "type": "string"
-                    }
-                  ]
-                },
-                "sofort": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/payment_method_options_param"
-                    },
-                    {
-                      "enum": [
-                        ""
-                      ],
-                      "type": "string"
-                    }
-                  ]
-                },
-                "wechat_pay": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/payment_method_options_param"
-                    },
-                    {
-                      "enum": [
-                        ""
-                      ],
-                      "type": "string"
-                    }
-                  ]
-                }
-              },
-              "type": "object"
-            },
-            "payment_method_types": {
-              "items": {
-                "enum": [
-                  "acss_debit",
-                  "afterpay_clearpay",
-                  "alipay",
-                  "au_becs_debit",
-                  "bacs_debit",
-                  "bancontact",
-                  "card",
-                  "customer_balance",
-                  "eps",
-                  "fpx",
-                  "giropay",
-                  "grabpay",
-                  "ideal",
-                  "klarna",
-                  "link",
-                  "oxxo",
-                  "p24",
-                  "sepa_debit",
-                  "sofort",
-                  "wechat_pay"
-                ],
-                "type": "string",
-                "x-stripeBypassValidation": true
-              },
-              "type": "array"
-            },
-            "return_url": {
-              "oneOf": [
-                {
-                  "enum": [
-                    ""
-                  ],
-                  "type": "string"
-                },
-                {
-                  "type": "string"
-                }
-              ]
-            },
-            "statement_descriptor": {
-              "maxLength": 22,
-              "type": "string"
-            },
-            "statement_descriptor_suffix": {
-              "maxLength": 22,
-              "type": "string"
-            },
-            "transfer_data": {
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/transfer_data"
-                },
-                {
-                  "enum": [
-                    ""
-                  ],
-                  "type": "string"
-                }
-              ]
-            }
-          },
-          "type": "object"
-        }
-      },
-      "required": [
-        "settings"
-      ],
-      "title": "update_params",
       "type": "object"
     }
   ],

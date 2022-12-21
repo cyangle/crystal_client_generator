@@ -36,15 +36,20 @@ IGNORED_PROPERTY_LIST = [
 
 TAG_REGEX = /^\/v1\/([^\/]+)/.freeze
 
+FREE_FORM_MAP_KEYS = ["additionalProperties", "type", "nullable"].freeze
+
 spec_path = File.join(__dir__, ARGV[0] || "stripe_api_spec.json")
 out_file_path = File.join(__dir__, ARGV[1] || "stripe_api_spec_fixed.json")
 new_schemas_path = File.join(__dir__, ARGV[1] || "stripe_api_spec_new_schemas.json")
+free_form_schemas_path = File.join(__dir__, ARGV[1] || "stripe_api_spec_free_form_schemas.json")
 grouped_schemas_path = File.join(__dir__, ARGV[1] || "stripe_api_spec_grouped_schemas.json")
 api_endpoints_path = File.join(__dir__, ARGV[1] || "stripe_api_endpoints.txt")
 
 api_endpoints = File.read(api_endpoints_path).split("\n")
 
 spec = JSON.parse(File.read(spec_path))
+
+extra_free_form_schemas = JSON.parse(File.read("stripe_api_spec_free_form_schemas_all.json"))
 
 paths = spec.dig("paths")
 
@@ -54,6 +59,7 @@ end
 
 loose_global_schemas = []
 strict_global_schemas = []
+GLOBAL_FREE_FORM_SCHEMAS = []
 
 def extract_schema(schema, schemas, strict = false)
   if schema.is_a?(Array)
@@ -62,7 +68,11 @@ def extract_schema(schema, schemas, strict = false)
     end
   elsif schema.is_a?(Hash)
     if schema.has_key?("title") && schema["title"].is_a?(String)
-      schemas.push(schema.dup) if !strict || (strict && schema.has_key?("description"))
+      schemas.push(schema.deep_dup) if !strict || (strict && schema.has_key?("description"))
+    end
+    if schema.has_key?("additionalProperties") && schema["additionalProperties"].is_a?(Hash)
+      puts "free form schema has key properties or title: #{schema}" if schema.has_key?("properties") || schema.has_key?("title")
+      GLOBAL_FREE_FORM_SCHEMAS.push(schema.deep_dup.slice(*FREE_FORM_MAP_KEYS))
     end
     schema.each do |_key, value|
       extract_schema(value, schemas, strict)
@@ -111,14 +121,15 @@ uniq_grouped_schemas = grouped_schemas.each_with_object({}) do |(key, array), ob
   obj[key] = array2
 end
 
-duplicated_schemas = uniq_grouped_schemas.select do |_key, array|
+deep_duplicated_schemas = uniq_grouped_schemas.select do |_key, array|
   array.size > 1
 end
 
-pp duplicated_schemas.keys
+pp deep_duplicated_schemas.keys
 
 new_schemas = grouped_schemas
   .each_with_object({}) {|(key, value), obj| obj[key] = value.each_with_object({}) {|value2, obj2| obj2.deep_merge!(value2)}}
+  .merge(extra_free_form_schemas)
 
 new_schemas.delete("param")
 
@@ -126,10 +137,15 @@ puts new_schemas.keys.size
 
 spec_schemas = new_schemas.merge(spec["components"]["schemas"])
 
-schema_dict = spec_schemas.each_with_object({}) do |(key, schema), obj|
-  properties = []
-  properties = schema["properties"].keys.to_set if schema["properties"] && schema["properties"].is_a?(Hash)
-  obj[key] = properties
+def build_schema_dict(spec_schemas)
+  spec_schemas.each_with_object({}) do |(key, schema), obj|
+    info = {
+      "properties" => [],
+      "schema" => schema.deep_dup
+    }
+    info["properties"] = schema["properties"].keys.to_set if schema["properties"] && schema["properties"].is_a?(Hash)
+    obj[key] = info
+  end
 end
 
 def find_schema_name(schema, schema_dict)
@@ -139,12 +155,22 @@ def find_schema_name(schema, schema_dict)
     key == title
   end&.first
 
+  return schema_name if schema_name
+
+  if schema.has_key?("additionalProperties") && !schema.has_key?("properties")
+    free_form_schema = schema.deep_dup.slice(*FREE_FORM_MAP_KEYS)
+    schema_name = schema_dict.find do |key, value|
+      free_form_schema == value["schema"]
+    end&.first
+    return schema_name if schema_name
+  end
+
   property_set = (schema["properties"]&.keys || []).to_set
   return schema_name if IGNORED_PROPERTY_LIST.any? { |ipl| ipl == property_set }
   return schema_name unless schema_name.nil? && schema["type"] == "object" && schema["properties"] && schema["properties"].keys.size > 1
 
   schema_name ||= schema_dict.find do |key, value|
-    value == property_set
+    value["properties"] == property_set
   end&.first
 
   schema_name
@@ -167,17 +193,41 @@ def update_schema_with_ref(schema, schema_dict)
   end
 end
 
-spec_schemas.each do |key, schema|
-  schema.each do |_key, value|
-    update_schema_with_ref(value, schema_dict)
+def update_spec_schemas_with_ref(spec_schemas, schema_dict)
+  spec_schemas.each do |key, schema|
+    schema.each do |_key, value|
+      update_schema_with_ref(value, schema_dict)
+    end
   end
 end
 
-update_schema_with_ref(paths, schema_dict)
+def loop_update_spec_schemas(spec_schemas)
+  loop do
+    deep_dup = spec_schemas.deep_dup
+    schema_dict = build_schema_dict(spec_schemas)
+    update_spec_schemas_with_ref(spec_schemas, schema_dict)
+    break if deep_dup == spec_schemas
+  end
+end
+
+loop_update_spec_schemas(spec_schemas)
+
+def loop_update_paths(paths, spec_schemas)
+  schema_dict = build_schema_dict(spec_schemas)
+  loop do
+    deep_dup = paths.deep_dup
+    update_schema_with_ref(paths, schema_dict)
+    break if deep_dup == paths
+  end
+end
+
+loop_update_paths(paths, spec_schemas)
 
 spec["components"]["schemas"] = spec_schemas
+
+# Delete empty request bodies
 spec["paths"].each do |path, value|
-  next unless value.has_key?("get")
+  next unless value.has_key?("get") || value.has_key?("delete")
   value["get"].delete("requestBody") if value["get"] && value["get"].is_a?(Hash) && value.dig("get", "requestBody", "content", "application/x-www-form-urlencoded", "schema", "properties").empty?
   value["delete"].delete("requestBody") if value["delete"] && value["delete"].is_a?(Hash) && value.dig("delete", "requestBody", "content", "application/x-www-form-urlencoded", "schema", "properties").empty?
 end
@@ -195,6 +245,7 @@ spec["tags"] = all_tags.uniq.map {|tag| {"name" => tag}}
 
 File.write(grouped_schemas_path, JSON.pretty_generate(uniq_grouped_schemas.deep_sort))
 File.write(new_schemas_path, JSON.pretty_generate(new_schemas.deep_sort))
+File.write(free_form_schemas_path, JSON.pretty_generate(GLOBAL_FREE_FORM_SCHEMAS.deep_sort.uniq))
 
 spec_str = JSON.pretty_generate(spec)
 

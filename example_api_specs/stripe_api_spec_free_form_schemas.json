@@ -1,0 +1,250 @@
+[
+  {
+    "additionalProperties": {
+      "$ref": "#/components/schemas/coupon_currency_option"
+    },
+    "type": "object"
+  },
+  {
+    "additionalProperties": {
+      "$ref": "#/components/schemas/currency_option"
+    },
+    "type": "object"
+  },
+  {
+    "additionalProperties": {
+      "$ref": "#/components/schemas/promotion_code_currency_option"
+    },
+    "type": "object"
+  },
+  {
+    "additionalProperties": {
+      "$ref": "#/components/schemas/shipping_rate_currency_option"
+    },
+    "type": "object"
+  },
+  {
+    "additionalProperties": {
+      "items": {
+        "maxLength": 5000,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "type": "object"
+  },
+  {
+    "additionalProperties": {
+      "maxLength": 500,
+      "type": "string"
+    },
+    "nullable": true,
+    "type": "object"
+  },
+  {
+    "additionalProperties": {
+      "maxLength": 500,
+      "type": "string"
+    },
+    "type": "object"
+  },
+  {
+    "additionalProperties": {
+      "maxLength": 5000,
+      "type": "string"
+    },
+    "type": "object"
+  },
+  {
+    "additionalProperties": {
+      "properties": {
+        "amount": {
+          "type": "integer"
+        },
+        "tax_behavior": {
+          "enum": [
+            "exclusive",
+            "inclusive",
+            "unspecified"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "amount"
+      ],
+      "title": "shipping_rate_currency_option",
+      "type": "object"
+    },
+    "type": "object"
+  },
+  {
+    "additionalProperties": {
+      "properties": {
+        "amount": {
+          "type": "integer"
+        },
+        "tax_behavior": {
+          "enum": [
+            "exclusive",
+            "inclusive",
+            "unspecified"
+          ],
+          "type": "string"
+        }
+      },
+      "title": "currency_option_update",
+      "type": "object"
+    },
+    "type": "object"
+  },
+  {
+    "additionalProperties": {
+      "properties": {
+        "amount_off": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "amount_off"
+      ],
+      "title": "CouponCurrencyOption",
+      "type": "object"
+    },
+    "type": "object"
+  },
+  {
+    "additionalProperties": {
+      "properties": {
+        "custom_unit_amount": {
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "maximum": {
+              "type": "integer"
+            },
+            "minimum": {
+              "type": "integer"
+            },
+            "preset": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "enabled"
+          ],
+          "title": "custom_unit_amount",
+          "type": "object"
+        },
+        "tax_behavior": {
+          "enum": [
+            "exclusive",
+            "inclusive",
+            "unspecified"
+          ],
+          "type": "string"
+        },
+        "tiers": {
+          "items": {
+            "properties": {
+              "flat_amount": {
+                "type": "integer"
+              },
+              "flat_amount_decimal": {
+                "format": "decimal",
+                "type": "string"
+              },
+              "unit_amount": {
+                "type": "integer"
+              },
+              "unit_amount_decimal": {
+                "format": "decimal",
+                "type": "string"
+              },
+              "up_to": {
+                "oneOf": [
+                  {
+                    "enum": [
+                      "inf"
+                    ],
+                    "maxLength": 5000,
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "up_to"
+            ],
+            "title": "tier",
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "unit_amount": {
+          "type": "integer"
+        },
+        "unit_amount_decimal": {
+          "format": "decimal",
+          "type": "string"
+        }
+      },
+      "title": "currency_option",
+      "type": "object"
+    },
+    "type": "object"
+  },
+  {
+    "additionalProperties": {
+      "properties": {
+        "minimum_amount": {
+          "type": "integer"
+        }
+      },
+      "title": "currency_option",
+      "type": "object"
+    },
+    "type": "object"
+  },
+  {
+    "additionalProperties": {
+      "properties": {
+        "minimum_amount": {
+          "type": "integer"
+        }
+      },
+      "title": "promotion_code_currency_option",
+      "type": "object"
+    },
+    "type": "object"
+  },
+  {
+    "additionalProperties": {
+      "type": "integer"
+    },
+    "nullable": true,
+    "type": "object"
+  },
+  {
+    "additionalProperties": {
+      "type": "integer"
+    },
+    "type": "object"
+  },
+  {
+    "additionalProperties": {
+      "type": "number"
+    },
+    "type": "object"
+  },
+  {
+    "additionalProperties": {
+      "type": "string"
+    },
+    "type": "object"
+  }
+]

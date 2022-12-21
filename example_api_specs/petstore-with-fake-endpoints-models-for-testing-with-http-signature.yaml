@@ -240,14 +240,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              type: object
-              properties:
-                name:
-                  description: Updated name of the pet
-                  type: string
-                status:
-                  description: Updated status of the pet
-                  type: string
+              $ref: "#/components/schemas/updatePetForm"
     delete:
       tags:
         - pet
@@ -616,6 +609,150 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Pet'
+  /param_encoding_test:
+    post:
+      tags:
+        - param_encoding_test
+      summary: test param encoding
+      description: test param encoding
+      operationId: testParamEncoding
+      parameters:
+        - name: array_in_query
+          in: query
+          description: array param in query
+          schema:
+            type: array
+            items:
+              type: string
+        - name: map_in_query
+          in: query
+          description: map param in query
+          schema:
+            type: object
+            additionalProperties: string
+        - name: tag_in_query
+          in: query
+          description: model tag param in query
+          schema:
+            $ref: '#/components/schemas/Tag'
+          style: form
+      requestBody:
+        $ref: "#/components/requestBodies/ParamEncodingTest"
+        # content:
+        #   application/x-www-form-urlencoded:
+        #     encoding:
+        #       any_value:
+        #         explode: true
+        #         style: deepObject
+        #       any_object:
+        #         explode: true
+        #         style: deepObject
+        #       array_in_body:
+        #         explode: true
+        #         style: deepObject
+        #       map_in_body:
+        #         explode: true
+        #         style: deepObject
+        #       dog:
+        #         explode: true
+        #         style: deepObject
+        #       array_of_apples:
+        #         explode: true
+        #         style: deepObject
+        #       map_of_pet:
+        #         explode: true
+        #         style: deepObject
+        #       inline_map:
+        #         explode: true
+        #         style: deepObject
+        #     schema:
+        #       properties:
+        #         any_value: {}
+        #         any_object:
+        #           type: object
+        #         array_in_body:
+        #           type: array
+        #           items:
+        #             type: string
+        #         map_in_body:
+        #           $ref: "#/components/schemas/map_of_string"
+        #         dog:
+        #           $ref: '#/components/schemas/Dog'
+        #         array_of_apples:
+        #           type: array
+        #           items:
+        #             $ref: '#/components/schemas/apple'
+        #         map_of_pet:
+        #           $ref: "#/components/schemas/map_of_pet"
+        #         inline_map:
+        #           type: object
+        #           additionalProperties:
+        #             type: string
+        #       type: object
+      responses:
+        default:
+          description: successful operation
+  /param_encoding_test2:
+    post:
+      tags:
+        - param_encoding_test2
+      summary: test param encoding
+      description: test param encoding
+      operationId: testParamEncodingOk
+      parameters:
+        - name: array_in_query
+          in: query
+          description: array param in query
+          schema:
+            type: array
+            items:
+              type: string
+        - name: map_in_query
+          in: query
+          description: map param in query
+          schema:
+            type: object
+            additionalProperties: string
+        - name: tag_in_query
+          in: query
+          description: model tag param in query
+          schema:
+            $ref: '#/components/schemas/Tag'
+          style: form
+      requestBody:
+        $ref: "#/components/requestBodies/ParamEncodingTest"
+        # content:
+        #   application/x-www-form-urlencoded:
+        #     encoding:
+        #       any_value:
+        #         explode: true
+        #         style: deepObject
+        #       any_object:
+        #         explode: true
+        #         style: deepObject
+        #       array_in_body:
+        #         explode: true
+        #         style: deepObject
+        #       map_in_body:
+        #         explode: true
+        #         style: deepObject
+        #       dog:
+        #         explode: true
+        #         style: deepObject
+        #       array_of_apples:
+        #         explode: true
+        #         style: deepObject
+        #       map_of_pet:
+        #         explode: true
+        #         style: deepObject
+        #       inline_map:
+        #         explode: true
+        #         style: deepObject
+        #     schema:
+        #       $ref: "#/components/schemas/param_encoding_test2_request_body"
+      responses:
+        default:
+          description: successful operation
   /fake:
     patch:
       tags:
@@ -707,6 +844,10 @@ paths:
       requestBody:
         content:
           application/x-www-form-urlencoded:
+            encoding:
+              enum_form_string_array:
+                style: deepObject
+                explode: true
             schema:
               type: object
               properties:
@@ -1233,6 +1374,38 @@ components:
           schema:
             $ref: "#/components/schemas/Pet"
       description: Pet object that needs to be added to the store
+      required: true
+    ParamEncodingTest:
+      content:
+        application/x-www-form-urlencoded:
+          encoding:
+            any_value:
+              explode: true
+              style: deepObject
+            any_object:
+              explode: true
+              style: deepObject
+            array_in_body:
+              explode: true
+              style: deepObject
+            map_in_body:
+              explode: true
+              style: deepObject
+            dog:
+              explode: true
+              style: deepObject
+            array_of_apples:
+              explode: true
+              style: deepObject
+            map_of_pet:
+              explode: true
+              style: deepObject
+            inline_map:
+              explode: true
+              style: deepObject
+          schema:
+            $ref: "#/components/schemas/param_encoding_test2_request_body"
+      description: param encoding test request
       required: true
   securitySchemes:
     petstore_auth:
@@ -2116,3 +2289,45 @@ components:
       properties:
         count:
             type: number
+    map_of_string:
+      type: object
+      additionalProperties:
+        type: string
+    map_of_pet:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/Pet"
+    param_encoding_test2_request_body:
+      properties:
+        any_value: {}
+        any_object:
+          type: object
+        array_in_body:
+          type: array
+          items:
+            type: string
+        map_in_body:
+          $ref: "#/components/schemas/map_of_string"
+        dog:
+          $ref: '#/components/schemas/Dog'
+        array_of_apples:
+          type: array
+          items:
+            $ref: '#/components/schemas/apple'
+        map_of_pet:
+          $ref: "#/components/schemas/map_of_pet"
+        inline_map:
+          title: "Hash(String, String)"
+          type: object
+          additionalProperties:
+            type: string
+      type: object
+    updatePetForm:
+      type: object
+      properties:
+        name:
+          description: Updated name of the pet
+          type: string
+        status:
+          description: Updated status of the pet
+          type: string

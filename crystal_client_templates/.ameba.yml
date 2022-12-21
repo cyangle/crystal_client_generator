@@ -1,2 +1,4 @@
+Lint/NotNil:
+  Enabled: false
 Metrics/CyclomaticComplexity:
   Enabled: false

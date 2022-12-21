@@ -1,0 +1,89 @@
+{
+  "map_of_coupon_currency_option": {
+    "additionalProperties": {
+      "$ref": "#/components/schemas/coupon_currency_option"
+    },
+    "type": "object"
+  },
+  "map_of_currency_option": {
+    "additionalProperties": {
+      "$ref": "#/components/schemas/currency_option"
+    },
+    "type": "object"
+  },
+  "map_of_currency_option_update": {
+    "additionalProperties": {
+      "$ref": "#/components/schemas/currency_option_update"
+    },
+    "type": "object"
+  },
+  "map_of_promotion_code_currency_option": {
+    "additionalProperties": {
+      "$ref": "#/components/schemas/promotion_code_currency_option"
+    },
+    "type": "object"
+  },
+  "map_of_shipping_rate_currency_option": {
+    "additionalProperties": {
+      "$ref": "#/components/schemas/shipping_rate_currency_option"
+    },
+    "type": "object"
+  },
+  "map_of_array_of_string": {
+    "additionalProperties": {
+      "items": {
+        "maxLength": 5000,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "type": "object"
+  },
+  "nullable_map_of_short_string": {
+    "additionalProperties": {
+      "maxLength": 500,
+      "type": "string"
+    },
+    "nullable": true,
+    "type": "object"
+  },
+  "map_of_short_string": {
+    "additionalProperties": {
+      "maxLength": 500,
+      "type": "string"
+    },
+    "type": "object"
+  },
+  "map_of_long_string": {
+    "additionalProperties": {
+      "maxLength": 5000,
+      "type": "string"
+    },
+    "type": "object"
+  },
+  "nullable_map_of_integer": {
+    "additionalProperties": {
+      "type": "integer"
+    },
+    "nullable": true,
+    "type": "object"
+  },
+  "map_of_integer": {
+    "additionalProperties": {
+      "type": "integer"
+    },
+    "type": "object"
+  },
+  "map_of_number": {
+    "additionalProperties": {
+      "type": "number"
+    },
+    "type": "object"
+  },
+  "map_of_string": {
+    "additionalProperties": {
+      "type": "string"
+    },
+    "type": "object"
+  }
+}
