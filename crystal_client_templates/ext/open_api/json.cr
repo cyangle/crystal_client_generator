@@ -28,7 +28,7 @@ module OpenApi
     end
 
     def after_initialize
-      raise JSON::ParseException.new("Validation failed", 0, 0) if !valid?
+      raise JSON::ParseException.new("Validation failed: #{list_invalid_properties}", 0, 0) if !valid?
     end
   end
 end
