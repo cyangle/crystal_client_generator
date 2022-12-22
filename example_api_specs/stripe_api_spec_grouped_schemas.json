@@ -394,7 +394,7 @@
           "description": "Details about each object.",
           "items": {
             "$ref": "#/components/schemas/payment_source",
-            "x-stripeBypassValidation": true
+            "x-bypass-validation": true
           },
           "type": "array"
         },
@@ -1880,7 +1880,7 @@
               "zengin"
             ],
             "type": "string",
-            "x-stripeBypassValidation": true
+            "x-bypass-validation": true
           },
           "type": "array"
         },
@@ -1892,7 +1892,7 @@
             "mx_bank_transfer"
           ],
           "type": "string",
-          "x-stripeBypassValidation": true
+          "x-bypass-validation": true
         }
       },
       "required": [
@@ -2703,7 +2703,7 @@
             "unincorporated_non_profit"
           ],
           "type": "string",
-          "x-stripeBypassValidation": true
+          "x-bypass-validation": true
         },
         "tax_id": {
           "maxLength": 5000,
@@ -2848,7 +2848,7 @@
             "unincorporated_non_profit"
           ],
           "type": "string",
-          "x-stripeBypassValidation": true
+          "x-bypass-validation": true
         },
         "tax_id": {
           "maxLength": 5000,
@@ -2881,7 +2881,7 @@
             "non_profit"
           ],
           "type": "string",
-          "x-stripeBypassValidation": true
+          "x-bypass-validation": true
         },
         "company": {
           "$ref": "#/components/schemas/connect_js_account_token_company_specs"
@@ -3899,7 +3899,7 @@
                   "tax_id"
                 ],
                 "type": "string",
-                "x-stripeBypassValidation": true
+                "x-bypass-validation": true
               },
               "type": "array"
             }
@@ -3925,7 +3925,7 @@
             "never"
           ],
           "type": "string",
-          "x-stripeBypassValidation": true
+          "x-bypass-validation": true
         },
         "name": {
           "enum": [
@@ -3933,7 +3933,7 @@
             "never"
           ],
           "type": "string",
-          "x-stripeBypassValidation": true
+          "x-bypass-validation": true
         },
         "shipping": {
           "enum": [
@@ -3941,7 +3941,7 @@
             "never"
           ],
           "type": "string",
-          "x-stripeBypassValidation": true
+          "x-bypass-validation": true
         }
       },
       "title": "customer_update_params",
@@ -3969,7 +3969,7 @@
                   "tax_id"
                 ],
                 "type": "string",
-                "x-stripeBypassValidation": true
+                "x-bypass-validation": true
               },
               "type": "array"
             }
@@ -4069,7 +4069,7 @@
           ],
           "maxLength": 5000,
           "type": "string",
-          "x-stripeBypassValidation": true
+          "x-bypass-validation": true
         },
         "value": {
           "type": "string"
@@ -4746,7 +4746,7 @@
             "service_not_as_described"
           ],
           "type": "string",
-          "x-stripeBypassValidation": true
+          "x-bypass-validation": true
         },
         "service_not_as_described": {
           "oneOf": [
@@ -4813,7 +4813,7 @@
           "description": "The list contains all external accounts that have been attached to the Stripe account. These may be bank accounts or cards.",
           "items": {
             "$ref": "#/components/schemas/payment_source",
-            "x-stripeBypassValidation": true
+            "x-bypass-validation": true
           },
           "type": "array"
         },
@@ -5365,7 +5365,7 @@
             "subscription_cancel"
           ],
           "type": "string",
-          "x-stripeBypassValidation": true
+          "x-bypass-validation": true
         }
       },
       "required": [
@@ -6058,7 +6058,7 @@
             ],
             "maxLength": 5000,
             "type": "string",
-            "x-stripeBypassValidation": true
+            "x-bypass-validation": true
           },
           "type": "array"
         }
@@ -6635,7 +6635,7 @@
             ],
             "maxLength": 5000,
             "type": "string",
-            "x-stripeBypassValidation": true
+            "x-bypass-validation": true
           },
           "type": "array"
         },
@@ -6659,7 +6659,7 @@
             "payout"
           ],
           "type": "string",
-          "x-stripeBypassValidation": true
+          "x-bypass-validation": true
         }
       },
       "required": [
@@ -7709,7 +7709,7 @@
           ],
           "maxLength": 5000,
           "type": "string",
-          "x-stripeBypassValidation": true
+          "x-bypass-validation": true
         },
         "request_three_d_secure": {
           "enum": [
@@ -7718,7 +7718,7 @@
           ],
           "maxLength": 5000,
           "type": "string",
-          "x-stripeBypassValidation": true
+          "x-bypass-validation": true
         },
         "setup_future_usage": {
           "enum": [
@@ -8108,7 +8108,7 @@
               ],
               "maxLength": 5000,
               "type": "string",
-              "x-stripeBypassValidation": true
+              "x-bypass-validation": true
             }
           },
           "required": [
@@ -8212,7 +8212,7 @@
                 "volkswagen_bank"
               ],
               "type": "string",
-              "x-stripeBypassValidation": true
+              "x-bypass-validation": true
             }
           },
           "type": "object"
@@ -8297,7 +8297,7 @@
             "wechat_pay"
           ],
           "type": "string",
-          "x-stripeBypassValidation": true
+          "x-bypass-validation": true
         },
         "us_bank_account": {
           "properties": {
@@ -8439,7 +8439,7 @@
                     "microdeposits"
                   ],
                   "type": "string",
-                  "x-stripeBypassValidation": true
+                  "x-bypass-validation": true
                 }
               },
               "type": "object"
@@ -8501,7 +8501,7 @@
                     "none"
                   ],
                   "type": "string",
-                  "x-stripeBypassValidation": true
+                  "x-bypass-validation": true
                 }
               },
               "title": "payment_method_options_param",
@@ -8803,7 +8803,7 @@
                   ],
                   "maxLength": 5000,
                   "type": "string",
-                  "x-stripeBypassValidation": true
+                  "x-bypass-validation": true
                 },
                 "request_three_d_secure": {
                   "enum": [
@@ -8812,7 +8812,7 @@
                   ],
                   "maxLength": 5000,
                   "type": "string",
-                  "x-stripeBypassValidation": true
+                  "x-bypass-validation": true
                 },
                 "setup_future_usage": {
                   "enum": [
@@ -8905,7 +8905,7 @@
                           "zengin"
                         ],
                         "type": "string",
-                        "x-stripeBypassValidation": true
+                        "x-bypass-validation": true
                       },
                       "type": "array"
                     },
@@ -8917,7 +8917,7 @@
                         "mx_bank_transfer"
                       ],
                       "type": "string",
-                      "x-stripeBypassValidation": true
+                      "x-bypass-validation": true
                     }
                   },
                   "required": [
@@ -9128,7 +9128,7 @@
                     "sv-SE"
                   ],
                   "type": "string",
-                  "x-stripeBypassValidation": true
+                  "x-bypass-validation": true
                 },
                 "setup_future_usage": {
                   "enum": [
@@ -9415,7 +9415,7 @@
                         ],
                         "maxLength": 5000,
                         "type": "string",
-                        "x-stripeBypassValidation": true
+                        "x-bypass-validation": true
                       },
                       "type": "array"
                     },
@@ -9459,7 +9459,7 @@
                     "microdeposits"
                   ],
                   "type": "string",
-                  "x-stripeBypassValidation": true
+                  "x-bypass-validation": true
                 }
               },
               "type": "object"
@@ -9487,7 +9487,7 @@
                     "web"
                   ],
                   "type": "string",
-                  "x-stripeBypassValidation": true
+                  "x-bypass-validation": true
                 },
                 "setup_future_usage": {
                   "enum": [
@@ -9646,7 +9646,7 @@
                   "wechat_pay"
                 ],
                 "type": "string",
-                "x-stripeBypassValidation": true
+                "x-bypass-validation": true
               },
               "type": "array"
             }
@@ -11795,7 +11795,7 @@
           ],
           "maxLength": 5000,
           "type": "string",
-          "x-stripeBypassValidation": true
+          "x-bypass-validation": true
         },
         "timezone": {
           "enum": [
@@ -12782,7 +12782,7 @@
           ],
           "maxLength": 5000,
           "type": "string",
-          "x-stripeBypassValidation": true
+          "x-bypass-validation": true
         },
         "request_three_d_secure": {
           "enum": [
@@ -12791,7 +12791,7 @@
           ],
           "maxLength": 5000,
           "type": "string",
-          "x-stripeBypassValidation": true
+          "x-bypass-validation": true
         }
       },
       "title": "setup_intent_param",
@@ -13303,7 +13303,7 @@
             "standard"
           ],
           "type": "string",
-          "x-stripeBypassValidation": true
+          "x-bypass-validation": true
         },
         "type": {
           "enum": [
@@ -14260,7 +14260,7 @@
           ],
           "maxLength": 5000,
           "type": "string",
-          "x-stripeBypassValidation": true
+          "x-bypass-validation": true
         },
         "request_three_d_secure": {
           "enum": [
@@ -14539,7 +14539,7 @@
                         "microdeposits"
                       ],
                       "type": "string",
-                      "x-stripeBypassValidation": true
+                      "x-bypass-validation": true
                     }
                   },
                   "type": "object"
@@ -14614,7 +14614,7 @@
                       ],
                       "maxLength": 5000,
                       "type": "string",
-                      "x-stripeBypassValidation": true
+                      "x-bypass-validation": true
                     },
                     "request_three_d_secure": {
                       "enum": [
@@ -14706,7 +14706,7 @@
                             ],
                             "maxLength": 5000,
                             "type": "string",
-                            "x-stripeBypassValidation": true
+                            "x-bypass-validation": true
                           },
                           "type": "array"
                         }
@@ -14721,7 +14721,7 @@
                         "microdeposits"
                       ],
                       "type": "string",
-                      "x-stripeBypassValidation": true
+                      "x-bypass-validation": true
                     }
                   },
                   "type": "object"
@@ -14766,7 +14766,7 @@
                   "wechat_pay"
                 ],
                 "type": "string",
-                "x-stripeBypassValidation": true
+                "x-bypass-validation": true
               },
               "type": "array"
             }
@@ -15206,7 +15206,7 @@
       ],
       "title": "token_create_bank_account",
       "type": "object",
-      "x-stripeBypassValidation": true
+      "x-bypass-validation": true
     }
   ],
   "token_params": [
@@ -15496,7 +15496,7 @@
           ],
           "maxLength": 5000,
           "type": "string",
-          "x-stripeBypassValidation": true
+          "x-bypass-validation": true
         },
         "monthly_anchor": {
           "type": "integer"
