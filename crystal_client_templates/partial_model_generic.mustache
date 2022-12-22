@@ -85,7 +85,7 @@
     def list_invalid_properties : Array(String)
       invalid_properties = Array(String).new
       {{^anyOf}}
-{{#requiredVars}}{{>partial_model_list_invalid_properties}}{{/requiredVars}}{{#optionalVars}}{{>partial_model_list_invalid_properties}}{{/optionalVars}}
+{{#requiredVars}}{{#vendorExtensions}}{{^x-bypass-validation}}{{>partial_model_list_invalid_properties}}{{/x-bypass-validation}}{{/vendorExtensions}}{{/requiredVars}}{{#optionalVars}}{{#vendorExtensions}}{{^x-bypass-validation}}{{>partial_model_list_invalid_properties}}{{/x-bypass-validation}}{{/vendorExtensions}}{{/optionalVars}}
       {{/anyOf}}
       invalid_properties
     end
@@ -94,7 +94,7 @@
     # @return true if the model is valid
     def valid? : Bool
       {{^anyOf}}
-{{#requiredVars}}{{>partial_model_valid}}{{/requiredVars}}{{#optionalVars}}{{>partial_model_valid}}{{/optionalVars}}
+{{#requiredVars}}{{#vendorExtensions}}{{^x-bypass-validation}}{{>partial_model_valid}}{{/x-bypass-validation}}{{/vendorExtensions}}{{/requiredVars}}{{#optionalVars}}{{#vendorExtensions}}{{^x-bypass-validation}}{{>partial_model_valid}}{{/x-bypass-validation}}{{/vendorExtensions}}{{/optionalVars}}
       {{/anyOf}}
       {{#anyOf}}
       {{#-first}}

@@ -6,6 +6,7 @@ require "./api_error"
 
 module {{moduleName}}
   class ApiClient
+    DEFAULT_MIME_TYPE = "application/octet-stream"
     COLLECTION_FORMAT_MULTI         = "multi"
     COLLECTION_FORMAT_SEPARATOR_MAP = {
       "csv"                   => ",",
@@ -20,6 +21,9 @@ module {{moduleName}}
     # The Configuration object holding settings to be used in the API client.
     property config : Configuration
 
+    # The encoder class used to encode request body
+    property default_url_encoder : Crest::ParamsEncoder.class
+
     # Defines the headers to be used in HTTP requests of all API calls by default.
     #
     # @return [Hash]
@@ -32,7 +36,7 @@ module {{moduleName}}
 
     # Initializes the ApiClient
     # @option config [Configuration] Configuration for initializing the object, default to Configuration.default
-    def initialize(@config = Configuration.default)
+    def initialize(@config = Configuration.default, @default_url_encoder = Crest::ZeroEnumeratedFlatParamsEncoder)
       @user_agent = "{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/#{VERSION}/crystal{{/httpUserAgent}}"
       @default_headers = {
         "User-Agent" => @user_agent,
@@ -70,7 +74,7 @@ module {{moduleName}}
     def update_params_for_auth!(
       header_params : Hash(String, String),
       cookie_params : Hash(String, String),
-      query_params : Hash(String, (String | Array(String))),
+      query_params : Hash(String, (String | Array(String) | JSON::Any)),
       auth_names : Array(String)
     ) : Nil
       auth_names.each do |auth_name|
@@ -129,16 +133,89 @@ module {{moduleName}}
       params.map(&.to_s).join(",")
     end
 
+    # Build tuples of parameters according to the given collection format.
+    # @param [String] collection_format one of csv, ssv, tsv, pipes and multi
+    def build_collection_param_tuples(name : String, params : Array, collection_format : String) : Array(Tuple(String, Crest::ParamsValue))
+      build_collection_param(params, collection_format).map do |value|
+        Tuple(String, Crest::ParamsValue).new(name, value)
+      end
+    end
+
     # Build parameter value according to the given collection format.
     # @param [String] collection_format one of csv, ssv, tsv, pipes and multi
-    def build_collection_param(params : Array, collection_format : String) : String | Array(String)
+    def build_collection_param(params : Array, collection_format : String) : Array(String)
       separator = COLLECTION_FORMAT_SEPARATOR_MAP.fetch(collection_format, UNKNOWN_COLLECTION_FORMAT_SEPARATOR)
       raise "unknown collection format: #{collection_format}" if separator == UNKNOWN_COLLECTION_FORMAT_SEPARATOR
 
       param_strings = params.map(&.to_s)
       return param_strings if collection_format == COLLECTION_FORMAT_MULTI
 
-      param_strings.join(separator)
+      [param_strings.join(separator)]
+    end
+
+    # Build form data from form params
+    # @param [Array(Tuple(String, Crest::ParamsValue))] form_params
+    def build_form_data(form_params : Array(Tuple(String, Crest::ParamsValue))) : String
+      if form_params.any?(&.[1].is_a?(IO))
+        build_multipart_form_data(form_params)
+      else
+        build_url_encoded_form_data(form_params)
+      end
+    end
+
+    # Build url encoded form data from form params
+    # @param [Array(Tuple(String, Crest::ParamsValue))] form_params
+    def build_url_encoded_form_data(form_params : Array(Tuple(String, Crest::ParamsValue))) : String
+      HTTP::Params.build do |form|
+        form_params.each do |name, value|
+          form.add(name, value.to_s)
+        end
+      end
+    end
+
+    # Build multipart form data from form params
+    # @param [Array(Tuple(String, Crest::ParamsValue))] form_params
+    def build_multipart_form_data(form_params : Array(Tuple(String, Crest::ParamsValue))) : String
+      io = IO::Memory.new
+
+      HTTP::FormData.build(io) do |formdata|
+        form_params.each do |name, value|
+          if value.is_a?(IO)
+            add_io_field_to_form(formdata, name, value.as(IO))
+          else
+            formdata.field(name, value.to_s)
+          end
+        end
+      end
+
+      io.to_s
+    end
+
+    private def add_io_field_to_form(formdata : HTTP::FormData::Builder, name : String, io : IO)
+      filename = io.is_a?(File) ? io.as(::File).path : name.to_s
+      mime = MIME.from_filename(filename, DEFAULT_MIME_TYPE)
+      metadata = HTTP::FormData::FileMetadata.new(filename: filename)
+      headers = HTTP::Headers{"Content-Type" => mime}
+
+      formdata.file(name.to_s, io, metadata, headers)
+    end
+
+    def encode(
+      body : Hash | Array | OpenApi::Json | JSON::Any,
+      content_type : String? = nil,
+      url_encoder : Crest::ParamsEncoder.class | Nil = nil
+    ) : String
+      # Encode body to json string
+      return body.to_json if content_type.nil? || json_mime?(content_type.not_nil!)
+
+      # Assume content_type is application/x-www-form-urlencoded
+      raise ArgumentError.new("Can not secrialize Array into url encoded string, must be a Hash") if body.is_a?(Array)
+
+      # Crest::ParamsEncoder doesn't support encoding OpenApi::Json objects
+      # So we convert body to JSON::Any first
+      json_any : JSON::Any = body.is_a?(JSON::Any) ? body : JSON.parse(body.to_json)
+
+      (url_encoder || default_url_encoder).encode(json_any.as_h)
     end
 
     # Build an API request with given options.
@@ -153,8 +230,8 @@ module {{moduleName}}
       auth_names : Array(String) = Array(String).new,
       header_params : Hash(String, String) = Hash(String, String).new,
       cookie_params : Hash(String, String) = Hash(String, String).new,
-      query_params : Hash(String, (String | Array(String))) = Hash(String, (String | Array(String))).new,
-      form_params : Hash(String, (String | Array(String) | IO)) | Nil = nil
+      query_params : Hash(String, (String | Array(String) | JSON::Any)) = Hash(String, (String | Array(String) | JSON::Any)).new,
+      form_params : Array(Tuple(String, Crest::ParamsValue)) | Nil = nil
     ) : Crest::Request
       # ssl_options = {
       #   "ca_file" => @config.ssl_ca_file,
@@ -168,15 +245,13 @@ module {{moduleName}}
       header_params.merge!(default_headers)
       cookie_params.merge!(default_cookies)
 
-      form_or_body : Hash(String, (String | Array(String) | IO)) | IO | String | Nil = nil
+      form_or_body : IO | String | Nil = nil
 
       if !post_body.nil? && (post_body.is_a?(IO) || post_body.is_a?(String) && !post_body.empty?)
         # use JSON string in the payload
         form_or_body = post_body
-      else
-        # use HTTP forms in the payload
-        # TODO use HTTP form encoding
-        form_or_body = form_params
+      elsif !form_params.nil?
+        form_or_body = build_form_data(form_params.not_nil!)
       end
 
       Crest::Request.new(

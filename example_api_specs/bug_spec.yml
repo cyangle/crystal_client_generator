@@ -13,24 +13,49 @@ tags:
   - name: fake
 paths:
   /fake:
-    get:
+    post:
       tags:
         - fake
       operationId: fake
       parameters:
-        - name: limit
+        - name: id
           in: query
-          required: false
           schema:
-            type: integer
-          style: form
-        - name: scope
-          in: query
-          required: true
-          style: deepObject
-          explode: true
-          schema:
-            $ref: "#/components/schemas/scope_param"
+            type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            encoding:
+              map_of_string:
+                explode: true
+                style: deepObject
+              map_of_pet:
+                explode: true
+                style: deepObject
+              map_of_map:
+                explode: true
+                style: deepObject
+              map_of_array:
+                explode: true
+                style: deepObject
+              inline_map:
+                explode: true
+                style: deepObject
+            schema:
+              type: object
+              properties:
+                map_of_string:
+                  $ref: "#/components/schemas/map_of_string"
+                map_of_pet:
+                  $ref: "#/components/schemas/map_of_pet"
+                map_of_map:
+                  $ref: "#/components/schemas/map_of_map"
+                map_of_array:
+                  $ref: "#/components/schemas/map_of_array"
+                inline_map:
+                  type: object
+                  additionalProperties:
+                    type: string
       responses:
         "200":
           description: The instance started successfully
@@ -38,28 +63,7 @@ paths:
             application/json:
               schema:
                 type: object
-                additionalProperties: string
-  /fake2:
-    get:
-      tags:
-        - fake
-      operationId: fake2
-      parameters:
-        - name: scope
-          in: query
-          required: true
-          style: deepObject
-          explode: true
-          schema:
-            $ref: "#/components/schemas/scope_param"
-      responses:
-        "200":
-          description: The instance started successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                additionalProperties: string
+                additionalProperties: true
 servers:
   - url: https://localhost:8080/{version}
     description: The local server
@@ -73,14 +77,30 @@ servers:
     description: The local server without variables
 components:
   schemas:
-    scope_param:
+    map_of_string:
       type: object
-      title: scope_param
+      additionalProperties:
+        type: string
+    map_of_pet:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/pet"
+    map_of_map:
+      type: object
+      additionalProperties:
+        type: object
+        additionalProperties:
+          type: string
+    map_of_array:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    pet:
+      type: object
       properties:
-        type:
-          enum: ["account", "user"]
-          type: "string"
-        user:
-          maxLength: 5000,
-          type: "string"
-      required: ["type"]
+        id:
+          type: string
+        name:
+          type: string
