@@ -26,11 +26,8 @@
       {{dataType}}.from_json_object_key?(key)
     end
 
-    def self.new!(data : {{dataType}})
-      new(data).tap(&.validate)
-    end
-
-    def initialize(@data : {{dataType}})
+    def initialize(@data : {{dataType}}, strict : Bool = true)
+      validate if strict
     end
 
     def error_message : String
