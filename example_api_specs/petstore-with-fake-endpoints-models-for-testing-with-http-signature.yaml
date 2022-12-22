@@ -1551,6 +1551,7 @@ components:
         name:
           type: string
           minLength: 5
+          x-bypass-validation: true
       xml:
         name: Tag
     Pet:
