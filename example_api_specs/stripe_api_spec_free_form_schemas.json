@@ -50,13 +50,6 @@
   },
   {
     "additionalProperties": {
-      "maxLength": 5000,
-      "type": "string"
-    },
-    "type": "object"
-  },
-  {
-    "additionalProperties": {
       "properties": {
         "amount": {
           "type": "integer"

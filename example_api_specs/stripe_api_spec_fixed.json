@@ -455,6 +455,15 @@
             ],
             "type": "string"
           },
+          "india_international_payments": {
+            "description": "The status of the india_international_payments capability of the account, or whether the account can process international charges (non INR) in India.",
+            "enum": [
+              "active",
+              "inactive",
+              "pending"
+            ],
+            "type": "string"
+          },
           "jcb_payments": {
             "description": "The status of the JCB payments capability of the account, or whether the account (Japan only) can directly process JCB credit card charges in JPY currency.",
             "enum": [
@@ -1577,6 +1586,16 @@
         "title": "after_completion_confirmation_page_params",
         "type": "object"
       },
+      "after_completion_hosted_confirmation_param": {
+        "properties": {
+          "custom_message": {
+            "maxLength": 500,
+            "type": "string"
+          }
+        },
+        "title": "after_completion_hosted_confirmation_param",
+        "type": "object"
+      },
       "after_completion_params": {
         "properties": {
           "hosted_confirmation": {
@@ -1599,6 +1618,18 @@
         "title": "after_completion_params",
         "type": "object"
       },
+      "after_completion_redirect_param": {
+        "properties": {
+          "return_url": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "return_url"
+        ],
+        "title": "after_completion_redirect_param",
+        "type": "object"
+      },
       "after_completion_redirect_params": {
         "properties": {
           "url": {
@@ -1619,29 +1650,6 @@
           }
         },
         "title": "after_expiration_params",
-        "type": "object"
-      },
-      "afterpay_clearpay_payment_method_options_param": {
-        "properties": {
-          "capture_method": {
-            "enum": [
-              "automatic",
-              "manual"
-            ],
-            "type": "string"
-          },
-          "reference": {
-            "maxLength": 128,
-            "type": "string"
-          },
-          "setup_future_usage": {
-            "enum": [
-              "none"
-            ],
-            "type": "string"
-          }
-        },
-        "title": "afterpay_clearpay_payment_method_options_param",
         "type": "object"
       },
       "all_people_relationship_specs": {
@@ -1816,7 +1824,8 @@
           "data": {
             "description": "Details about each object.",
             "items": {
-              "$ref": "#/components/schemas/polymorphic"
+              "$ref": "#/components/schemas/payment_source",
+              "x-stripeBypassValidation": true
             },
             "type": "array"
           },
@@ -4645,6 +4654,15 @@
             "maxLength": 5000,
             "type": "string"
           },
+          "flow": {
+            "description": "Information about a specific flow for the customer to go through.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/portal_flows_flow"
+              }
+            ]
+          },
           "id": {
             "description": "Unique identifier for the object.",
             "maxLength": 5000,
@@ -4745,7 +4763,8 @@
         "title": "PortalSession",
         "type": "object",
         "x-expandableFields": [
-          "configuration"
+          "configuration",
+          "flow"
         ],
         "x-resourceId": "billing_portal.session"
       },
@@ -5045,6 +5064,9 @@
             "$ref": "#/components/schemas/capability_param"
           },
           "ideal_payments": {
+            "$ref": "#/components/schemas/capability_param"
+          },
+          "india_international_payments": {
             "$ref": "#/components/schemas/capability_param"
           },
           "jcb_payments": {
@@ -5494,27 +5516,6 @@
 
         ]
       },
-      "card_payment_method_options": {
-        "properties": {
-          "capture_method": {
-            "enum": [
-              "automatic",
-              "manual"
-            ],
-            "type": "string"
-          },
-          "setup_future_usage": {
-            "enum": [
-              "none",
-              "off_session",
-              "on_session"
-            ],
-            "type": "string"
-          }
-        },
-        "title": "card_payment_method_options",
-        "type": "object"
-      },
       "card_payments_settings_specs": {
         "properties": {
           "decline_on": {
@@ -5799,7 +5800,7 @@
             }
           },
           "failure_code": {
-            "description": "Error code explaining reason for charge failure if available (see [the errors section](https://stripe.com/docs/api#errors) for a list of codes).",
+            "description": "Error code explaining reason for charge failure if available (see [the errors section](https://stripe.com/docs/error-codes) for a list of codes).",
             "maxLength": 5000,
             "nullable": true,
             "type": "string"
@@ -6338,6 +6339,9 @@
             "nullable": true,
             "type": "string"
           },
+          "custom_text": {
+            "$ref": "#/components/schemas/payment_pages_checkout_session_custom_text"
+          },
           "customer": {
             "description": "The ID of the customer for this Session.\nFor Checkout Sessions in `payment` or `subscription` mode, Checkout\nwill create a new customer object based on information provided\nduring the payment flow unless an existing customer was provided when\nthe Session was created.",
             "nullable": true,
@@ -6397,6 +6401,35 @@
             "description": "Unique identifier for the object. Used to pass to `redirectToCheckout`\nin Stripe.js.",
             "maxLength": 5000,
             "type": "string"
+          },
+          "invoice": {
+            "description": "ID of the invoice created by the Checkout Session, if it exists.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/invoice"
+              },
+              {
+                "maxLength": 5000,
+                "type": "string"
+              }
+            ],
+            "x-expansionResources": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/invoice"
+                }
+              ]
+            }
+          },
+          "invoice_creation": {
+            "description": "Details on the state of invoice creation for the Checkout Session.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/payment_pages_checkout_session_invoice_creation"
+              }
+            ]
           },
           "line_items": {
             "$ref": "#/components/schemas/payment_pages_checkout_session_list_line_items"
@@ -6680,6 +6713,7 @@
           "automatic_tax",
           "cancel_url",
           "created",
+          "custom_text",
           "expires_at",
           "id",
           "livemode",
@@ -6697,8 +6731,11 @@
           "automatic_tax",
           "consent",
           "consent_collection",
+          "custom_text",
           "customer",
           "customer_details",
+          "invoice",
+          "invoice_creation",
           "line_items",
           "payment_intent",
           "payment_link",
@@ -7433,33 +7470,6 @@
         "title": "client_key_param",
         "type": "object"
       },
-      "client_permissions": {
-        "properties": {
-          "billing_details": {
-            "enum": [
-              "allow",
-              "disallow"
-            ],
-            "type": "string"
-          },
-          "promotion_codes": {
-            "enum": [
-              "allow",
-              "disallow"
-            ],
-            "type": "string"
-          },
-          "shipping_details": {
-            "enum": [
-              "allow",
-              "disallow"
-            ],
-            "type": "string"
-          }
-        },
-        "title": "client_permissions",
-        "type": "object"
-      },
       "company_ownership_declaration": {
         "properties": {
           "date": {
@@ -7590,6 +7600,9 @@
                 "type": "string"
               }
             ]
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/map_of_string"
           },
           "price": {
             "maxLength": 5000,
@@ -8190,18 +8203,6 @@
           "country"
         ],
         "title": "create_location_address_param",
-        "type": "object"
-      },
-      "create_params": {
-        "properties": {
-          "settings": {
-            "$ref": "#/components/schemas/create_params"
-          }
-        },
-        "required": [
-          "settings"
-        ],
-        "title": "create_params",
         "type": "object"
       },
       "credit_card_specs": {
@@ -8899,6 +8900,51 @@
         "title": "custom_field_params",
         "type": "object"
       },
+      "custom_text_param": {
+        "properties": {
+          "shipping_address": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/custom_text_position_param"
+              },
+              {
+                "enum": [
+                  ""
+                ],
+                "type": "string"
+              }
+            ]
+          },
+          "submit": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/custom_text_position_param"
+              },
+              {
+                "enum": [
+                  ""
+                ],
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "title": "custom_text_param",
+        "type": "object"
+      },
+      "custom_text_position_param": {
+        "properties": {
+          "message": {
+            "maxLength": 500,
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ],
+        "title": "custom_text_position_param",
+        "type": "object"
+      },
       "custom_unit_amount": {
         "description": "",
         "properties": {
@@ -9510,12 +9556,13 @@
             "type": "string"
           },
           "type": {
-            "description": "Transaction type: `adjustment`, `applied_to_invoice`, `credit_note`, `initial`, `invoice_too_large`, `invoice_too_small`, `unspent_receiver_credit`, or `unapplied_from_invoice`. See the [Customer Balance page](https://stripe.com/docs/billing/customer/balance#types) to learn more about transaction types.",
+            "description": "Transaction type: `adjustment`, `applied_to_invoice`, `credit_note`, `initial`, `invoice_overpaid`, `invoice_too_large`, `invoice_too_small`, `unspent_receiver_credit`, or `unapplied_from_invoice`. See the [Customer Balance page](https://stripe.com/docs/billing/customer/balance#types) to learn more about transaction types.",
             "enum": [
               "adjustment",
               "applied_to_invoice",
               "credit_note",
               "initial",
+              "invoice_overpaid",
               "invoice_too_large",
               "invoice_too_small",
               "migration",
@@ -10086,7 +10133,8 @@
                     "shipping",
                     "tax_id"
                   ],
-                  "type": "string"
+                  "type": "string",
+                  "x-stripeBypassValidation": true
                 },
                 "type": "array"
               }
@@ -10151,7 +10199,8 @@
                     "shipping",
                     "tax_id"
                   ],
-                  "type": "string"
+                  "type": "string",
+                  "x-stripeBypassValidation": true
                 },
                 "type": "array"
               }
@@ -10205,6 +10254,7 @@
               "ca_qst",
               "ch_vat",
               "cl_tin",
+              "eg_tin",
               "es_cif",
               "eu_oss_vat",
               "eu_vat",
@@ -10228,6 +10278,7 @@
               "my_sst",
               "no_vat",
               "nz_gst",
+              "ph_tin",
               "ru_inn",
               "ru_kpp",
               "sa_vat",
@@ -10235,6 +10286,7 @@
               "sg_uen",
               "si_tin",
               "th_vat",
+              "tr_tin",
               "tw_vat",
               "ua_vat",
               "us_ein",
@@ -10352,6 +10404,19 @@
           },
           "invoice_settings": {
             "$ref": "#/components/schemas/subscription_schedules_param"
+          },
+          "on_behalf_of": {
+            "oneOf": [
+              {
+                "enum": [
+                  ""
+                ],
+                "type": "string"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "transfer_data": {
             "oneOf": [
@@ -10747,19 +10812,6 @@
         ],
         "x-resourceId": "deleted_discount"
       },
-      "deleted_external_account": {
-        "oneOf": [
-          {
-            "$ref": "#/components/schemas/deleted_bank_account"
-          },
-          {
-            "$ref": "#/components/schemas/deleted_card"
-          }
-        ],
-        "title": "Polymorphic",
-        "x-resourceId": "deleted_external_account",
-        "x-stripeBypassValidation": true
-      },
       "deleted_invoice": {
         "description": "",
         "properties": {
@@ -10833,13 +10885,16 @@
       "deleted_payment_source": {
         "oneOf": [
           {
+            "$ref": "#/components/schemas/deleted_account"
+          },
+          {
             "$ref": "#/components/schemas/deleted_bank_account"
           },
           {
             "$ref": "#/components/schemas/deleted_card"
           }
         ],
-        "title": "Polymorphic",
+        "title": "DeletedPaymentSource",
         "x-resourceId": "deleted_payment_source",
         "x-stripeBypassValidation": true
       },
@@ -11051,41 +11106,6 @@
 
         ],
         "x-resourceId": "deleted_radar.value_list_item"
-      },
-      "deleted_sku": {
-        "description": "",
-        "properties": {
-          "deleted": {
-            "description": "Always true for a deleted object",
-            "enum": [
-              true
-            ],
-            "type": "boolean"
-          },
-          "id": {
-            "description": "Unique identifier for the object.",
-            "maxLength": 5000,
-            "type": "string"
-          },
-          "object": {
-            "description": "String representing the object's type. Objects of the same type share the same value.",
-            "enum": [
-              "sku"
-            ],
-            "type": "string"
-          }
-        },
-        "required": [
-          "deleted",
-          "id",
-          "object"
-        ],
-        "title": "DeletedSku",
-        "type": "object",
-        "x-expandableFields": [
-
-        ],
-        "x-resourceId": "deleted_sku"
       },
       "deleted_subscription_item": {
         "description": "",
@@ -11519,10 +11539,6 @@
             "type": "string"
           },
           "discount": {
-            "maxLength": 5000,
-            "type": "string"
-          },
-          "promotion_code": {
             "maxLength": 5000,
             "type": "string"
           }
@@ -12714,25 +12730,13 @@
           "data"
         ]
       },
-      "external_account": {
-        "oneOf": [
-          {
-            "$ref": "#/components/schemas/bank_account"
-          },
-          {
-            "$ref": "#/components/schemas/card"
-          }
-        ],
-        "title": "Polymorphic",
-        "x-resourceId": "external_account",
-        "x-stripeBypassValidation": true
-      },
       "external_account_list": {
         "properties": {
           "data": {
             "description": "The list contains all external accounts that have been attached to the Stripe account. These may be bank accounts or cards.",
             "items": {
-              "$ref": "#/components/schemas/polymorphic"
+              "$ref": "#/components/schemas/payment_source",
+              "x-stripeBypassValidation": true
             },
             "type": "array"
           },
@@ -13895,6 +13899,65 @@
           }
         },
         "title": "fixed_amount_update",
+        "type": "object"
+      },
+      "flow_data_after_completion_param": {
+        "properties": {
+          "hosted_confirmation": {
+            "$ref": "#/components/schemas/after_completion_hosted_confirmation_param"
+          },
+          "redirect": {
+            "$ref": "#/components/schemas/after_completion_redirect_param"
+          },
+          "type": {
+            "enum": [
+              "hosted_confirmation",
+              "portal_homepage",
+              "redirect"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "title": "flow_data_after_completion_param",
+        "type": "object"
+      },
+      "flow_data_param": {
+        "properties": {
+          "after_completion": {
+            "$ref": "#/components/schemas/flow_data_after_completion_param"
+          },
+          "subscription_cancel": {
+            "$ref": "#/components/schemas/flow_data_subscription_cancel_param"
+          },
+          "type": {
+            "enum": [
+              "payment_method_update",
+              "subscription_cancel"
+            ],
+            "type": "string",
+            "x-stripeBypassValidation": true
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "title": "flow_data_param",
+        "type": "object"
+      },
+      "flow_data_subscription_cancel_param": {
+        "properties": {
+          "subscription": {
+            "maxLength": 5000,
+            "type": "string"
+          }
+        },
+        "required": [
+          "subscription"
+        ],
+        "title": "flow_data_subscription_cancel_param",
         "type": "object"
       },
       "fraud_details": {
@@ -15497,61 +15560,6 @@
         "title": "installments_param",
         "type": "object"
       },
-      "inventory_create_specs": {
-        "properties": {
-          "quantity": {
-            "type": "integer"
-          },
-          "type": {
-            "enum": [
-              "bucket",
-              "finite",
-              "infinite"
-            ],
-            "type": "string"
-          },
-          "value": {
-            "enum": [
-              "",
-              "in_stock",
-              "limited",
-              "out_of_stock"
-            ],
-            "type": "string"
-          }
-        },
-        "required": [
-          "type"
-        ],
-        "title": "inventory_create_specs",
-        "type": "object"
-      },
-      "inventory_update_specs": {
-        "properties": {
-          "quantity": {
-            "type": "integer"
-          },
-          "type": {
-            "enum": [
-              "bucket",
-              "finite",
-              "infinite"
-            ],
-            "type": "string"
-          },
-          "value": {
-            "enum": [
-              "",
-              "in_stock",
-              "limited",
-              "out_of_stock"
-            ],
-            "type": "string"
-          }
-        },
-        "title": "inventory_update_specs",
-        "type": "object"
-      },
       "invoice": {
         "description": "Invoices are statements of amounts owed by a customer, and are either\ngenerated one-off, or generated periodically from a subscription.\n\nThey contain [invoice items](https://stripe.com/docs/api#invoiceitems), and proration adjustments\nthat may be caused by subscription upgrades/downgrades (if necessary).\n\nIf your invoice is configured to be billed through automatic charges,\nStripe automatically finalizes your invoice and attempts payment. Note\nthat finalizing the invoice,\n[when automatic](https://stripe.com/docs/billing/invoices/workflow/#auto_advance), does\nnot happen immediately as the invoice is created. Stripe waits\nuntil one hour after the last webhook was successfully sent (or the last\nwebhook timed out after failing). If you (and the platforms you may have\nconnected to) have no webhooks configured, Stripe waits one hour after\ncreation to finalize the invoice.\n\nIf your invoice is configured to be billed by sending an email, then based on your\n[email settings](https://dashboard.stripe.com/account/billing/automatic),\nStripe will email the invoice to your customer and await payment. These\nemails can contain a link to a hosted page to pay the invoice.\n\nStripe applies any customer credit on the account before determining the\namount due for the invoice (i.e., the amount that will be actually\ncharged). If the amount due for the invoice is less than Stripe's [minimum allowed charge\nper currency](/docs/currencies#minimum-and-maximum-charge-amounts), the\ninvoice is automatically marked paid, and we add the amount due to the\ncustomer's credit balance which is applied to the next invoice.\n\nMore details on the customer's credit balance are\n[here](https://stripe.com/docs/billing/customer/balance).\n\nRelated guide: [Send Invoices to Customers](https://stripe.com/docs/billing/invoices/sending).",
         "properties": {
@@ -16294,6 +16302,84 @@
         ],
         "x-resourceId": "invoice"
       },
+      "invoice_creation_params": {
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "invoice_data": {
+            "$ref": "#/components/schemas/invoice_data_params"
+          }
+        },
+        "required": [
+          "enabled"
+        ],
+        "title": "invoice_creation_params",
+        "type": "object"
+      },
+      "invoice_data_params": {
+        "properties": {
+          "account_tax_ids": {
+            "oneOf": [
+              {
+                "enum": [
+                  ""
+                ],
+                "type": "string"
+              },
+              {
+                "items": {
+                  "maxLength": 5000,
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            ]
+          },
+          "custom_fields": {
+            "oneOf": [
+              {
+                "enum": [
+                  ""
+                ],
+                "type": "string"
+              },
+              {
+                "items": {
+                  "$ref": "#/components/schemas/custom_field_params"
+                },
+                "type": "array"
+              }
+            ]
+          },
+          "description": {
+            "maxLength": 1500,
+            "type": "string"
+          },
+          "footer": {
+            "maxLength": 5000,
+            "type": "string"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/map_of_string"
+          },
+          "rendering_options": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/rendering_options_param"
+              },
+              {
+                "enum": [
+                  ""
+                ],
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "title": "invoice_data_params",
+        "type": "object"
+      },
       "invoice_installments_card": {
         "description": "",
         "properties": {
@@ -16369,6 +16455,27 @@
           },
           "quantity": {
             "type": "integer"
+          },
+          "tax_behavior": {
+            "enum": [
+              "exclusive",
+              "inclusive",
+              "unspecified"
+            ],
+            "type": "string"
+          },
+          "tax_code": {
+            "oneOf": [
+              {
+                "enum": [
+                  ""
+                ],
+                "type": "string"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "tax_rates": {
             "oneOf": [
@@ -17498,7 +17605,7 @@
         "description": "",
         "properties": {
           "type": {
-            "description": "The type of the tax ID, one of `eu_vat`, `br_cnpj`, `br_cpf`, `eu_oss_vat`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, or `unknown`",
+            "description": "The type of the tax ID, one of `eu_vat`, `br_cnpj`, `br_cpf`, `eu_oss_vat`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, or `unknown`",
             "enum": [
               "ae_trn",
               "au_abn",
@@ -17514,6 +17621,7 @@
               "ca_qst",
               "ch_vat",
               "cl_tin",
+              "eg_tin",
               "es_cif",
               "eu_oss_vat",
               "eu_vat",
@@ -17537,6 +17645,7 @@
               "my_sst",
               "no_vat",
               "nz_gst",
+              "ph_tin",
               "ru_inn",
               "ru_kpp",
               "sa_vat",
@@ -17544,6 +17653,7 @@
               "sg_uen",
               "si_tin",
               "th_vat",
+              "tr_tin",
               "tw_vat",
               "ua_vat",
               "unknown",
@@ -17721,7 +17831,7 @@
             ]
           },
           "request_history": {
-            "description": "History of every time `pending_request` was approved/denied, either by you directly or by Stripe (e.g. based on your `spending_controls`). If the merchant changes the authorization by performing an [incremental authorization](https://stripe.com/docs/issuing/purchases/authorizations), you can look at this field to see the previous requests for the authorization.",
+            "description": "History of every time a `pending_request` authorization was approved/declined, either by you directly or by Stripe (e.g. based on your spending_controls). If the merchant changes the authorization by performing an incremental authorization, you can look at this field to see the previous requests for the authorization. This field can be helpful in determining why a given authorization was approved/declined.",
             "items": {
               "$ref": "#/components/schemas/issuing_authorization_request"
             },
@@ -17756,7 +17866,7 @@
             "$ref": "#/components/schemas/issuing_authorization_verification_data"
           },
           "wallet": {
-            "description": "The digital wallet used for this authorization. One of `apple_pay`, `google_pay`, or `samsung_pay`.",
+            "description": "The digital wallet used for this transaction. One of `apple_pay`, `google_pay`, or `samsung_pay`. Will populate as `null` when no digital wallet was utilized.",
             "maxLength": 5000,
             "nullable": true,
             "type": "string"
@@ -17815,7 +17925,8 @@
               "stolen"
             ],
             "nullable": true,
-            "type": "string"
+            "type": "string",
+            "x-stripeBypassValidation": true
           },
           "cardholder": {
             "$ref": "#/components/schemas/issuing.cardholder"
@@ -18633,7 +18744,7 @@
             "type": "string"
           },
           "network_id": {
-            "description": "Identifier assigned to the seller by the card brand",
+            "description": "Identifier assigned to the seller by the card network. Different card networks may assign different network_id fields to the same merchant.",
             "maxLength": 5000,
             "type": "string"
           },
@@ -18665,7 +18776,7 @@
         "description": "",
         "properties": {
           "acquiring_institution_id": {
-            "description": "ID from the network that identifies the acquiring financial institution. For Visa and Mastercard credit transactions this is as 6 digit code. For Maestro debit transactions this is a 9 digit code. Uncommonly, acquiring institution ID is not provided. When this occurs, the value will be null.",
+            "description": "Identifier assigned to the acquirer by the card network. Sometimes this value is not provided by the network; in this case, the value will be `null`.",
             "maxLength": 5000,
             "nullable": true,
             "type": "string"
@@ -18763,7 +18874,7 @@
             "type": "string"
           },
           "reason": {
-            "description": "The reason for the approval or decline.",
+            "description": "When an authorization is approved or declined by you or by Stripe, this field provides additional detail on the reason for the outcome.",
             "enum": [
               "account_disabled",
               "card_active",
@@ -18777,10 +18888,17 @@
               "verification_failed",
               "webhook_approved",
               "webhook_declined",
+              "webhook_error",
               "webhook_timeout"
             ],
             "type": "string",
             "x-stripeBypassValidation": true
+          },
+          "reason_message": {
+            "description": "If approve/decline decision is directly responsed to the webhook with json payload and if the response is invalid (e.g., parsing errors), we surface the detailed message via this field.",
+            "maxLength": 5000,
+            "nullable": true,
+            "type": "string"
           }
         },
         "required": [
@@ -20893,7 +21011,8 @@
               "under_review"
             ],
             "nullable": true,
-            "type": "string"
+            "type": "string",
+            "x-stripeBypassValidation": true
           },
           "past_due": {
             "description": "Array of fields that need to be collected in order to verify and re-enable the cardholder.",
@@ -22195,31 +22314,6 @@
               }
             ]
           },
-          "product": {
-            "description": "The ID of the product for this line item.\n\nThis will always be the same as `price.product`.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/deleted_product"
-              },
-              {
-                "$ref": "#/components/schemas/product"
-              },
-              {
-                "maxLength": 5000,
-                "type": "string"
-              }
-            ],
-            "x-expansionResources": {
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/deleted_product"
-                },
-                {
-                  "$ref": "#/components/schemas/product"
-                }
-              ]
-            }
-          },
           "quantity": {
             "description": "The quantity of products being purchased.",
             "nullable": true,
@@ -22248,7 +22342,6 @@
         "x-expandableFields": [
           "discounts",
           "price",
-          "product",
           "taxes"
         ],
         "x-resourceId": "item"
@@ -24321,225 +24414,6 @@
         "title": "optional_fields_shipping",
         "type": "object"
       },
-      "order": {
-        "description": "An Order describes a purchase being made by a customer, including the\nproducts & quantities being purchased, the order status, the payment information,\nand the billing/shipping details.\n\nRelated guide: [Orders overview](https://stripe.com/docs/orders)",
-        "properties": {
-          "amount_subtotal": {
-            "description": "Order cost before any discounts or taxes are applied. A positive integer representing the subtotal of the order in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency).",
-            "type": "integer"
-          },
-          "amount_total": {
-            "description": "Total order cost after discounts and taxes are applied. A positive integer representing the cost of the order in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). To submit an order, the total must be either 0 or at least $0.50 USD or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts).",
-            "type": "integer"
-          },
-          "application": {
-            "description": "ID of the Connect application that created the Order, if any.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/application"
-              },
-              {
-                "maxLength": 5000,
-                "type": "string"
-              }
-            ],
-            "x-expansionResources": {
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/application"
-                }
-              ]
-            }
-          },
-          "automatic_tax": {
-            "$ref": "#/components/schemas/orders_v2_resource_automatic_tax"
-          },
-          "billing_details": {
-            "description": "Customer billing details associated with the order.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/orders_v2_resource_billing_details"
-              }
-            ]
-          },
-          "client_permissions": {
-            "description": "The fields on the Order that can be updated from the client",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/orders_v2_resource_client_permissions"
-              }
-            ]
-          },
-          "client_secret": {
-            "description": "The client secret of this Order. Used for client-side retrieval using a publishable key. \n\nThe client secret can be used to complete a payment for an Order from your frontend. It should not be stored, logged, embedded in URLs, or exposed to anyone other than the customer. Make sure that you have TLS enabled on any page that includes the client secret. \n\nRefer to our docs for [creating and processing an order](https://stripe.com/docs/orders-beta/create-and-process) to learn about how client_secret should be handled.",
-            "maxLength": 5000,
-            "nullable": true,
-            "type": "string"
-          },
-          "created": {
-            "description": "Time at which the object was created. Measured in seconds since the Unix epoch.",
-            "format": "unix-time",
-            "type": "integer"
-          },
-          "currency": {
-            "description": "Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).",
-            "type": "string"
-          },
-          "customer": {
-            "description": "The customer which this orders belongs to.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/customer"
-              },
-              {
-                "$ref": "#/components/schemas/deleted_customer"
-              },
-              {
-                "maxLength": 5000,
-                "type": "string"
-              }
-            ],
-            "x-expansionResources": {
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/customer"
-                },
-                {
-                  "$ref": "#/components/schemas/deleted_customer"
-                }
-              ]
-            }
-          },
-          "description": {
-            "description": "An arbitrary string attached to the object. Often useful for displaying to users.",
-            "maxLength": 5000,
-            "nullable": true,
-            "type": "string"
-          },
-          "discounts": {
-            "description": "The discounts applied to the order. Use `expand[]=discounts` to expand each discount.",
-            "items": {
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/discount"
-                },
-                {
-                  "maxLength": 5000,
-                  "type": "string"
-                }
-              ],
-              "x-expansionResources": {
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/discount"
-                  }
-                ]
-              }
-            },
-            "nullable": true,
-            "type": "array"
-          },
-          "id": {
-            "description": "Unique identifier for the object.",
-            "maxLength": 5000,
-            "type": "string"
-          },
-          "ip_address": {
-            "description": "A recent IP address of the purchaser used for tax reporting and tax location inference.",
-            "maxLength": 5000,
-            "nullable": true,
-            "type": "string"
-          },
-          "line_items": {
-            "$ref": "#/components/schemas/orders_v2_resource_line_item_list"
-          },
-          "livemode": {
-            "description": "Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.",
-            "type": "boolean"
-          },
-          "metadata": {
-            "$ref": "#/components/schemas/nullable_map_of_short_string"
-          },
-          "object": {
-            "description": "String representing the object's type. Objects of the same type share the same value.",
-            "enum": [
-              "order"
-            ],
-            "type": "string"
-          },
-          "payment": {
-            "$ref": "#/components/schemas/orders_v2_resource_payment"
-          },
-          "shipping_cost": {
-            "description": "The details of the customer cost of shipping, including the customer chosen ShippingRate.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/orders_v2_resource_shipping_cost"
-              }
-            ]
-          },
-          "shipping_details": {
-            "description": "Customer shipping information associated with the order.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/orders_v2_resource_shipping_details"
-              }
-            ]
-          },
-          "status": {
-            "description": "The overall status of the order.",
-            "enum": [
-              "canceled",
-              "complete",
-              "open",
-              "processing",
-              "submitted"
-            ],
-            "type": "string"
-          },
-          "tax_details": {
-            "$ref": "#/components/schemas/orders_v2_resource_tax_details"
-          },
-          "total_details": {
-            "$ref": "#/components/schemas/orders_v2_resource_total_details"
-          }
-        },
-        "required": [
-          "amount_subtotal",
-          "amount_total",
-          "created",
-          "currency",
-          "id",
-          "livemode",
-          "object",
-          "payment",
-          "status",
-          "total_details"
-        ],
-        "title": "OrdersV2ResourceOrder",
-        "type": "object",
-        "x-expandableFields": [
-          "application",
-          "automatic_tax",
-          "billing_details",
-          "client_permissions",
-          "customer",
-          "discounts",
-          "line_items",
-          "payment",
-          "shipping_cost",
-          "shipping_details",
-          "tax_details",
-          "total_details"
-        ],
-        "x-resourceId": "order"
-      },
       "order_item_specs": {
         "properties": {
           "amount": {
@@ -24615,764 +24489,6 @@
         ],
         "title": "order_shipping",
         "type": "object"
-      },
-      "orders_payment_method_options_afterpay_clearpay": {
-        "description": "",
-        "properties": {
-          "capture_method": {
-            "description": "Controls when the funds will be captured from the customer's account.",
-            "enum": [
-              "automatic",
-              "manual"
-            ],
-            "type": "string"
-          },
-          "reference": {
-            "description": "Order identifier shown to the user in Afterpay's online portal. We recommend using a value that helps you answer any questions a customer might have about the payment. The identifier is limited to 128 characters and may contain only letters, digits, underscores, backslashes and dashes.",
-            "maxLength": 5000,
-            "nullable": true,
-            "type": "string"
-          },
-          "setup_future_usage": {
-            "description": "Indicates that you intend to make future payments with the payment method.\n\nProviding this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the order's Customer, if present, after the order's PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.\n\nWhen processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).\n\nIf `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.",
-            "enum": [
-              "none"
-            ],
-            "type": "string"
-          }
-        },
-        "title": "orders_payment_method_options_afterpay_clearpay",
-        "type": "object",
-        "x-expandableFields": [
-
-        ]
-      },
-      "orders_v2_resource_automatic_payment_methods": {
-        "description": "",
-        "properties": {
-          "enabled": {
-            "description": "Whether this Order has been opted into managing payment method types via the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).",
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "enabled"
-        ],
-        "title": "OrdersV2ResourceAutomaticPaymentMethods",
-        "type": "object",
-        "x-expandableFields": [
-
-        ]
-      },
-      "orders_v2_resource_automatic_tax": {
-        "description": "",
-        "properties": {
-          "enabled": {
-            "description": "Whether Stripe automatically computes tax on this Order.",
-            "type": "boolean"
-          },
-          "status": {
-            "description": "The status of the most recent automated tax calculation for this Order.",
-            "enum": [
-              "complete",
-              "failed",
-              "requires_location_inputs"
-            ],
-            "nullable": true,
-            "type": "string"
-          }
-        },
-        "required": [
-          "enabled"
-        ],
-        "title": "OrdersV2ResourceAutomaticTax",
-        "type": "object",
-        "x-expandableFields": [
-
-        ]
-      },
-      "orders_v2_resource_billing_details": {
-        "description": "",
-        "properties": {
-          "address": {
-            "description": "Billing address for the order.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/address"
-              }
-            ]
-          },
-          "email": {
-            "description": "Email address for the order.",
-            "maxLength": 5000,
-            "nullable": true,
-            "type": "string"
-          },
-          "name": {
-            "description": "Full name for the order.",
-            "maxLength": 5000,
-            "nullable": true,
-            "type": "string"
-          },
-          "phone": {
-            "description": "Billing phone number for the order (including extension).",
-            "maxLength": 5000,
-            "nullable": true,
-            "type": "string"
-          }
-        },
-        "title": "OrdersV2ResourceBillingDetails",
-        "type": "object",
-        "x-expandableFields": [
-          "address"
-        ]
-      },
-      "orders_v2_resource_card_payment_method_options": {
-        "description": "",
-        "properties": {
-          "capture_method": {
-            "description": "Controls when the funds will be captured from the customer's account.",
-            "enum": [
-              "automatic",
-              "manual"
-            ],
-            "type": "string"
-          },
-          "setup_future_usage": {
-            "description": "Indicates that you intend to make future payments with the payment method.\n\nProviding this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the order's Customer, if present, after the order's PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.\n\nWhen processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).\n\nIf `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.",
-            "enum": [
-              "none",
-              "off_session",
-              "on_session"
-            ],
-            "type": "string"
-          }
-        },
-        "required": [
-          "capture_method"
-        ],
-        "title": "OrdersV2ResourceCardPaymentMethodOptions",
-        "type": "object",
-        "x-expandableFields": [
-
-        ]
-      },
-      "orders_v2_resource_client_permissions": {
-        "description": "",
-        "properties": {
-          "billing_details": {
-            "description": "Allows or disallows billing details to be set on an Order with a publishable key and Order client_secret",
-            "enum": [
-              "allow",
-              "disallow"
-            ],
-            "nullable": true,
-            "type": "string"
-          },
-          "promotion_codes": {
-            "description": "Allows or disallows promotion codes to be set on an Order with a publishable key and Order client_secret",
-            "enum": [
-              "allow",
-              "disallow"
-            ],
-            "nullable": true,
-            "type": "string"
-          },
-          "shipping_details": {
-            "description": "Allows or disallows shipping details to be set on an Order with a publishable key and Order client_secret",
-            "enum": [
-              "allow",
-              "disallow"
-            ],
-            "nullable": true,
-            "type": "string"
-          }
-        },
-        "title": "OrdersV2ResourceClientPermissions",
-        "type": "object",
-        "x-expandableFields": [
-
-        ]
-      },
-      "orders_v2_resource_line_item_list": {
-        "properties": {
-          "data": {
-            "description": "Details about each object.",
-            "items": {
-              "$ref": "#/components/schemas/item"
-            },
-            "type": "array"
-          },
-          "has_more": {
-            "description": "True if this list has another page of items after this one that can be fetched.",
-            "type": "boolean"
-          },
-          "object": {
-            "description": "String representing the object's type. Objects of the same type share the same value. Always has the value `list`.",
-            "enum": [
-              "list"
-            ],
-            "type": "string"
-          },
-          "url": {
-            "description": "The URL where this list can be accessed.",
-            "maxLength": 5000,
-            "type": "string"
-          }
-        },
-        "required": [
-          "data",
-          "has_more",
-          "object",
-          "url"
-        ],
-        "title": "OrdersV2ResourceLineItemList",
-        "type": "object",
-        "x-expandableFields": [
-          "data"
-        ]
-      },
-      "orders_v2_resource_order_list": {
-        "properties": {
-          "data": {
-            "items": {
-              "$ref": "#/components/schemas/order"
-            },
-            "type": "array"
-          },
-          "has_more": {
-            "description": "True if this list has another page of items after this one that can be fetched.",
-            "type": "boolean"
-          },
-          "object": {
-            "description": "String representing the object's type. Objects of the same type share the same value. Always has the value `list`.",
-            "enum": [
-              "list"
-            ],
-            "type": "string"
-          },
-          "url": {
-            "description": "The URL where this list can be accessed.",
-            "maxLength": 5000,
-            "pattern": "^/v1/orders",
-            "type": "string"
-          }
-        },
-        "required": [
-          "data",
-          "has_more",
-          "object",
-          "url"
-        ],
-        "title": "OrdersV2ResourceOrderList",
-        "type": "object",
-        "x-expandableFields": [
-          "data"
-        ]
-      },
-      "orders_v2_resource_payment": {
-        "description": "",
-        "properties": {
-          "payment_intent": {
-            "description": "ID of the payment intent associated with this order. Null when the order is `open`.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/payment_intent"
-              },
-              {
-                "maxLength": 5000,
-                "type": "string"
-              }
-            ],
-            "x-expansionResources": {
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/payment_intent"
-                }
-              ]
-            }
-          },
-          "settings": {
-            "description": "Settings describing how the order should configure generated PaymentIntents.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/orders_v2_resource_payment_settings"
-              }
-            ]
-          },
-          "status": {
-            "description": "The status of the underlying payment associated with this order, if any. Null when the order is `open`.",
-            "enum": [
-              "canceled",
-              "complete",
-              "not_required",
-              "processing",
-              "requires_action",
-              "requires_capture",
-              "requires_confirmation",
-              "requires_payment_method"
-            ],
-            "nullable": true,
-            "type": "string"
-          }
-        },
-        "title": "OrdersV2ResourcePayment",
-        "type": "object",
-        "x-expandableFields": [
-          "payment_intent",
-          "settings"
-        ]
-      },
-      "orders_v2_resource_payment_method_options": {
-        "description": "",
-        "properties": {
-          "acss_debit": {
-            "$ref": "#/components/schemas/payment_intent_payment_method_options_acss_debit"
-          },
-          "afterpay_clearpay": {
-            "$ref": "#/components/schemas/orders_payment_method_options_afterpay_clearpay"
-          },
-          "alipay": {
-            "$ref": "#/components/schemas/payment_method_options_alipay"
-          },
-          "bancontact": {
-            "$ref": "#/components/schemas/payment_method_options_bancontact"
-          },
-          "card": {
-            "$ref": "#/components/schemas/orders_v2_resource_card_payment_method_options"
-          },
-          "customer_balance": {
-            "$ref": "#/components/schemas/payment_method_options_customer_balance"
-          },
-          "ideal": {
-            "$ref": "#/components/schemas/payment_method_options_ideal"
-          },
-          "klarna": {
-            "$ref": "#/components/schemas/payment_method_options_klarna"
-          },
-          "link": {
-            "$ref": "#/components/schemas/payment_intent_payment_method_options_link"
-          },
-          "oxxo": {
-            "$ref": "#/components/schemas/payment_method_options_oxxo"
-          },
-          "p24": {
-            "$ref": "#/components/schemas/payment_method_options_p24"
-          },
-          "paypal": {
-            "$ref": "#/components/schemas/payment_method_options_paypal"
-          },
-          "sepa_debit": {
-            "$ref": "#/components/schemas/payment_intent_payment_method_options_sepa_debit"
-          },
-          "sofort": {
-            "$ref": "#/components/schemas/payment_method_options_sofort"
-          },
-          "wechat_pay": {
-            "$ref": "#/components/schemas/payment_method_options_wechat_pay"
-          }
-        },
-        "title": "OrdersV2ResourcePaymentMethodOptions",
-        "type": "object",
-        "x-expandableFields": [
-          "acss_debit",
-          "afterpay_clearpay",
-          "alipay",
-          "bancontact",
-          "card",
-          "customer_balance",
-          "ideal",
-          "klarna",
-          "link",
-          "oxxo",
-          "p24",
-          "paypal",
-          "sepa_debit",
-          "sofort",
-          "wechat_pay"
-        ]
-      },
-      "orders_v2_resource_payment_settings": {
-        "description": "",
-        "properties": {
-          "application_fee_amount": {
-            "description": "The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account.",
-            "nullable": true,
-            "type": "integer"
-          },
-          "automatic_payment_methods": {
-            "description": "Indicates whether order has been opted into using [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods) to manage payment method types.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/orders_v2_resource_automatic_payment_methods"
-              }
-            ]
-          },
-          "payment_method_options": {
-            "description": "PaymentMethod-specific configuration to provide to the order's PaymentIntent.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/orders_v2_resource_payment_method_options"
-              }
-            ]
-          },
-          "payment_method_types": {
-            "description": "The list of [payment method types](https://stripe.com/docs/payments/payment-methods/overview) to provide to the order's PaymentIntent. Do not include this attribute if you prefer to manage your payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).",
-            "items": {
-              "enum": [
-                "acss_debit",
-                "afterpay_clearpay",
-                "alipay",
-                "au_becs_debit",
-                "bacs_debit",
-                "bancontact",
-                "card",
-                "customer_balance",
-                "eps",
-                "fpx",
-                "giropay",
-                "grabpay",
-                "ideal",
-                "klarna",
-                "link",
-                "oxxo",
-                "p24",
-                "sepa_debit",
-                "sofort",
-                "wechat_pay"
-              ],
-              "type": "string",
-              "x-stripeBypassValidation": true
-            },
-            "nullable": true,
-            "type": "array"
-          },
-          "return_url": {
-            "description": "The URL to redirect the customer to after they authenticate their payment.",
-            "maxLength": 5000,
-            "nullable": true,
-            "type": "string"
-          },
-          "statement_descriptor": {
-            "description": "For non-card charges, you can use this value as the complete description that appears on your customers' statements. Must contain at least one letter, maximum 22 characters.",
-            "maxLength": 5000,
-            "nullable": true,
-            "type": "string"
-          },
-          "statement_descriptor_suffix": {
-            "description": "Provides information about a card payment that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that’s set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.",
-            "maxLength": 5000,
-            "nullable": true,
-            "type": "string"
-          },
-          "transfer_data": {
-            "description": "Provides configuration for completing a transfer for the order after it is paid.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/orders_v2_resource_transfer_data"
-              }
-            ]
-          }
-        },
-        "title": "OrdersV2ResourcePaymentSettings",
-        "type": "object",
-        "x-expandableFields": [
-          "automatic_payment_methods",
-          "payment_method_options",
-          "transfer_data"
-        ]
-      },
-      "orders_v2_resource_shipping_cost": {
-        "description": "",
-        "properties": {
-          "amount_subtotal": {
-            "description": "Total shipping cost before any discounts or taxes are applied.",
-            "type": "integer"
-          },
-          "amount_tax": {
-            "description": "Total tax amount applied due to shipping costs. If no tax was applied, defaults to 0.",
-            "type": "integer"
-          },
-          "amount_total": {
-            "description": "Total shipping cost after discounts and taxes are applied.",
-            "type": "integer"
-          },
-          "shipping_rate": {
-            "description": "The ID of the ShippingRate for this order.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/shipping_rate"
-              },
-              {
-                "maxLength": 5000,
-                "type": "string"
-              }
-            ],
-            "x-expansionResources": {
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/shipping_rate"
-                }
-              ]
-            }
-          },
-          "taxes": {
-            "description": "The taxes applied to the shipping rate.",
-            "items": {
-              "$ref": "#/components/schemas/line_items_tax_amount"
-            },
-            "type": "array"
-          }
-        },
-        "required": [
-          "amount_subtotal",
-          "amount_tax",
-          "amount_total"
-        ],
-        "title": "OrdersV2ResourceShippingCost",
-        "type": "object",
-        "x-expandableFields": [
-          "shipping_rate",
-          "taxes"
-        ]
-      },
-      "orders_v2_resource_shipping_details": {
-        "description": "",
-        "properties": {
-          "address": {
-            "description": "Recipient shipping address. Required if the order includes products that are shippable.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/address"
-              }
-            ]
-          },
-          "name": {
-            "description": "Recipient name.",
-            "maxLength": 5000,
-            "nullable": true,
-            "type": "string"
-          },
-          "phone": {
-            "description": "Recipient phone (including extension).",
-            "maxLength": 5000,
-            "nullable": true,
-            "type": "string"
-          }
-        },
-        "title": "OrdersV2ResourceShippingDetails",
-        "type": "object",
-        "x-expandableFields": [
-          "address"
-        ]
-      },
-      "orders_v2_resource_tax_details": {
-        "description": "",
-        "properties": {
-          "tax_exempt": {
-            "description": "Describes the purchaser's tax exemption status. One of `none`, `exempt`, or `reverse`.",
-            "enum": [
-              "exempt",
-              "none",
-              "reverse"
-            ],
-            "type": "string"
-          },
-          "tax_ids": {
-            "description": "The purchaser's tax IDs to be used in calculation of tax for this Order.",
-            "items": {
-              "$ref": "#/components/schemas/orders_v2_resource_tax_details_resource_tax_id"
-            },
-            "type": "array"
-          }
-        },
-        "required": [
-          "tax_exempt",
-          "tax_ids"
-        ],
-        "title": "OrdersV2ResourceTaxDetails",
-        "type": "object",
-        "x-expandableFields": [
-          "tax_ids"
-        ]
-      },
-      "orders_v2_resource_tax_details_resource_tax_id": {
-        "description": "",
-        "properties": {
-          "type": {
-            "description": "The type of the tax ID, one of `eu_vat`, `br_cnpj`, `br_cpf`, `eu_oss_vat`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, or `unknown`",
-            "enum": [
-              "ae_trn",
-              "au_abn",
-              "au_arn",
-              "bg_uic",
-              "br_cnpj",
-              "br_cpf",
-              "ca_bn",
-              "ca_gst_hst",
-              "ca_pst_bc",
-              "ca_pst_mb",
-              "ca_pst_sk",
-              "ca_qst",
-              "ch_vat",
-              "cl_tin",
-              "es_cif",
-              "eu_oss_vat",
-              "eu_vat",
-              "gb_vat",
-              "ge_vat",
-              "hk_br",
-              "hu_tin",
-              "id_npwp",
-              "il_vat",
-              "in_gst",
-              "is_vat",
-              "jp_cn",
-              "jp_rn",
-              "jp_trn",
-              "ke_pin",
-              "kr_brn",
-              "li_uid",
-              "mx_rfc",
-              "my_frp",
-              "my_itn",
-              "my_sst",
-              "no_vat",
-              "nz_gst",
-              "ru_inn",
-              "ru_kpp",
-              "sa_vat",
-              "sg_gst",
-              "sg_uen",
-              "si_tin",
-              "th_vat",
-              "tw_vat",
-              "ua_vat",
-              "unknown",
-              "us_ein",
-              "za_vat"
-            ],
-            "type": "string"
-          },
-          "value": {
-            "description": "The value of the tax ID.",
-            "maxLength": 5000,
-            "nullable": true,
-            "type": "string"
-          }
-        },
-        "required": [
-          "type"
-        ],
-        "title": "OrdersV2ResourceTaxDetailsResourceTaxID",
-        "type": "object",
-        "x-expandableFields": [
-
-        ]
-      },
-      "orders_v2_resource_total_details": {
-        "description": "",
-        "properties": {
-          "amount_discount": {
-            "description": "This is the sum of all the discounts.",
-            "type": "integer"
-          },
-          "amount_shipping": {
-            "description": "This is the sum of all the shipping amounts.",
-            "nullable": true,
-            "type": "integer"
-          },
-          "amount_tax": {
-            "description": "This is the sum of all the tax amounts.",
-            "type": "integer"
-          },
-          "breakdown": {
-            "$ref": "#/components/schemas/orders_v2_resource_total_details_api_resource_breakdown"
-          }
-        },
-        "required": [
-          "amount_discount",
-          "amount_tax"
-        ],
-        "title": "OrdersV2ResourceTotalDetails",
-        "type": "object",
-        "x-expandableFields": [
-          "breakdown"
-        ]
-      },
-      "orders_v2_resource_total_details_api_resource_breakdown": {
-        "description": "",
-        "properties": {
-          "discounts": {
-            "description": "The aggregated discounts.",
-            "items": {
-              "$ref": "#/components/schemas/line_items_discount_amount"
-            },
-            "type": "array"
-          },
-          "taxes": {
-            "description": "The aggregated tax amounts by rate.",
-            "items": {
-              "$ref": "#/components/schemas/line_items_tax_amount"
-            },
-            "type": "array"
-          }
-        },
-        "required": [
-          "discounts",
-          "taxes"
-        ],
-        "title": "OrdersV2ResourceTotalDetailsAPIResourceBreakdown",
-        "type": "object",
-        "x-expandableFields": [
-          "discounts",
-          "taxes"
-        ]
-      },
-      "orders_v2_resource_transfer_data": {
-        "description": "",
-        "properties": {
-          "amount": {
-            "description": "The amount that will be transferred automatically when the order is paid. If no amount is set, the full amount is transferred. There cannot be any line items with recurring prices when using this field.",
-            "nullable": true,
-            "type": "integer"
-          },
-          "destination": {
-            "description": "ID of the Connected account receiving the transfer.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/account"
-              },
-              {
-                "maxLength": 5000,
-                "type": "string"
-              }
-            ],
-            "x-expansionResources": {
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/account"
-                }
-              ]
-            }
-          }
-        },
-        "required": [
-          "destination"
-        ],
-        "title": "OrdersV2ResourceTransferData",
-        "type": "object",
-        "x-expandableFields": [
-          "destination"
-        ]
       },
       "other": {
         "properties": {
@@ -25845,44 +24961,6 @@
           "data"
         ]
       },
-      "payment_flows_payment_intent_resource_charge_list": {
-        "properties": {
-          "data": {
-            "description": "This list only contains the latest charge, even if there were previously multiple unsuccessful charges. To view all previous charges for a PaymentIntent, you can filter the charges list using the `payment_intent` [parameter](https://stripe.com/docs/api/charges/list#list_charges-payment_intent).",
-            "items": {
-              "$ref": "#/components/schemas/charge"
-            },
-            "type": "array"
-          },
-          "has_more": {
-            "description": "True if this list has another page of items after this one that can be fetched.",
-            "type": "boolean"
-          },
-          "object": {
-            "description": "String representing the object's type. Objects of the same type share the same value. Always has the value `list`.",
-            "enum": [
-              "list"
-            ],
-            "type": "string"
-          },
-          "url": {
-            "description": "The URL where this list can be accessed.",
-            "maxLength": 5000,
-            "type": "string"
-          }
-        },
-        "required": [
-          "data",
-          "has_more",
-          "object",
-          "url"
-        ],
-        "title": "PaymentFlowsPaymentIntentResourceChargeList",
-        "type": "object",
-        "x-expandableFields": [
-          "data"
-        ]
-      },
       "payment_flows_payment_method_list": {
         "properties": {
           "data": {
@@ -26139,9 +25217,6 @@
             ],
             "type": "string"
           },
-          "charges": {
-            "$ref": "#/components/schemas/payment_flows_payment_intent_resource_charge_list"
-          },
           "client_secret": {
             "description": "The client secret of this PaymentIntent. Used for client-side retrieval using a publishable key. \n\nThe client secret can be used to complete a payment from your frontend. It should not be stored, logged, or exposed to anyone other than the customer. Make sure that you have TLS enabled on any page that includes the client secret.\n\nRefer to our docs to [accept a payment](https://stripe.com/docs/payments/accept-a-payment?ui=elements) and learn about how `client_secret` should be handled.",
             "maxLength": 5000,
@@ -26229,6 +25304,26 @@
                 "$ref": "#/components/schemas/api_errors"
               }
             ]
+          },
+          "latest_charge": {
+            "description": "The latest charge created by this payment intent.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/charge"
+              },
+              {
+                "maxLength": 5000,
+                "type": "string"
+              }
+            ],
+            "x-expansionResources": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/charge"
+                }
+              ]
+            }
           },
           "livemode": {
             "description": "Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.",
@@ -26422,10 +25517,10 @@
           "amount_details",
           "application",
           "automatic_payment_methods",
-          "charges",
           "customer",
           "invoice",
           "last_payment_error",
+          "latest_charge",
           "next_action",
           "on_behalf_of",
           "payment_method",
@@ -26927,6 +26022,12 @@
             "maxLength": 5000,
             "type": "string"
           },
+          "hosted_instructions_url": {
+            "description": "The URL to the hosted PayNow instructions page, which allows customers to view the PayNow QR code.",
+            "maxLength": 5000,
+            "nullable": true,
+            "type": "string"
+          },
           "image_url_png": {
             "description": "The image_url_png string used to render QR code",
             "maxLength": 5000,
@@ -26997,12 +26098,12 @@
             "type": "string"
           },
           "image_url_png": {
-            "description": "The image_url_png string used to render QR code, can be used as <img src=\"…\" />",
+            "description": "The PNG path used to render the QR code, can be used as the source in an HTML img tag",
             "maxLength": 5000,
             "type": "string"
           },
           "image_url_svg": {
-            "description": "The image_url_svg string used to render QR code, can be used as <img src=\"…\" />",
+            "description": "The SVG path used to render the QR code, can be used as the source in an HTML img tag",
             "maxLength": 5000,
             "type": "string"
           }
@@ -27082,6 +26183,11 @@
             "maxLength": 5000,
             "type": "string"
           },
+          "hosted_instructions_url": {
+            "description": "The URL to the hosted WeChat Pay instructions page, which allows customers to view the WeChat Pay QR code.",
+            "maxLength": 5000,
+            "type": "string"
+          },
           "image_data_url": {
             "description": "The base64 image data for a pre-generated QR code",
             "maxLength": 5000,
@@ -27100,6 +26206,7 @@
         },
         "required": [
           "data",
+          "hosted_instructions_url",
           "image_data_url",
           "image_url_png",
           "image_url_svg"
@@ -27990,7 +27097,8 @@
           "capture_method": {
             "description": "Controls when the funds will be captured from the customer's account.",
             "enum": [
-              "manual"
+              "manual",
+              "manual_preferred"
             ],
             "type": "string"
           },
@@ -28070,6 +27178,9 @@
           "currency": {
             "description": "Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).",
             "type": "string"
+          },
+          "custom_text": {
+            "$ref": "#/components/schemas/payment_links_resource_custom_text"
           },
           "customer_creation": {
             "description": "Configuration for Customer creation during checkout.",
@@ -28237,6 +27348,7 @@
           "automatic_tax",
           "billing_address_collection",
           "currency",
+          "custom_text",
           "customer_creation",
           "id",
           "livemode",
@@ -28255,6 +27367,7 @@
           "after_completion",
           "automatic_tax",
           "consent_collection",
+          "custom_text",
           "line_items",
           "on_behalf_of",
           "payment_intent_data",
@@ -28369,6 +27482,53 @@
           }
         },
         "title": "PaymentLinksResourceConsentCollection",
+        "type": "object",
+        "x-expandableFields": [
+
+        ]
+      },
+      "payment_links_resource_custom_text": {
+        "description": "",
+        "properties": {
+          "shipping_address": {
+            "description": "Custom text that should be displayed alongside shipping address collection.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/payment_links_resource_custom_text_position"
+              }
+            ]
+          },
+          "submit": {
+            "description": "Custom text that should be displayed alongside the payment confirmation button.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/payment_links_resource_custom_text_position"
+              }
+            ]
+          }
+        },
+        "title": "PaymentLinksResourceCustomText",
+        "type": "object",
+        "x-expandableFields": [
+          "shipping_address",
+          "submit"
+        ]
+      },
+      "payment_links_resource_custom_text_position": {
+        "description": "",
+        "properties": {
+          "message": {
+            "description": "Text may be up to 500 characters in length.",
+            "maxLength": 500,
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ],
+        "title": "PaymentLinksResourceCustomTextPosition",
         "type": "object",
         "x-expandableFields": [
 
@@ -32287,7 +31447,8 @@
             "enum": [
               "none"
             ],
-            "type": "string"
+            "type": "string",
+            "x-stripeBypassValidation": true
           }
         },
         "title": "payment_method_options_afterpay_clearpay",
@@ -32994,29 +32155,6 @@
 
         ]
       },
-      "payment_method_options_paypal": {
-        "description": "",
-        "properties": {
-          "capture_method": {
-            "description": "Controls when the funds will be captured from the customer's account.",
-            "enum": [
-              "manual"
-            ],
-            "type": "string"
-          },
-          "preferred_locale": {
-            "description": "Preferred locale of the PayPal checkout page that the customer is redirected to.",
-            "maxLength": 5000,
-            "nullable": true,
-            "type": "string"
-          }
-        },
-        "title": "payment_method_options_paypal",
-        "type": "object",
-        "x-expandableFields": [
-
-        ]
-      },
       "payment_method_options_pix": {
         "description": "",
         "properties": {
@@ -33500,6 +32638,53 @@
 
         ]
       },
+      "payment_pages_checkout_session_custom_text": {
+        "description": "",
+        "properties": {
+          "shipping_address": {
+            "description": "Custom text that should be displayed alongside shipping address collection.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/payment_pages_checkout_session_custom_text_position"
+              }
+            ]
+          },
+          "submit": {
+            "description": "Custom text that should be displayed alongside the payment confirmation button.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/payment_pages_checkout_session_custom_text_position"
+              }
+            ]
+          }
+        },
+        "title": "PaymentPagesCheckoutSessionCustomText",
+        "type": "object",
+        "x-expandableFields": [
+          "shipping_address",
+          "submit"
+        ]
+      },
+      "payment_pages_checkout_session_custom_text_position": {
+        "description": "",
+        "properties": {
+          "message": {
+            "description": "Text may be up to 500 characters in length.",
+            "maxLength": 500,
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ],
+        "title": "PaymentPagesCheckoutSessionCustomTextPosition",
+        "type": "object",
+        "x-expandableFields": [
+
+        ]
+      },
       "payment_pages_checkout_session_customer_details": {
         "description": "",
         "properties": {
@@ -33554,6 +32739,100 @@
         "x-expandableFields": [
           "address",
           "tax_ids"
+        ]
+      },
+      "payment_pages_checkout_session_invoice_creation": {
+        "description": "",
+        "properties": {
+          "enabled": {
+            "description": "Indicates whether invoice creation is enabled for the Checkout Session.",
+            "type": "boolean"
+          },
+          "invoice_data": {
+            "$ref": "#/components/schemas/payment_pages_checkout_session_invoice_settings"
+          }
+        },
+        "required": [
+          "enabled",
+          "invoice_data"
+        ],
+        "title": "PaymentPagesCheckoutSessionInvoiceCreation",
+        "type": "object",
+        "x-expandableFields": [
+          "invoice_data"
+        ]
+      },
+      "payment_pages_checkout_session_invoice_settings": {
+        "description": "",
+        "properties": {
+          "account_tax_ids": {
+            "description": "The account tax IDs associated with the invoice.",
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/deleted_tax_id"
+                },
+                {
+                  "$ref": "#/components/schemas/tax_id"
+                },
+                {
+                  "maxLength": 5000,
+                  "type": "string"
+                }
+              ],
+              "x-expansionResources": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/deleted_tax_id"
+                  },
+                  {
+                    "$ref": "#/components/schemas/tax_id"
+                  }
+                ]
+              }
+            },
+            "nullable": true,
+            "type": "array"
+          },
+          "custom_fields": {
+            "description": "Custom fields displayed on the invoice.",
+            "items": {
+              "$ref": "#/components/schemas/invoice_setting_custom_field"
+            },
+            "nullable": true,
+            "type": "array"
+          },
+          "description": {
+            "description": "An arbitrary string attached to the object. Often useful for displaying to users.",
+            "maxLength": 5000,
+            "nullable": true,
+            "type": "string"
+          },
+          "footer": {
+            "description": "Footer displayed on the invoice.",
+            "maxLength": 5000,
+            "nullable": true,
+            "type": "string"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/nullable_map_of_short_string"
+          },
+          "rendering_options": {
+            "description": "Options for invoice PDF rendering.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/invoice_setting_rendering_options"
+              }
+            ]
+          }
+        },
+        "title": "PaymentPagesCheckoutSessionInvoiceSettings",
+        "type": "object",
+        "x-expandableFields": [
+          "account_tax_ids",
+          "custom_fields",
+          "rendering_options"
         ]
       },
       "payment_pages_checkout_session_list": {
@@ -34003,7 +33282,7 @@
         "description": "",
         "properties": {
           "type": {
-            "description": "The type of the tax ID, one of `eu_vat`, `br_cnpj`, `br_cpf`, `eu_oss_vat`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, or `unknown`",
+            "description": "The type of the tax ID, one of `eu_vat`, `br_cnpj`, `br_cpf`, `eu_oss_vat`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, or `unknown`",
             "enum": [
               "ae_trn",
               "au_abn",
@@ -34019,6 +33298,7 @@
               "ca_qst",
               "ch_vat",
               "cl_tin",
+              "eg_tin",
               "es_cif",
               "eu_oss_vat",
               "eu_vat",
@@ -34042,6 +33322,7 @@
               "my_sst",
               "no_vat",
               "nz_gst",
+              "ph_tin",
               "ru_inn",
               "ru_kpp",
               "sa_vat",
@@ -34049,6 +33330,7 @@
               "sg_uen",
               "si_tin",
               "th_vat",
+              "tr_tin",
               "tw_vat",
               "ua_vat",
               "unknown",
@@ -34217,7 +33499,7 @@
             "$ref": "#/components/schemas/source"
           }
         ],
-        "title": "Polymorphic",
+        "title": "PaymentSource",
         "x-resourceId": "payment_source",
         "x-stripeBypassValidation": true
       },
@@ -35265,6 +34547,9 @@
           "metadata": {
             "$ref": "#/components/schemas/map_of_string"
           },
+          "on_behalf_of": {
+            "type": "string"
+          },
           "proration_behavior": {
             "enum": [
               "always_invoice",
@@ -35648,21 +34933,6 @@
 
         ]
       },
-      "polymorphic": {
-        "oneOf": [
-          {
-            "$ref": "#/components/schemas/bank_account"
-          },
-          {
-            "$ref": "#/components/schemas/card"
-          },
-          {
-            "$ref": "#/components/schemas/source"
-          }
-        ],
-        "title": "Polymorphic",
-        "x-stripeBypassValidation": true
-      },
       "portal_business_profile": {
         "description": "",
         "properties": {
@@ -35742,7 +35012,8 @@
                 "shipping",
                 "tax_id"
               ],
-              "type": "string"
+              "type": "string",
+              "x-stripeBypassValidation": true
             },
             "type": "array"
           },
@@ -35800,6 +35071,135 @@
           "subscription_cancel",
           "subscription_pause",
           "subscription_update"
+        ]
+      },
+      "portal_flows_after_completion_hosted_confirmation": {
+        "description": "",
+        "properties": {
+          "custom_message": {
+            "description": "A custom message to display to the customer after the flow is completed.",
+            "maxLength": 5000,
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "title": "PortalFlowsAfterCompletionHostedConfirmation",
+        "type": "object",
+        "x-expandableFields": [
+
+        ]
+      },
+      "portal_flows_after_completion_redirect": {
+        "description": "",
+        "properties": {
+          "return_url": {
+            "description": "The URL the customer will be redirected to after the flow is completed.",
+            "maxLength": 5000,
+            "type": "string"
+          }
+        },
+        "required": [
+          "return_url"
+        ],
+        "title": "PortalFlowsAfterCompletionRedirect",
+        "type": "object",
+        "x-expandableFields": [
+
+        ]
+      },
+      "portal_flows_flow": {
+        "description": "",
+        "properties": {
+          "after_completion": {
+            "$ref": "#/components/schemas/portal_flows_flow_after_completion"
+          },
+          "subscription_cancel": {
+            "description": "Configuration when `flow.type=subscription_cancel`.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/portal_flows_flow_subscription_cancel"
+              }
+            ]
+          },
+          "type": {
+            "description": "Type of flow that the customer will go through.",
+            "enum": [
+              "payment_method_update",
+              "subscription_cancel"
+            ],
+            "type": "string",
+            "x-stripeBypassValidation": true
+          }
+        },
+        "required": [
+          "after_completion",
+          "type"
+        ],
+        "title": "PortalFlowsFlow",
+        "type": "object",
+        "x-expandableFields": [
+          "after_completion",
+          "subscription_cancel"
+        ]
+      },
+      "portal_flows_flow_after_completion": {
+        "description": "",
+        "properties": {
+          "hosted_confirmation": {
+            "description": "Configuration when `after_completion.type=hosted_confirmation`.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/portal_flows_after_completion_hosted_confirmation"
+              }
+            ]
+          },
+          "redirect": {
+            "description": "Configuration when `after_completion.type=redirect`.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/portal_flows_after_completion_redirect"
+              }
+            ]
+          },
+          "type": {
+            "description": "The specified type of behavior after the flow is completed.",
+            "enum": [
+              "hosted_confirmation",
+              "portal_homepage",
+              "redirect"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "title": "PortalFlowsFlowAfterCompletion",
+        "type": "object",
+        "x-expandableFields": [
+          "hosted_confirmation",
+          "redirect"
+        ]
+      },
+      "portal_flows_flow_subscription_cancel": {
+        "description": "",
+        "properties": {
+          "subscription": {
+            "description": "The ID of the subscription to be canceled.",
+            "maxLength": 5000,
+            "type": "string"
+          }
+        },
+        "required": [
+          "subscription"
+        ],
+        "title": "PortalFlowsFlowSubscriptionCancel",
+        "type": "object",
+        "x-expandableFields": [
+
         ]
       },
       "portal_invoice_list": {
@@ -36241,34 +35641,6 @@
         "title": "price_data",
         "type": "object"
       },
-      "price_data_with_optional_product": {
-        "properties": {
-          "currency": {
-            "type": "string"
-          },
-          "product": {
-            "maxLength": 5000,
-            "type": "string"
-          },
-          "tax_behavior": {
-            "enum": [
-              "exclusive",
-              "inclusive",
-              "unspecified"
-            ],
-            "type": "string"
-          },
-          "unit_amount": {
-            "type": "integer"
-          },
-          "unit_amount_decimal": {
-            "format": "decimal",
-            "type": "string"
-          }
-        },
-        "title": "price_data_with_optional_product",
-        "type": "object"
-      },
       "price_data_with_product_data": {
         "properties": {
           "currency": {
@@ -36639,128 +36011,6 @@
           "url"
         ],
         "title": "ProductList",
-        "type": "object",
-        "x-expandableFields": [
-          "data"
-        ]
-      },
-      "product_upsert_data": {
-        "properties": {
-          "description": {
-            "maxLength": 40000,
-            "type": "string"
-          },
-          "id": {
-            "maxLength": 5000,
-            "type": "string"
-          },
-          "images": {
-            "oneOf": [
-              {
-                "enum": [
-                  ""
-                ],
-                "type": "string"
-              },
-              {
-                "items": {
-                  "type": "string"
-                },
-                "type": "array"
-              }
-            ]
-          },
-          "metadata": {
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/map_of_string"
-              },
-              {
-                "enum": [
-                  ""
-                ],
-                "type": "string"
-              }
-            ]
-          },
-          "name": {
-            "maxLength": 5000,
-            "type": "string"
-          },
-          "package_dimensions": {
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/package_dimensions_specs"
-              },
-              {
-                "enum": [
-                  ""
-                ],
-                "type": "string"
-              }
-            ]
-          },
-          "shippable": {
-            "type": "boolean"
-          },
-          "tax_code": {
-            "maxLength": 5000,
-            "type": "string"
-          },
-          "url": {
-            "oneOf": [
-              {
-                "enum": [
-                  ""
-                ],
-                "type": "string"
-              },
-              {
-                "type": "string"
-              }
-            ]
-          }
-        },
-        "required": [
-          "id",
-          "name"
-        ],
-        "title": "product_upsert_data",
-        "type": "object"
-      },
-      "products_method_sku_list": {
-        "properties": {
-          "data": {
-            "items": {
-              "$ref": "#/components/schemas/sku"
-            },
-            "type": "array"
-          },
-          "has_more": {
-            "description": "True if this list has another page of items after this one that can be fetched.",
-            "type": "boolean"
-          },
-          "object": {
-            "description": "String representing the object's type. Objects of the same type share the same value. Always has the value `list`.",
-            "enum": [
-              "list"
-            ],
-            "type": "string"
-          },
-          "url": {
-            "description": "The URL where this list can be accessed.",
-            "maxLength": 5000,
-            "pattern": "^/v1/skus",
-            "type": "string"
-          }
-        },
-        "required": [
-          "data",
-          "has_more",
-          "object",
-          "url"
-        ],
-        "title": "ProductsMethodSKUList",
         "type": "object",
         "x-expandableFields": [
           "data"
@@ -37221,7 +36471,8 @@
               "draft",
               "open"
             ],
-            "type": "string"
+            "type": "string",
+            "x-stripeBypassValidation": true
           },
           "status_transitions": {
             "$ref": "#/components/schemas/quotes_resource_status_transitions"
@@ -37247,7 +36498,7 @@
             }
           },
           "subscription_data": {
-            "$ref": "#/components/schemas/quotes_resource_subscription_data"
+            "$ref": "#/components/schemas/quotes_resource_subscription_data_subscription_data"
           },
           "subscription_schedule": {
             "description": "The subscription schedule that was created or updated from this quote.",
@@ -37589,7 +36840,7 @@
 
         ]
       },
-      "quotes_resource_subscription_data": {
+      "quotes_resource_subscription_data_subscription_data": {
         "description": "",
         "properties": {
           "description": {
@@ -37610,7 +36861,7 @@
             "type": "integer"
           }
         },
-        "title": "QuotesResourceSubscriptionData",
+        "title": "QuotesResourceSubscriptionDataSubscriptionData",
         "type": "object",
         "x-expandableFields": [
 
@@ -38625,6 +37876,7 @@
         "x-resourceId": "refund"
       },
       "refund_list": {
+        "nullable": true,
         "properties": {
           "data": {
             "description": "Details about each object.",
@@ -42247,40 +41499,6 @@
         "title": "shipping_address_collection_params",
         "type": "object"
       },
-      "shipping_cost": {
-        "properties": {
-          "shipping_rate": {
-            "maxLength": 5000,
-            "type": "string"
-          },
-          "shipping_rate_data": {
-            "$ref": "#/components/schemas/method_params"
-          }
-        },
-        "title": "shipping_cost",
-        "type": "object"
-      },
-      "shipping_details": {
-        "properties": {
-          "address": {
-            "$ref": "#/components/schemas/validated_optional_fields_address"
-          },
-          "name": {
-            "maxLength": 5000,
-            "type": "string"
-          },
-          "phone": {
-            "maxLength": 5000,
-            "type": "string"
-          }
-        },
-        "required": [
-          "address",
-          "name"
-        ],
-        "title": "shipping_details",
-        "type": "object"
-      },
       "shipping_option_params": {
         "properties": {
           "shipping_rate": {
@@ -42643,143 +41861,6 @@
         "type": "object",
         "x-expandableFields": [
           "data"
-        ]
-      },
-      "sku": {
-        "description": "Stores representations of [stock keeping units](http://en.wikipedia.org/wiki/Stock_keeping_unit).\nSKUs describe specific product variations, taking into account any combination of: attributes,\ncurrency, and cost. For example, a product may be a T-shirt, whereas a specific SKU represents\nthe `size: large`, `color: red` version of that shirt.\n\nCan also be used to manage inventory.",
-        "properties": {
-          "active": {
-            "description": "Whether the SKU is available for purchase.",
-            "type": "boolean"
-          },
-          "attributes": {
-            "$ref": "#/components/schemas/map_of_long_string"
-          },
-          "created": {
-            "description": "Time at which the object was created. Measured in seconds since the Unix epoch.",
-            "format": "unix-time",
-            "type": "integer"
-          },
-          "currency": {
-            "description": "Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).",
-            "type": "string"
-          },
-          "id": {
-            "description": "Unique identifier for the object.",
-            "maxLength": 5000,
-            "type": "string"
-          },
-          "image": {
-            "description": "The URL of an image for this SKU, meant to be displayable to the customer.",
-            "maxLength": 2048,
-            "nullable": true,
-            "type": "string"
-          },
-          "inventory": {
-            "$ref": "#/components/schemas/sku_inventory"
-          },
-          "livemode": {
-            "description": "Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.",
-            "type": "boolean"
-          },
-          "metadata": {
-            "$ref": "#/components/schemas/map_of_short_string"
-          },
-          "object": {
-            "description": "String representing the object's type. Objects of the same type share the same value.",
-            "enum": [
-              "sku"
-            ],
-            "type": "string"
-          },
-          "package_dimensions": {
-            "description": "The dimensions of this SKU for shipping purposes.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/package_dimensions"
-              }
-            ]
-          },
-          "price": {
-            "description": "The cost of the item as a positive integer in the smallest currency unit (that is, 100 cents to charge $1.00, or 100 to charge ¥100, Japanese Yen being a zero-decimal currency).",
-            "type": "integer"
-          },
-          "product": {
-            "description": "The ID of the product this SKU is associated with. The product must be currently active.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/product"
-              },
-              {
-                "maxLength": 5000,
-                "type": "string"
-              }
-            ],
-            "x-expansionResources": {
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/product"
-                }
-              ]
-            }
-          },
-          "updated": {
-            "description": "Time at which the object was last updated. Measured in seconds since the Unix epoch.",
-            "format": "unix-time",
-            "type": "integer"
-          }
-        },
-        "required": [
-          "active",
-          "attributes",
-          "created",
-          "currency",
-          "id",
-          "inventory",
-          "livemode",
-          "metadata",
-          "object",
-          "price",
-          "product",
-          "updated"
-        ],
-        "title": "Sku",
-        "type": "object",
-        "x-expandableFields": [
-          "inventory",
-          "package_dimensions",
-          "product"
-        ],
-        "x-resourceId": "sku"
-      },
-      "sku_inventory": {
-        "description": "",
-        "properties": {
-          "quantity": {
-            "description": "The count of inventory available. Will be present if and only if `type` is `finite`.",
-            "nullable": true,
-            "type": "integer"
-          },
-          "type": {
-            "description": "Inventory type. Possible values are `finite`, `bucket` (not quantified), and `infinite`.",
-            "maxLength": 5000,
-            "type": "string"
-          },
-          "value": {
-            "description": "An indicator of the inventory available. Possible values are `in_stock`, `limited`, and `out_of_stock`. Will be present if and only if `type` is `bucket`.",
-            "maxLength": 5000,
-            "nullable": true,
-            "type": "string"
-          }
-        },
-        "required": [
-          "type"
-        ],
-        "title": "SKUInventory",
-        "type": "object",
-        "x-expandableFields": [
-
         ]
       },
       "source": {
@@ -44917,6 +43998,26 @@
             ],
             "type": "string"
           },
+          "on_behalf_of": {
+            "description": "The account (if any) the charge was made on behalf of for charges associated with this subscription. See the Connect documentation for details.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/account"
+              },
+              {
+                "maxLength": 5000,
+                "type": "string"
+              }
+            ],
+            "x-expansionResources": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/account"
+                }
+              ]
+            }
+          },
           "pause_collection": {
             "description": "If specified, payment collection for this subscription will be paused.",
             "nullable": true,
@@ -45085,6 +44186,7 @@
           "discount",
           "items",
           "latest_invoice",
+          "on_behalf_of",
           "pause_collection",
           "payment_settings",
           "pending_invoice_item_interval",
@@ -45329,6 +44431,9 @@
           },
           "metadata": {
             "$ref": "#/components/schemas/map_of_string"
+          },
+          "on_behalf_of": {
+            "type": "string"
           },
           "transfer_data": {
             "$ref": "#/components/schemas/transfer_data_specs"
@@ -46046,6 +45151,9 @@
               }
             ]
           },
+          "metadata": {
+            "$ref": "#/components/schemas/nullable_map_of_short_string"
+          },
           "price": {
             "description": "ID of the price to which the customer should be subscribed.",
             "oneOf": [
@@ -46252,6 +45360,26 @@
           "metadata": {
             "$ref": "#/components/schemas/nullable_map_of_short_string"
           },
+          "on_behalf_of": {
+            "description": "The account (if any) the charge was made on behalf of for charges associated with the schedule's subscription. See the Connect documentation for details.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/account"
+              },
+              {
+                "maxLength": 5000,
+                "type": "string"
+              }
+            ],
+            "x-expansionResources": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/account"
+                }
+              ]
+            }
+          },
           "proration_behavior": {
             "description": "If the subscription schedule will prorate when transitioning to this phase. Possible values are `create_prorations` and `none`.",
             "enum": [
@@ -46301,6 +45429,7 @@
           "default_tax_rates",
           "invoice_settings",
           "items",
+          "on_behalf_of",
           "transfer_data"
         ]
       },
@@ -46385,6 +45514,26 @@
               }
             ]
           },
+          "on_behalf_of": {
+            "description": "The account (if any) the charge was made on behalf of for charges associated with the schedule's subscription. See the Connect documentation for details.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/account"
+              },
+              {
+                "maxLength": 5000,
+                "type": "string"
+              }
+            ],
+            "x-expansionResources": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/account"
+                }
+              ]
+            }
+          },
           "transfer_data": {
             "description": "The account (if any) the associated subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.",
             "nullable": true,
@@ -46405,6 +45554,7 @@
           "billing_thresholds",
           "default_payment_method",
           "invoice_settings",
+          "on_behalf_of",
           "transfer_data"
         ]
       },
@@ -46993,27 +46143,6 @@
 
         ]
       },
-      "tax_details": {
-        "properties": {
-          "tax_exempt": {
-            "enum": [
-              "",
-              "exempt",
-              "none",
-              "reverse"
-            ],
-            "type": "string"
-          },
-          "tax_ids": {
-            "items": {
-              "$ref": "#/components/schemas/data_params"
-            },
-            "type": "array"
-          }
-        },
-        "title": "tax_details",
-        "type": "object"
-      },
       "tax_i_ds_list": {
         "properties": {
           "data": {
@@ -47103,7 +46232,7 @@
             "type": "string"
           },
           "type": {
-            "description": "Type of the tax ID, one of `ae_trn`, `au_abn`, `au_arn`, `bg_uic`, `br_cnpj`, `br_cpf`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_vat`, `cl_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kr_brn`, `li_uid`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `no_vat`, `nz_gst`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `th_vat`, `tw_vat`, `ua_vat`, `us_ein`, or `za_vat`. Note that some legacy tax IDs have type `unknown`",
+            "description": "Type of the tax ID, one of `ae_trn`, `au_abn`, `au_arn`, `bg_uic`, `br_cnpj`, `br_cpf`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_vat`, `cl_tin`, `eg_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kr_brn`, `li_uid`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `no_vat`, `nz_gst`, `ph_tin`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `th_vat`, `tr_tin`, `tw_vat`, `ua_vat`, `us_ein`, or `za_vat`. Note that some legacy tax IDs have type `unknown`",
             "enum": [
               "ae_trn",
               "au_abn",
@@ -47119,6 +46248,7 @@
               "ca_qst",
               "ch_vat",
               "cl_tin",
+              "eg_tin",
               "es_cif",
               "eu_oss_vat",
               "eu_vat",
@@ -47142,6 +46272,7 @@
               "my_sst",
               "no_vat",
               "nz_gst",
+              "ph_tin",
               "ru_inn",
               "ru_kpp",
               "sa_vat",
@@ -47149,6 +46280,7 @@
               "sg_uen",
               "si_tin",
               "th_vat",
+              "tr_tin",
               "tw_vat",
               "ua_vat",
               "unknown",
@@ -52392,36 +51524,6 @@
         ],
         "x-resourceId": "usage_record_summary"
       },
-      "validated_optional_fields_address": {
-        "properties": {
-          "city": {
-            "maxLength": 5000,
-            "type": "string"
-          },
-          "country": {
-            "maxLength": 5000,
-            "type": "string"
-          },
-          "line1": {
-            "maxLength": 5000,
-            "type": "string"
-          },
-          "line2": {
-            "maxLength": 5000,
-            "type": "string"
-          },
-          "postal_code": {
-            "maxLength": 5000,
-            "type": "string"
-          },
-          "state": {
-            "maxLength": 5000,
-            "type": "string"
-          }
-        },
-        "title": "validated_optional_fields_address",
-        "type": "object"
-      },
       "verification_document_specs": {
         "properties": {
           "back": {
@@ -52595,7 +51697,8 @@
     "description": "The Stripe REST API. Please see https://stripe.com/docs/api for more details.",
     "termsOfService": "https://stripe.com/us/terms/",
     "title": "Stripe API",
-    "version": "2022-08-01",
+    "version": "2022-11-15",
+    "x-stripe-openapi-version": "v215",
     "x-stripeSpecFilename": "spec3"
   },
   "openapi": "3.0.0",
@@ -53607,7 +52710,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/external_account"
+                  "$ref": "#/components/schemas/payment_source"
                 }
               }
             },
@@ -53659,7 +52762,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/deleted_external_account"
+                  "$ref": "#/components/schemas/deleted_payment_source"
                 }
               }
             },
@@ -53724,7 +52827,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/external_account"
+                  "$ref": "#/components/schemas/payment_source"
                 }
               }
             },
@@ -53894,7 +52997,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/external_account"
+                  "$ref": "#/components/schemas/payment_source"
                 }
               }
             },
@@ -56340,6 +55443,10 @@
                 "expand": {
                   "explode": true,
                   "style": "deepObject"
+                },
+                "flow_data": {
+                  "explode": true,
+                  "style": "deepObject"
                 }
               },
               "schema": {
@@ -56362,6 +55469,9 @@
                       "type": "string"
                     },
                     "type": "array"
+                  },
+                  "flow_data": {
+                    "$ref": "#/components/schemas/flow_data_param"
                   },
                   "locale": {
                     "description": "The IETF language tag of the locale Customer Portal is displayed in. If blank or auto, the customer’s `preferred_locales` or browser’s locale is used.",
@@ -57279,6 +56389,10 @@
                   "explode": true,
                   "style": "deepObject"
                 },
+                "custom_text": {
+                  "explode": true,
+                  "style": "deepObject"
+                },
                 "customer_update": {
                   "explode": true,
                   "style": "deepObject"
@@ -57288,6 +56402,10 @@
                   "style": "deepObject"
                 },
                 "expand": {
+                  "explode": true,
+                  "style": "deepObject"
+                },
+                "invoice_creation": {
                   "explode": true,
                   "style": "deepObject"
                 },
@@ -57374,13 +56492,16 @@
                     "description": "Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).",
                     "type": "string"
                   },
+                  "custom_text": {
+                    "$ref": "#/components/schemas/custom_text_param"
+                  },
                   "customer": {
                     "description": "ID of an existing Customer, if one exists. In `payment` mode, the customer’s most recent card\npayment method will be used to prefill the email, name, card details, and billing address\non the Checkout page. In `subscription` mode, the customer’s [default payment method](https://stripe.com/docs/api/customers/update#update_customer-invoice_settings-default_payment_method)\nwill be used if it’s a card, and otherwise the most recent card will be used. A valid billing address, billing name and billing email are required on the payment method for Checkout to prefill the customer's card details.\n\nIf the Customer already has a valid [email](https://stripe.com/docs/api/customers/object#customer_object-email) set, the email will be prefilled and not editable in Checkout.\nIf the Customer does not have a valid `email`, Checkout will set the email entered during the session on the Customer.\n\nIf blank for Checkout Sessions in `payment` or `subscription` mode, Checkout will create a new Customer object based on information provided during the payment flow.\n\nYou can set [`payment_intent_data.setup_future_usage`](https://stripe.com/docs/api/checkout/sessions/create#create_checkout_session-payment_intent_data-setup_future_usage) to have Checkout automatically attach the payment method to the Customer you pass in for future reuse.",
                     "maxLength": 5000,
                     "type": "string"
                   },
                   "customer_creation": {
-                    "description": "Configure whether a Checkout Session creates a [Customer](https://stripe.com/docs/api/customers) during Session confirmation.\n\nWhen a Customer is not created, you can still retrieve email, address, and other customer data entered in Checkout\nwith [customer_details](https://stripe.com/docs/api/checkout/sessions/object#checkout_session_object-customer_details).\n\nSessions that don't create Customers instead create [Guest Customers](https://support.stripe.com/questions/guest-customer-faq)\nin the Dashboard. Promotion codes limited to first time customers will return invalid for these Sessions.\n\nCan only be set in `payment` and `setup` mode.",
+                    "description": "Configure whether a Checkout Session creates a [Customer](https://stripe.com/docs/api/customers) during Session confirmation.\n\nWhen a Customer is not created, you can still retrieve email, address, and other customer data entered in Checkout\nwith [customer_details](https://stripe.com/docs/api/checkout/sessions/object#checkout_session_object-customer_details).\n\nSessions that don't create Customers instead are grouped by [guest customers](https://stripe.com/docs/payments/checkout/guest-customers)\nin the Dashboard. Promotion codes limited to first time customers will return invalid for these Sessions.\n\nCan only be set in `payment` and `setup` mode.",
                     "enum": [
                       "always",
                       "if_required"
@@ -57413,6 +56534,9 @@
                     "description": "The Epoch time in seconds at which the Checkout Session will expire. It can be anywhere from 30 minutes to 24 hours after Checkout Session creation. By default, this value is 24 hours from creation.",
                     "format": "unix-time",
                     "type": "integer"
+                  },
+                  "invoice_creation": {
+                    "$ref": "#/components/schemas/invoice_creation_params"
                   },
                   "line_items": {
                     "description": "A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices).\n\nFor `payment` mode, there is a maximum of 100 line items, however it is recommended to consolidate line items if there are more than a few dozen.\n\nFor `subscription` mode, there is a maximum of 20 line items with recurring Prices and 20 line items with one-time Prices. Line items with one-time Prices will be on the initial invoice only.",
@@ -60681,10 +59805,10 @@
             "style": "form"
           },
           {
-            "description": "A required filter on the list, based on the object `type` field.",
+            "description": "An optional filter on the list, based on the object `type` field. Without the filter, the list includes all current and future payment method types. If your integration expects only one type of payment method in the response, make sure to provide a type value in the request.",
             "in": "query",
             "name": "type",
-            "required": true,
+            "required": false,
             "schema": {
               "enum": [
                 "acss_debit",
@@ -61600,7 +60724,7 @@
                     "type": "array"
                   },
                   "type": {
-                    "description": "Type of the tax ID, one of `ae_trn`, `au_abn`, `au_arn`, `bg_uic`, `br_cnpj`, `br_cpf`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_vat`, `cl_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kr_brn`, `li_uid`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `no_vat`, `nz_gst`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `th_vat`, `tw_vat`, `ua_vat`, `us_ein`, or `za_vat`",
+                    "description": "Type of the tax ID, one of `ae_trn`, `au_abn`, `au_arn`, `bg_uic`, `br_cnpj`, `br_cpf`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_vat`, `cl_tin`, `eg_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kr_brn`, `li_uid`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `no_vat`, `nz_gst`, `ph_tin`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `th_vat`, `tr_tin`, `tw_vat`, `ua_vat`, `us_ein`, or `za_vat`",
                     "enum": [
                       "ae_trn",
                       "au_abn",
@@ -61616,6 +60740,7 @@
                       "ca_qst",
                       "ch_vat",
                       "cl_tin",
+                      "eg_tin",
                       "es_cif",
                       "eu_oss_vat",
                       "eu_vat",
@@ -61639,6 +60764,7 @@
                       "my_sst",
                       "no_vat",
                       "nz_gst",
+                      "ph_tin",
                       "ru_inn",
                       "ru_kpp",
                       "sa_vat",
@@ -61646,6 +60772,7 @@
                       "sg_uen",
                       "si_tin",
                       "th_vat",
+                      "tr_tin",
                       "tw_vat",
                       "ua_vat",
                       "us_ein",
@@ -64437,6 +63564,10 @@
                   "explode": true,
                   "style": "deepObject"
                 },
+                "tax_code": {
+                  "explode": true,
+                  "style": "deepObject"
+                },
                 "tax_rates": {
                   "explode": true,
                   "style": "deepObject"
@@ -64530,6 +63661,29 @@
                     "description": "The ID of a subscription to add this invoice item to. When left blank, the invoice item will be be added to the next upcoming scheduled invoice. When set, scheduled invoices for subscriptions other than the specified subscription will ignore the invoice item. Use this when you want to express that an invoice item has been accrued within the context of a particular subscription.",
                     "maxLength": 5000,
                     "type": "string"
+                  },
+                  "tax_behavior": {
+                    "description": "Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.",
+                    "enum": [
+                      "exclusive",
+                      "inclusive",
+                      "unspecified"
+                    ],
+                    "type": "string"
+                  },
+                  "tax_code": {
+                    "description": "A [tax code](https://stripe.com/docs/tax/tax-categories) ID.",
+                    "oneOf": [
+                      {
+                        "enum": [
+                          ""
+                        ],
+                        "type": "string"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
                   },
                   "tax_rates": {
                     "description": "The tax rates which apply to the invoice item. When set, the `default_tax_rates` on the invoice do not apply to this invoice item.",
@@ -64722,6 +63876,10 @@
                   "explode": true,
                   "style": "deepObject"
                 },
+                "tax_code": {
+                  "explode": true,
+                  "style": "deepObject"
+                },
                 "tax_rates": {
                   "explode": true,
                   "style": "deepObject"
@@ -64796,6 +63954,29 @@
                   "quantity": {
                     "description": "Non-negative integer. The quantity of units for the invoice item.",
                     "type": "integer"
+                  },
+                  "tax_behavior": {
+                    "description": "Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.",
+                    "enum": [
+                      "exclusive",
+                      "inclusive",
+                      "unspecified"
+                    ],
+                    "type": "string"
+                  },
+                  "tax_code": {
+                    "description": "A [tax code](https://stripe.com/docs/tax/tax-categories) ID.",
+                    "oneOf": [
+                      {
+                        "enum": [
+                          ""
+                        ],
+                        "type": "string"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
                   },
                   "tax_rates": {
                     "description": "The tax rates which apply to the invoice item. When set, the `default_tax_rates` on the invoice do not apply to this invoice item. Pass an empty string to remove previously-defined tax rates.",
@@ -65258,7 +64439,7 @@
                     "type": "string"
                   },
                   "subscription": {
-                    "description": "The ID of the subscription to invoice, if any. If set, the created invoice will only include pending invoice items for that subscription and pending invoice items not associated with any subscription if `pending_invoice_items_behavior` is `include`. The subscription's billing cycle and regular subscription events won't be affected.",
+                    "description": "The ID of the subscription to invoice, if any. If set, the created invoice will only include pending invoice items for that subscription. The subscription's billing cycle and regular subscription events won't be affected.",
                     "maxLength": 5000,
                     "type": "string"
                   },
@@ -67226,7 +66407,7 @@
     },
     "/v1/issuing/authorizations/{authorization}/approve": {
       "post": {
-        "description": "<p>Approves a pending Issuing <code>Authorization</code> object. This request should be made within the timeout window of the <a href=\"/docs/issuing/controls/real-time-authorizations\">real-time authorization</a> flow.</p>",
+        "description": "<p>Approves a pending Issuing <code>Authorization</code> object. This request should be made within the timeout window of the <a href=\"/docs/issuing/controls/real-time-authorizations\">real-time authorization</a> flow. \nYou can also respond directly to the webhook request to approve an authorization (preferred). More details can be found <a href=\"https://site-admin.stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling\">here</a>.</p>",
         "operationId": "PostIssuingAuthorizationsAuthorizationApprove",
         "parameters": [
           {
@@ -67318,7 +66499,7 @@
     },
     "/v1/issuing/authorizations/{authorization}/decline": {
       "post": {
-        "description": "<p>Declines a pending Issuing <code>Authorization</code> object. This request should be made within the timeout window of the <a href=\"/docs/issuing/controls/real-time-authorizations\">real time authorization</a> flow.</p>",
+        "description": "<p>Declines a pending Issuing <code>Authorization</code> object. This request should be made within the timeout window of the <a href=\"/docs/issuing/controls/real-time-authorizations\">real time authorization</a> flow.\nYou can also respond directly to the webhook request to decline an authorization (preferred). More details can be found <a href=\"https://site-admin.stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling\">here</a>.</p>",
         "operationId": "PostIssuingAuthorizationsAuthorizationDecline",
         "parameters": [
           {
@@ -68251,7 +67432,8 @@
                       "lost",
                       "stolen"
                     ],
-                    "type": "string"
+                    "type": "string",
+                    "x-stripeBypassValidation": true
                   },
                   "expand": {
                     "description": "Specifies which fields in the response should be expanded.",
@@ -69115,904 +68297,6 @@
         ]
       }
     },
-    "/v1/orders": {
-      "get": {
-        "description": "<p>Returns a list of your orders. The orders are returned sorted by creation date, with the most recently created orders appearing first.</p>",
-        "operationId": "GetOrders",
-        "parameters": [
-          {
-            "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with `obj_bar`, your subsequent call can include `ending_before=obj_bar` in order to fetch the previous page of the list.",
-            "in": "query",
-            "name": "ending_before",
-            "required": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form"
-          },
-          {
-            "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with `obj_foo`, your subsequent call can include `starting_after=obj_foo` in order to fetch the next page of the list.",
-            "in": "query",
-            "name": "starting_after",
-            "required": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form"
-          },
-          {
-            "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.",
-            "in": "query",
-            "name": "limit",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            },
-            "style": "form"
-          },
-          {
-            "description": "Only return orders for the given customer.",
-            "in": "query",
-            "name": "customer",
-            "required": false,
-            "schema": {
-              "maxLength": 5000,
-              "type": "string"
-            },
-            "style": "form"
-          },
-          {
-            "description": "Specifies which fields in the response should be expanded.",
-            "explode": true,
-            "in": "query",
-            "name": "expand",
-            "required": false,
-            "schema": {
-              "items": {
-                "maxLength": 5000,
-                "type": "string"
-              },
-              "type": "array"
-            },
-            "style": "deepObject"
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/orders_v2_resource_order_list"
-                }
-              }
-            },
-            "description": "Successful response."
-          },
-          "default": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/error"
-                }
-              }
-            },
-            "description": "Error response."
-          }
-        },
-        "tags": [
-          "orders"
-        ]
-      },
-      "post": {
-        "description": "<p>Creates a new <code>open</code> order object.</p>",
-        "operationId": "PostOrders",
-        "requestBody": {
-          "content": {
-            "application/x-www-form-urlencoded": {
-              "encoding": {
-                "automatic_tax": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "billing_details": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "client_permissions": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "discounts": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "expand": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "line_items": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "metadata": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "payment": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "shipping_cost": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "shipping_details": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "tax_details": {
-                  "explode": true,
-                  "style": "deepObject"
-                }
-              },
-              "schema": {
-                "additionalProperties": false,
-                "properties": {
-                  "automatic_tax": {
-                    "$ref": "#/components/schemas/automatic_tax"
-                  },
-                  "billing_details": {
-                    "description": "Billing details for the customer. If a customer is provided, this will be automatically populated with values from that customer if override values are not provided.",
-                    "oneOf": [
-                      {
-                        "$ref": "#/components/schemas/billing_details"
-                      },
-                      {
-                        "enum": [
-                          ""
-                        ],
-                        "type": "string"
-                      }
-                    ]
-                  },
-                  "client_permissions": {
-                    "$ref": "#/components/schemas/client_permissions"
-                  },
-                  "currency": {
-                    "description": "Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).",
-                    "type": "string"
-                  },
-                  "customer": {
-                    "description": "The customer associated with this order.",
-                    "maxLength": 5000,
-                    "type": "string"
-                  },
-                  "description": {
-                    "description": "An arbitrary string attached to the object. Often useful for displaying to users.",
-                    "maxLength": 5000,
-                    "type": "string"
-                  },
-                  "discounts": {
-                    "description": "The coupons, promotion codes, and/or discounts to apply to the order.",
-                    "oneOf": [
-                      {
-                        "enum": [
-                          ""
-                        ],
-                        "type": "string"
-                      },
-                      {
-                        "items": {
-                          "$ref": "#/components/schemas/discounts_data_param"
-                        },
-                        "type": "array"
-                      }
-                    ]
-                  },
-                  "expand": {
-                    "description": "Specifies which fields in the response should be expanded.",
-                    "items": {
-                      "maxLength": 5000,
-                      "type": "string"
-                    },
-                    "type": "array"
-                  },
-                  "ip_address": {
-                    "description": "The IP address of the purchaser for this order.",
-                    "type": "string"
-                  },
-                  "line_items": {
-                    "description": "A list of line items the customer is ordering. Each line item includes information about the product, the quantity, and the resulting cost.",
-                    "items": {
-                      "$ref": "#/components/schemas/create_params"
-                    },
-                    "type": "array"
-                  },
-                  "metadata": {
-                    "$ref": "#/components/schemas/map_of_string"
-                  },
-                  "payment": {
-                    "$ref": "#/components/schemas/create_params"
-                  },
-                  "shipping_cost": {
-                    "description": "Settings for the customer cost of shipping for this order.",
-                    "oneOf": [
-                      {
-                        "$ref": "#/components/schemas/shipping_cost"
-                      },
-                      {
-                        "enum": [
-                          ""
-                        ],
-                        "type": "string"
-                      }
-                    ]
-                  },
-                  "shipping_details": {
-                    "description": "Shipping details for the order.",
-                    "oneOf": [
-                      {
-                        "$ref": "#/components/schemas/shipping_details"
-                      },
-                      {
-                        "enum": [
-                          ""
-                        ],
-                        "type": "string"
-                      }
-                    ]
-                  },
-                  "tax_details": {
-                    "$ref": "#/components/schemas/tax_details"
-                  }
-                },
-                "required": [
-                  "currency",
-                  "line_items"
-                ],
-                "type": "object"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/order"
-                }
-              }
-            },
-            "description": "Successful response."
-          },
-          "default": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/error"
-                }
-              }
-            },
-            "description": "Error response."
-          }
-        },
-        "tags": [
-          "orders"
-        ]
-      }
-    },
-    "/v1/orders/{id}": {
-      "get": {
-        "description": "<p>Retrieves the details of an existing order. Supply the unique order ID from either an order creation request or the order list, and Stripe will return the corresponding order information.</p>",
-        "operationId": "GetOrdersId",
-        "parameters": [
-          {
-            "description": "Specifies which fields in the response should be expanded.",
-            "explode": true,
-            "in": "query",
-            "name": "expand",
-            "required": false,
-            "schema": {
-              "items": {
-                "maxLength": 5000,
-                "type": "string"
-              },
-              "type": "array"
-            },
-            "style": "deepObject"
-          },
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "maxLength": 5000,
-              "type": "string"
-            },
-            "style": "simple"
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/order"
-                }
-              }
-            },
-            "description": "Successful response."
-          },
-          "default": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/error"
-                }
-              }
-            },
-            "description": "Error response."
-          }
-        },
-        "tags": [
-          "orders"
-        ]
-      },
-      "post": {
-        "description": "<p>Updates the specific order by setting the values of the parameters passed. Any parameters not provided will be left unchanged.</p>",
-        "operationId": "PostOrdersId",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "maxLength": 5000,
-              "type": "string"
-            },
-            "style": "simple"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/x-www-form-urlencoded": {
-              "encoding": {
-                "automatic_tax": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "billing_details": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "client_permissions": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "discounts": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "expand": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "line_items": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "metadata": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "payment": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "shipping_cost": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "shipping_details": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "tax_details": {
-                  "explode": true,
-                  "style": "deepObject"
-                }
-              },
-              "schema": {
-                "additionalProperties": false,
-                "properties": {
-                  "automatic_tax": {
-                    "$ref": "#/components/schemas/automatic_tax"
-                  },
-                  "billing_details": {
-                    "description": "Billing details for the customer. If a customer is provided, this will be automatically populated with values from that customer if override values are not provided.",
-                    "oneOf": [
-                      {
-                        "$ref": "#/components/schemas/billing_details"
-                      },
-                      {
-                        "enum": [
-                          ""
-                        ],
-                        "type": "string"
-                      }
-                    ]
-                  },
-                  "client_permissions": {
-                    "$ref": "#/components/schemas/client_permissions"
-                  },
-                  "currency": {
-                    "description": "Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).",
-                    "type": "string"
-                  },
-                  "customer": {
-                    "description": "The customer associated with this order.",
-                    "maxLength": 5000,
-                    "type": "string"
-                  },
-                  "description": {
-                    "description": "An arbitrary string attached to the object. Often useful for displaying to users.",
-                    "maxLength": 5000,
-                    "type": "string"
-                  },
-                  "discounts": {
-                    "description": "The coupons, promotion codes, and/or discounts to apply to the order. Pass the empty string `\"\"` to unset this field.",
-                    "oneOf": [
-                      {
-                        "enum": [
-                          ""
-                        ],
-                        "type": "string"
-                      },
-                      {
-                        "items": {
-                          "$ref": "#/components/schemas/discounts_data_param"
-                        },
-                        "type": "array"
-                      }
-                    ]
-                  },
-                  "expand": {
-                    "description": "Specifies which fields in the response should be expanded.",
-                    "items": {
-                      "maxLength": 5000,
-                      "type": "string"
-                    },
-                    "type": "array"
-                  },
-                  "ip_address": {
-                    "description": "The IP address of the purchaser for this order.",
-                    "type": "string"
-                  },
-                  "line_items": {
-                    "description": "A list of line items the customer is ordering. Each line item includes information about the product, the quantity, and the resulting cost.",
-                    "items": {
-                      "properties": {
-                        "description": {
-                          "maxLength": 5000,
-                          "type": "string"
-                        },
-                        "discounts": {
-                          "oneOf": [
-                            {
-                              "enum": [
-                                ""
-                              ],
-                              "type": "string"
-                            },
-                            {
-                              "items": {
-                                "$ref": "#/components/schemas/discounts_data_param"
-                              },
-                              "type": "array"
-                            }
-                          ]
-                        },
-                        "id": {
-                          "maxLength": 5000,
-                          "type": "string"
-                        },
-                        "price": {
-                          "maxLength": 5000,
-                          "type": "string"
-                        },
-                        "price_data": {
-                          "$ref": "#/components/schemas/price_data_with_optional_product"
-                        },
-                        "product": {
-                          "maxLength": 5000,
-                          "type": "string"
-                        },
-                        "product_data": {
-                          "$ref": "#/components/schemas/product_upsert_data"
-                        },
-                        "quantity": {
-                          "type": "integer"
-                        },
-                        "tax_rates": {
-                          "oneOf": [
-                            {
-                              "enum": [
-                                ""
-                              ],
-                              "type": "string"
-                            },
-                            {
-                              "items": {
-                                "maxLength": 5000,
-                                "type": "string"
-                              },
-                              "type": "array"
-                            }
-                          ]
-                        }
-                      },
-                      "type": "object"
-                    },
-                    "type": "array"
-                  },
-                  "metadata": {
-                    "description": "Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.",
-                    "oneOf": [
-                      {
-                        "$ref": "#/components/schemas/map_of_string"
-                      },
-                      {
-                        "enum": [
-                          ""
-                        ],
-                        "type": "string"
-                      }
-                    ]
-                  },
-                  "payment": {
-                    "description": "Payment information associated with the order, including payment settings.",
-                    "properties": {
-                      "settings": {
-                        "properties": {
-                          "application_fee_amount": {
-                            "oneOf": [
-                              {
-                                "enum": [
-                                  ""
-                                ],
-                                "type": "string"
-                              },
-                              {
-                                "type": "integer"
-                              }
-                            ]
-                          },
-                          "payment_method_options": {
-                            "properties": {
-                              "acss_debit": {
-                                "oneOf": [
-                                  {
-                                    "$ref": "#/components/schemas/payment_intent_payment_method_options_acss_debit"
-                                  },
-                                  {
-                                    "enum": [
-                                      ""
-                                    ],
-                                    "type": "string"
-                                  }
-                                ]
-                              },
-                              "afterpay_clearpay": {
-                                "oneOf": [
-                                  {
-                                    "$ref": "#/components/schemas/afterpay_clearpay_payment_method_options_param"
-                                  },
-                                  {
-                                    "enum": [
-                                      ""
-                                    ],
-                                    "type": "string"
-                                  }
-                                ]
-                              },
-                              "alipay": {
-                                "oneOf": [
-                                  {
-                                    "$ref": "#/components/schemas/payment_method_options_param"
-                                  },
-                                  {
-                                    "enum": [
-                                      ""
-                                    ],
-                                    "type": "string"
-                                  }
-                                ]
-                              },
-                              "bancontact": {
-                                "oneOf": [
-                                  {
-                                    "$ref": "#/components/schemas/payment_method_options_param"
-                                  },
-                                  {
-                                    "enum": [
-                                      ""
-                                    ],
-                                    "type": "string"
-                                  }
-                                ]
-                              },
-                              "card": {
-                                "oneOf": [
-                                  {
-                                    "$ref": "#/components/schemas/card_payment_method_options"
-                                  },
-                                  {
-                                    "enum": [
-                                      ""
-                                    ],
-                                    "type": "string"
-                                  }
-                                ]
-                              },
-                              "customer_balance": {
-                                "oneOf": [
-                                  {
-                                    "$ref": "#/components/schemas/checkout_customer_balance_payment_method_options"
-                                  },
-                                  {
-                                    "enum": [
-                                      ""
-                                    ],
-                                    "type": "string"
-                                  }
-                                ]
-                              },
-                              "ideal": {
-                                "oneOf": [
-                                  {
-                                    "$ref": "#/components/schemas/payment_method_options_param"
-                                  },
-                                  {
-                                    "enum": [
-                                      ""
-                                    ],
-                                    "type": "string"
-                                  }
-                                ]
-                              },
-                              "klarna": {
-                                "oneOf": [
-                                  {
-                                    "$ref": "#/components/schemas/payment_method_options_param"
-                                  },
-                                  {
-                                    "enum": [
-                                      ""
-                                    ],
-                                    "type": "string"
-                                  }
-                                ]
-                              },
-                              "link": {
-                                "oneOf": [
-                                  {
-                                    "$ref": "#/components/schemas/payment_intent_payment_method_options_link"
-                                  },
-                                  {
-                                    "enum": [
-                                      ""
-                                    ],
-                                    "type": "string"
-                                  }
-                                ]
-                              },
-                              "oxxo": {
-                                "oneOf": [
-                                  {
-                                    "$ref": "#/components/schemas/payment_method_options_param"
-                                  },
-                                  {
-                                    "enum": [
-                                      ""
-                                    ],
-                                    "type": "string"
-                                  }
-                                ]
-                              },
-                              "p24": {
-                                "oneOf": [
-                                  {
-                                    "$ref": "#/components/schemas/payment_method_options_param"
-                                  },
-                                  {
-                                    "enum": [
-                                      ""
-                                    ],
-                                    "type": "string"
-                                  }
-                                ]
-                              },
-                              "sepa_debit": {
-                                "oneOf": [
-                                  {
-                                    "$ref": "#/components/schemas/payment_intent_payment_method_options_sepa_debit"
-                                  },
-                                  {
-                                    "enum": [
-                                      ""
-                                    ],
-                                    "type": "string"
-                                  }
-                                ]
-                              },
-                              "sofort": {
-                                "oneOf": [
-                                  {
-                                    "$ref": "#/components/schemas/payment_method_options_param"
-                                  },
-                                  {
-                                    "enum": [
-                                      ""
-                                    ],
-                                    "type": "string"
-                                  }
-                                ]
-                              },
-                              "wechat_pay": {
-                                "oneOf": [
-                                  {
-                                    "$ref": "#/components/schemas/payment_method_options_param"
-                                  },
-                                  {
-                                    "enum": [
-                                      ""
-                                    ],
-                                    "type": "string"
-                                  }
-                                ]
-                              }
-                            },
-                            "type": "object"
-                          },
-                          "payment_method_types": {
-                            "items": {
-                              "enum": [
-                                "acss_debit",
-                                "afterpay_clearpay",
-                                "alipay",
-                                "au_becs_debit",
-                                "bacs_debit",
-                                "bancontact",
-                                "card",
-                                "customer_balance",
-                                "eps",
-                                "fpx",
-                                "giropay",
-                                "grabpay",
-                                "ideal",
-                                "klarna",
-                                "link",
-                                "oxxo",
-                                "p24",
-                                "sepa_debit",
-                                "sofort",
-                                "wechat_pay"
-                              ],
-                              "type": "string",
-                              "x-stripeBypassValidation": true
-                            },
-                            "type": "array"
-                          },
-                          "return_url": {
-                            "oneOf": [
-                              {
-                                "enum": [
-                                  ""
-                                ],
-                                "type": "string"
-                              },
-                              {
-                                "type": "string"
-                              }
-                            ]
-                          },
-                          "statement_descriptor": {
-                            "maxLength": 22,
-                            "type": "string"
-                          },
-                          "statement_descriptor_suffix": {
-                            "maxLength": 22,
-                            "type": "string"
-                          },
-                          "transfer_data": {
-                            "oneOf": [
-                              {
-                                "$ref": "#/components/schemas/transfer_data"
-                              },
-                              {
-                                "enum": [
-                                  ""
-                                ],
-                                "type": "string"
-                              }
-                            ]
-                          }
-                        },
-                        "type": "object"
-                      }
-                    },
-                    "required": [
-                      "settings"
-                    ],
-                    "type": "object"
-                  },
-                  "shipping_cost": {
-                    "description": "Settings for the customer cost of shipping for this order.",
-                    "oneOf": [
-                      {
-                        "$ref": "#/components/schemas/shipping_cost"
-                      },
-                      {
-                        "enum": [
-                          ""
-                        ],
-                        "type": "string"
-                      }
-                    ]
-                  },
-                  "shipping_details": {
-                    "description": "Shipping details for the order.",
-                    "oneOf": [
-                      {
-                        "$ref": "#/components/schemas/shipping_details"
-                      },
-                      {
-                        "enum": [
-                          ""
-                        ],
-                        "type": "string"
-                      }
-                    ]
-                  },
-                  "tax_details": {
-                    "$ref": "#/components/schemas/tax_details"
-                  }
-                },
-                "type": "object"
-              }
-            }
-          },
-          "required": false
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/order"
-                }
-              }
-            },
-            "description": "Successful response."
-          },
-          "default": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/error"
-                }
-              }
-            },
-            "description": "Error response."
-          }
-        },
-        "tags": [
-          "orders"
-        ]
-      }
-    },
     "/v1/payment_intents": {
       "get": {
         "description": "<p>Returns a list of PaymentIntents.</p>",
@@ -70819,7 +69103,7 @@
     },
     "/v1/payment_intents/{intent}/cancel": {
       "post": {
-        "description": "<p>A PaymentIntent object can be canceled when it is in one of these statuses: <code>requires_payment_method</code>, <code>requires_capture</code>, <code>requires_confirmation</code>, <code>requires_action</code>, or <code>processing</code>. </p>\n\n<p>Once canceled, no additional charges will be made by the PaymentIntent and any operations on the PaymentIntent will fail with an error. For PaymentIntents with <code>status=’requires_capture’</code>, the remaining <code>amount_capturable</code> will automatically be refunded. </p>\n\n<p>You cannot cancel the PaymentIntent for a Checkout Session. <a href=\"/docs/api/checkout/sessions/expire\">Expire the Checkout Session</a> instead</p>",
+        "description": "<p>A PaymentIntent object can be canceled when it is in one of these statuses: <code>requires_payment_method</code>, <code>requires_capture</code>, <code>requires_confirmation</code>, <code>requires_action</code> or, <a href=\"/docs/payments/intents\">in rare cases</a>, <code>processing</code>. </p>\n\n<p>Once canceled, no additional charges will be made by the PaymentIntent and any operations on the PaymentIntent will fail with an error. For PaymentIntents with <code>status=’requires_capture’</code>, the remaining <code>amount_capturable</code> will automatically be refunded. </p>\n\n<p>You cannot cancel the PaymentIntent for a Checkout Session. <a href=\"/docs/api/checkout/sessions/expire\">Expire the Checkout Session</a> instead.</p>",
         "operationId": "PostPaymentIntentsIntentCancel",
         "parameters": [
           {
@@ -71516,6 +69800,10 @@
                   "explode": true,
                   "style": "deepObject"
                 },
+                "custom_text": {
+                  "explode": true,
+                  "style": "deepObject"
+                },
                 "expand": {
                   "explode": true,
                   "style": "deepObject"
@@ -71596,6 +69884,9 @@
                   "currency": {
                     "description": "Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies) and supported by each line item's price.",
                     "type": "string"
+                  },
+                  "custom_text": {
+                    "$ref": "#/components/schemas/custom_text_param"
                   },
                   "customer_creation": {
                     "description": "Configures whether [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link create a [Customer](https://stripe.com/docs/api/customers).",
@@ -71826,6 +70117,10 @@
                   "explode": true,
                   "style": "deepObject"
                 },
+                "custom_text": {
+                  "explode": true,
+                  "style": "deepObject"
+                },
                 "expand": {
                   "explode": true,
                   "style": "deepObject"
@@ -71871,6 +70166,9 @@
                       "required"
                     ],
                     "type": "string"
+                  },
+                  "custom_text": {
+                    "$ref": "#/components/schemas/custom_text_param"
                   },
                   "customer_creation": {
                     "description": "Configures whether [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link create a [Customer](https://stripe.com/docs/api/customers).",
@@ -72091,7 +70389,7 @@
     },
     "/v1/payment_methods": {
       "get": {
-        "description": "<p>Returns a list of PaymentMethods attached to the StripeAccount. For listing a customer’s payment methods, you should use <a href=\"/docs/api/payment_methods/customer_list\">List a Customer’s PaymentMethods</a></p>",
+        "description": "<p>Returns a list of PaymentMethods for Treasury flows. If you want to list the PaymentMethods attached to a Customer for payments, you should use the <a href=\"/docs/api/payment_methods/customer_list\">List a Customer’s PaymentMethods</a> API instead.</p>",
         "operationId": "GetPaymentMethods",
         "parameters": [
           {
@@ -72125,10 +70423,10 @@
             "style": "form"
           },
           {
-            "description": "A required filter on the list, based on the object `type` field.",
+            "description": "An optional filter on the list, based on the object `type` field. Without the filter, the list includes all current and future payment method types. If your integration expects only one type of payment method in the response, make sure to provide a type value in the request.",
             "in": "query",
             "name": "type",
-            "required": true,
+            "required": false,
             "schema": {
               "enum": [
                 "acss_debit",
@@ -75451,7 +73749,8 @@
                 "draft",
                 "open"
               ],
-              "type": "string"
+              "type": "string",
+              "x-stripeBypassValidation": true
             },
             "style": "form"
           }
@@ -79701,505 +78000,6 @@
         ]
       }
     },
-    "/v1/skus": {
-      "get": {
-        "description": "<p>Returns a list of your SKUs. The SKUs are returned sorted by creation date, with the most recently created SKUs appearing first.</p>",
-        "operationId": "GetSkus",
-        "parameters": [
-          {
-            "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with `obj_bar`, your subsequent call can include `ending_before=obj_bar` in order to fetch the previous page of the list.",
-            "in": "query",
-            "name": "ending_before",
-            "required": false,
-            "schema": {
-              "maxLength": 5000,
-              "type": "string"
-            },
-            "style": "form"
-          },
-          {
-            "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with `obj_foo`, your subsequent call can include `starting_after=obj_foo` in order to fetch the next page of the list.",
-            "in": "query",
-            "name": "starting_after",
-            "required": false,
-            "schema": {
-              "maxLength": 5000,
-              "type": "string"
-            },
-            "style": "form"
-          },
-          {
-            "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.",
-            "in": "query",
-            "name": "limit",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            },
-            "style": "form"
-          },
-          {
-            "description": "Only return SKUs that are active or inactive (e.g., pass `false` to list all inactive products).",
-            "in": "query",
-            "name": "active",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            },
-            "style": "form"
-          },
-          {
-            "description": "Only return SKUs that are either in stock or out of stock (e.g., pass `false` to list all SKUs that are out of stock). If no value is provided, all SKUs are returned.",
-            "in": "query",
-            "name": "in_stock",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            },
-            "style": "form"
-          },
-          {
-            "description": "Only return SKUs that have the specified key-value pairs in this partially constructed dictionary. Can be specified only if `product` is also supplied. For instance, if the associated product has attributes `[\"color\", \"size\"]`, passing in `attributes[color]=red` returns all the SKUs for this product that have `color` set to `red`.",
-            "explode": true,
-            "in": "query",
-            "name": "attributes",
-            "required": false,
-            "schema": {
-              "$ref": "#/components/schemas/map_of_short_string"
-            },
-            "style": "deepObject"
-          },
-          {
-            "description": "Only return SKUs with the given IDs.",
-            "explode": true,
-            "in": "query",
-            "name": "ids",
-            "required": false,
-            "schema": {
-              "items": {
-                "maxLength": 5000,
-                "type": "string"
-              },
-              "type": "array"
-            },
-            "style": "deepObject"
-          },
-          {
-            "description": "Specifies which fields in the response should be expanded.",
-            "explode": true,
-            "in": "query",
-            "name": "expand",
-            "required": false,
-            "schema": {
-              "items": {
-                "maxLength": 5000,
-                "type": "string"
-              },
-              "type": "array"
-            },
-            "style": "deepObject"
-          },
-          {
-            "description": "The ID of the product whose SKUs will be retrieved. Must be a product with type `good`.",
-            "in": "query",
-            "name": "product",
-            "required": false,
-            "schema": {
-              "maxLength": 5000,
-              "type": "string"
-            },
-            "style": "form"
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/products_method_sku_list"
-                }
-              }
-            },
-            "description": "Successful response."
-          },
-          "default": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/error"
-                }
-              }
-            },
-            "description": "Error response."
-          }
-        },
-        "tags": [
-          "skus"
-        ]
-      },
-      "post": {
-        "description": "<p>Creates a new SKU associated with a product.</p>",
-        "operationId": "PostSkus",
-        "requestBody": {
-          "content": {
-            "application/x-www-form-urlencoded": {
-              "encoding": {
-                "attributes": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "expand": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "inventory": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "metadata": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "package_dimensions": {
-                  "explode": true,
-                  "style": "deepObject"
-                }
-              },
-              "schema": {
-                "additionalProperties": false,
-                "properties": {
-                  "active": {
-                    "description": "Whether the SKU is available for purchase. Default to `true`.",
-                    "type": "boolean"
-                  },
-                  "attributes": {
-                    "$ref": "#/components/schemas/map_of_short_string"
-                  },
-                  "currency": {
-                    "description": "Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).",
-                    "type": "string"
-                  },
-                  "expand": {
-                    "description": "Specifies which fields in the response should be expanded.",
-                    "items": {
-                      "maxLength": 5000,
-                      "type": "string"
-                    },
-                    "type": "array"
-                  },
-                  "id": {
-                    "description": "The identifier for the SKU. Must be unique. If not provided, an identifier will be randomly generated.",
-                    "type": "string"
-                  },
-                  "image": {
-                    "description": "The URL of an image for this SKU, meant to be displayable to the customer.",
-                    "maxLength": 5000,
-                    "type": "string"
-                  },
-                  "inventory": {
-                    "$ref": "#/components/schemas/inventory_create_specs"
-                  },
-                  "metadata": {
-                    "$ref": "#/components/schemas/map_of_string"
-                  },
-                  "package_dimensions": {
-                    "$ref": "#/components/schemas/package_dimensions_specs"
-                  },
-                  "price": {
-                    "description": "The cost of the item as a nonnegative integer in the smallest currency unit (that is, 100 cents to charge $1.00, or 100 to charge ¥100, Japanese Yen being a zero-decimal currency).",
-                    "type": "integer"
-                  },
-                  "product": {
-                    "description": "The ID of the product this SKU is associated with. Must be a product with type `good`.",
-                    "maxLength": 5000,
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "currency",
-                  "inventory",
-                  "price",
-                  "product"
-                ],
-                "type": "object"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/sku"
-                }
-              }
-            },
-            "description": "Successful response."
-          },
-          "default": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/error"
-                }
-              }
-            },
-            "description": "Error response."
-          }
-        },
-        "tags": [
-          "skus"
-        ]
-      }
-    },
-    "/v1/skus/{id}": {
-      "delete": {
-        "description": "<p>Delete a SKU. Deleting a SKU is only possible until it has been used in an order.</p>",
-        "operationId": "DeleteSkusId",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "maxLength": 5000,
-              "type": "string"
-            },
-            "style": "simple"
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/deleted_sku"
-                }
-              }
-            },
-            "description": "Successful response."
-          },
-          "default": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/error"
-                }
-              }
-            },
-            "description": "Error response."
-          }
-        },
-        "tags": [
-          "skus"
-        ]
-      },
-      "get": {
-        "description": "<p>Retrieves the details of an existing SKU. Supply the unique SKU identifier from either a SKU creation request or from the product, and Stripe will return the corresponding SKU information.</p>",
-        "operationId": "GetSkusId",
-        "parameters": [
-          {
-            "description": "Specifies which fields in the response should be expanded.",
-            "explode": true,
-            "in": "query",
-            "name": "expand",
-            "required": false,
-            "schema": {
-              "items": {
-                "maxLength": 5000,
-                "type": "string"
-              },
-              "type": "array"
-            },
-            "style": "deepObject"
-          },
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "maxLength": 5000,
-              "type": "string"
-            },
-            "style": "simple"
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/deleted_sku"
-                    },
-                    {
-                      "$ref": "#/components/schemas/sku"
-                    }
-                  ]
-                }
-              }
-            },
-            "description": "Successful response."
-          },
-          "default": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/error"
-                }
-              }
-            },
-            "description": "Error response."
-          }
-        },
-        "tags": [
-          "skus"
-        ]
-      },
-      "post": {
-        "description": "<p>Updates the specific SKU by setting the values of the parameters passed. Any parameters not provided will be left unchanged.</p>\n\n<p>Note that a SKU’s <code>attributes</code> are not editable. Instead, you would need to deactivate the existing SKU and create a new one with the new attribute values.</p>",
-        "operationId": "PostSkusId",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "maxLength": 5000,
-              "type": "string"
-            },
-            "style": "simple"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/x-www-form-urlencoded": {
-              "encoding": {
-                "attributes": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "expand": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "inventory": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "metadata": {
-                  "explode": true,
-                  "style": "deepObject"
-                },
-                "package_dimensions": {
-                  "explode": true,
-                  "style": "deepObject"
-                }
-              },
-              "schema": {
-                "additionalProperties": false,
-                "properties": {
-                  "active": {
-                    "description": "Whether this SKU is available for purchase.",
-                    "type": "boolean"
-                  },
-                  "attributes": {
-                    "$ref": "#/components/schemas/map_of_short_string"
-                  },
-                  "currency": {
-                    "description": "Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).",
-                    "type": "string"
-                  },
-                  "expand": {
-                    "description": "Specifies which fields in the response should be expanded.",
-                    "items": {
-                      "maxLength": 5000,
-                      "type": "string"
-                    },
-                    "type": "array"
-                  },
-                  "image": {
-                    "description": "The URL of an image for this SKU, meant to be displayable to the customer.",
-                    "maxLength": 5000,
-                    "type": "string"
-                  },
-                  "inventory": {
-                    "$ref": "#/components/schemas/inventory_update_specs"
-                  },
-                  "metadata": {
-                    "description": "Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.",
-                    "oneOf": [
-                      {
-                        "$ref": "#/components/schemas/map_of_string"
-                      },
-                      {
-                        "enum": [
-                          ""
-                        ],
-                        "type": "string"
-                      }
-                    ]
-                  },
-                  "package_dimensions": {
-                    "description": "The dimensions of this SKU for shipping purposes.",
-                    "oneOf": [
-                      {
-                        "$ref": "#/components/schemas/package_dimensions_specs"
-                      },
-                      {
-                        "enum": [
-                          ""
-                        ],
-                        "type": "string"
-                      }
-                    ]
-                  },
-                  "price": {
-                    "description": "The cost of the item as a positive integer in the smallest currency unit (that is, 100 cents to charge $1.00, or 100 to charge ¥100, Japanese Yen being a zero-decimal currency).",
-                    "type": "integer"
-                  },
-                  "product": {
-                    "description": "The ID of the product that this SKU should belong to. The product must exist, have the same set of attribute names as the SKU's current product, and be of type `good`.",
-                    "maxLength": 5000,
-                    "type": "string"
-                  }
-                },
-                "type": "object"
-              }
-            }
-          },
-          "required": false
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/sku"
-                }
-              }
-            },
-            "description": "Successful response."
-          },
-          "default": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/error"
-                }
-              }
-            },
-            "description": "Error response."
-          }
-        },
-        "tags": [
-          "skus"
-        ]
-      }
-    },
     "/v1/sources": {
       "post": {
         "description": "<p>Creates a new source object.</p>",
@@ -82137,6 +79937,10 @@
                   "explode": true,
                   "style": "deepObject"
                 },
+                "on_behalf_of": {
+                  "explode": true,
+                  "style": "deepObject"
+                },
                 "payment_settings": {
                   "explode": true,
                   "style": "deepObject"
@@ -82296,6 +80100,20 @@
                   "off_session": {
                     "description": "Indicates if a customer is on or off-session while an invoice payment is attempted.",
                     "type": "boolean"
+                  },
+                  "on_behalf_of": {
+                    "description": "The account on behalf of which to charge, for each of the subscription's invoices.",
+                    "oneOf": [
+                      {
+                        "enum": [
+                          ""
+                        ],
+                        "type": "string"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
                   },
                   "payment_behavior": {
                     "description": "Only applies to subscriptions with `collection_method=charge_automatically`.\n\nUse `allow_incomplete` to create subscriptions with `status=incomplete` if the first invoice cannot be paid. Creating subscriptions with this status allows you to manage scenarios where additional user actions are needed to pay a subscription's invoice. For example, SCA regulation may require 3DS authentication to complete payment. See the [SCA Migration Guide](https://stripe.com/docs/billing/migration/strong-customer-authentication) for Billing to learn more. This is the default behavior.\n\nUse `default_incomplete` to create Subscriptions with `status=incomplete` when the first invoice requires payment, otherwise start as active. Subscriptions transition to `status=active` when successfully confirming the payment intent on the first invoice. This allows simpler management of scenarios where additional user actions are needed to pay a subscription’s invoice. Such as failed payments, [SCA regulation](https://stripe.com/docs/billing/migration/strong-customer-authentication), or collecting a mandate for a bank debit payment method. If the payment intent is not confirmed within 23 hours subscriptions transition to `status=incomplete_expired`, which is a terminal state.\n\nUse `error_if_incomplete` if you want Stripe to return an HTTP 402 status code if a subscription's first invoice cannot be paid. For example, if a payment method requires 3DS authentication due to SCA regulation and further user action is needed, this parameter does not create a subscription and returns an error instead. This was the default behavior for API versions prior to 2019-03-14. See the [changelog](https://stripe.com/docs/upgrades#2019-03-14) to learn more.\n\n`pending_if_incomplete` is only used with updates and cannot be passed when creating a subscription.\n\nSubscriptions with `collection_method=send_invoice` are automatically activated regardless of the first invoice status.",
@@ -82666,6 +80484,10 @@
                   "explode": true,
                   "style": "deepObject"
                 },
+                "on_behalf_of": {
+                  "explode": true,
+                  "style": "deepObject"
+                },
                 "pause_collection": {
                   "explode": true,
                   "style": "deepObject"
@@ -82829,6 +80651,20 @@
                   "off_session": {
                     "description": "Indicates if a customer is on or off-session while an invoice payment is attempted.",
                     "type": "boolean"
+                  },
+                  "on_behalf_of": {
+                    "description": "The account on behalf of which to charge, for each of the subscription's invoices.",
+                    "oneOf": [
+                      {
+                        "enum": [
+                          ""
+                        ],
+                        "type": "string"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
                   },
                   "pause_collection": {
                     "description": "If specified, payment collection for this subscription will be paused.",
@@ -90853,7 +88689,8 @@
                       "2019-12-03",
                       "2020-03-02",
                       "2020-08-27",
-                      "2022-08-01"
+                      "2022-08-01",
+                      "2022-11-15"
                     ],
                     "maxLength": 5000,
                     "type": "string",
@@ -91682,9 +89519,6 @@
       "name": "mandates"
     },
     {
-      "name": "orders"
-    },
-    {
       "name": "payment_intents"
     },
     {
@@ -91731,9 +89565,6 @@
     },
     {
       "name": "sigma"
-    },
-    {
-      "name": "skus"
     },
     {
       "name": "sources"
