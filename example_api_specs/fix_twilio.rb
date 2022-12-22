@@ -9,6 +9,7 @@ ADDITIONAL_PROPERTIES = {
   nullable: true
 }.freeze
 
+
 BAD_PATHS = [
   "/2010-04-01/Accounts/{AccountSid}/Calls/{CallSid}/Siprec.json",
   "/2010-04-01/Accounts/{AccountSid}/Calls/{CallSid}/Streams.json"
@@ -55,6 +56,20 @@ MISSING_SCHEMAS = {
     },
     nullable: true,
     type: "object"
+  },
+  http_method: {
+    "type": "string",
+    "format": "http-method",
+    "enum": [
+      "HEAD",
+      "GET",
+      "POST",
+      "PATCH",
+      "PUT",
+      "DELETE"
+    ],
+    "nullable": true,
+    "description": "HTTP method used with the request url"
   }
 }.freeze
 
@@ -148,6 +163,10 @@ CALL_EVENT = {
   type: "object"
 }.freeze
 
+HTTP_METHOD = {
+  "$ref": "#/components/schemas/http_method"
+}
+
 spec_path = File.join(__dir__, ARGV[0] || "twilio_api_v2010.json")
 out_file_path = File.join(__dir__, ARGV[1] || "twilio_api_v2010_fixed.json")
 
@@ -199,6 +218,20 @@ request_body["content"]["application/x-www-form-urlencoded"]["schema"]["properti
 BAD_PATHS.each do |path_name|
   spec["paths"].delete(path_name)
 end
+
+def process_hash(value)
+  return unless value.is_a?(Hash)
+  if value["format"] == "http-method"
+    value.clear
+    value["$ref"] = "#/components/schemas/http_method"
+    return
+  end
+  value.each do |_key, value2|
+    process_hash(value2)
+  end
+end
+
+process_hash(spec)
 
 spec_str = JSON.pretty_generate(spec)
 spec_str

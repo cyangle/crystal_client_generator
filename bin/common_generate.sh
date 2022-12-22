@@ -21,6 +21,7 @@ $generate_script_path
 
 cd $client_repo_path
 echo "Running in folder: ${PWD}"
+rm ./git_push.sh
 echo "Post process code"
 ./bin/post_process
 echo "Run crystal tool format"
