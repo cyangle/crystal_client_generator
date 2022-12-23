@@ -19,7 +19,7 @@
     end
 
     def self.new(pull : JSON::PullParser)
-      new({{dataType}}.new(pull))
+      new({{dataType}}.new(pull), false)
     end
 
     def self.from_json_object_key?(key : String)
