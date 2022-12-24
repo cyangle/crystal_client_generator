@@ -1,68 +1,60 @@
 
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] {{{name}}} Object to be assigned
-    def {{{name}}}=({{{name}}} : {{>partial_model_generic_property_data_type}})
+    def {{{name}}}=(new_value : {{>partial_model_generic_property_data_type}})
       {{#vendorExtensions}}
-      {{#x-bypass-validation}}
-      @{{{name}}} = {{{name}}}
-      {{/x-bypass-validation}}
       {{^x-bypass-validation}}
-      if {{{name}}}.nil?
+
       {{#required}}
-      {{#isNullable}}
-        return @{{{name}}} = nil
-      {{/isNullable}}
       {{^isNullable}}
-        raise ArgumentError.new("\"{{{name}}}\" is required and cannot be null")
+      raise ArgumentError.new("\"{{{name}}}\" is required and cannot be null") if new_value.nil?
       {{/isNullable}}
       {{/required}}
-      {{^required}}
-        return @{{{name}}} = nil
-      {{/required}}
-      end
-      _{{{name}}} = {{{name}}}.not_nil!
+      unless new_value.nil?
       {{#isEnum}}
-      OpenApi::EnumValidator.validate("{{{name}}}", _{{{name}}}, {{#lambda.uppercase}}valid_values_for_{{{name}}}{{/lambda.uppercase}})
+        OpenApi::EnumValidator.validate("{{{name}}}", new_value, {{#lambda.uppercase}}valid_values_for_{{{name}}}{{/lambda.uppercase}})
       {{/isEnum}}
       {{^isEnum}}
       {{^allowableValues}}
       {{#isModel}}
-      _{{{name}}}.validate if _{{{name}}}.is_a?(OpenApi::Validatable)
+        new_value.validate if new_value.is_a?(OpenApi::Validatable)
       {{/isModel}}
       {{#isContainer}}
       {{#items.isModel}}
-      OpenApi::ContainerValidator.validate(container: _{{{name}}}) if _{{{name}}}.is_a?({{#isArray}}Array{{/isArray}}{{#isMap}}Hash{{/isMap}})
+        OpenApi::ContainerValidator.validate(container: new_value) if new_value.is_a?({{#isArray}}Array{{/isArray}}{{#isMap}}Hash{{/isMap}})
       {{/items.isModel}}
       {{/isContainer}}
       {{#hasValidation}}
       {{#maxLength}}
-      OpenApi::PrimitiveValidator.validate_max_length("{{{name}}}", {{^isDate}}{{^isDateTime}}_{{{name}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format(_{{{name}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format(_{{{name}}}){{/isDateTime}}.size, {{#lambda.uppercase}}max_length_for_{{{name}}}{{/lambda.uppercase}})
+        OpenApi::PrimitiveValidator.validate_max_length("{{{name}}}", {{^isDate}}{{^isDateTime}}new_value.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format(new_value){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format(new_value){{/isDateTime}}.size, {{#lambda.uppercase}}max_length_for_{{{name}}}{{/lambda.uppercase}})
       {{/maxLength}}
       {{#minLength}}
-      OpenApi::PrimitiveValidator.validate_min_length("{{{name}}}", {{^isDate}}{{^isDateTime}}_{{{name}}}.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format(_{{{name}}}){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format(_{{{name}}}){{/isDateTime}}.size, {{#lambda.uppercase}}min_length_for_{{{name}}}{{/lambda.uppercase}})
+        OpenApi::PrimitiveValidator.validate_min_length("{{{name}}}", {{^isDate}}{{^isDateTime}}new_value.to_s{{/isDateTime}}{{/isDate}}{{#isDate}}Time::Format::ISO_8601_DATE.format(new_value){{/isDate}}{{#isDateTime}}Time::Format::RFC_3339.format(new_value){{/isDateTime}}.size, {{#lambda.uppercase}}min_length_for_{{{name}}}{{/lambda.uppercase}})
       {{/minLength}}
       {{#maximum}}
-      OpenApi::PrimitiveValidator.validate_max_number("{{{name}}}", _{{{name}}}, {{#lambda.uppercase}}max_for_{{{name}}}{{/lambda.uppercase}}{{#exclusiveMaximum}}, true{{/exclusiveMaximum}})
+        OpenApi::PrimitiveValidator.validate_max_number("{{{name}}}", new_value, {{#lambda.uppercase}}max_for_{{{name}}}{{/lambda.uppercase}}{{#exclusiveMaximum}}, true{{/exclusiveMaximum}})
       {{/maximum}}
       {{#minimum}}
-      OpenApi::PrimitiveValidator.validate_min_number("{{{name}}}", _{{{name}}}, {{#lambda.uppercase}}min_for_{{{name}}}{{/lambda.uppercase}}{{#exclusiveMinimum}}, true{{/exclusiveMinimum}})
+        OpenApi::PrimitiveValidator.validate_min_number("{{{name}}}", new_value, {{#lambda.uppercase}}min_for_{{{name}}}{{/lambda.uppercase}}{{#exclusiveMinimum}}, true{{/exclusiveMinimum}})
       {{/minimum}}
       {{#maxItems}}
-      OpenApi::PrimitiveValidator.validate_max_items("{{{name}}}", _{{{name}}}.size, {{#lambda.uppercase}}max_items_for_{{{name}}}{{/lambda.uppercase}})
+        OpenApi::PrimitiveValidator.validate_max_items("{{{name}}}", new_value.size, {{#lambda.uppercase}}max_items_for_{{{name}}}{{/lambda.uppercase}})
       {{/maxItems}}
       {{#minItems}}
-      OpenApi::PrimitiveValidator.validate_min_items("{{{name}}}", _{{{name}}}.size, {{#lambda.uppercase}}min_items_for_{{{name}}}{{/lambda.uppercase}})
+        OpenApi::PrimitiveValidator.validate_min_items("{{{name}}}", new_value.size, {{#lambda.uppercase}}min_items_for_{{{name}}}{{/lambda.uppercase}})
       {{/minItems}}
       {{#pattern}}
-      OpenApi::PrimitiveValidator.validate_pattern("{{{name}}}", _{{{name}}}, {{#lambda.uppercase}}pattern_for_{{{name}}}{{/lambda.uppercase}})
+        OpenApi::PrimitiveValidator.validate_pattern("{{{name}}}", new_value, {{#lambda.uppercase}}pattern_for_{{{name}}}{{/lambda.uppercase}})
       {{/pattern}}
       {{/hasValidation}}
       {{/allowableValues}}
       {{#allowableValues}}
-      _{{{name}}}.validate
+        new_value.validate
       {{/allowableValues}}
       {{/isEnum}}
-      @{{{name}}} = _{{{name}}}
+      end
+
       {{/x-bypass-validation}}
       {{/vendorExtensions}}
+      @{{{name}}} = new_value
     end
