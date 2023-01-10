@@ -4,6 +4,10 @@ require "json"
 require "time"
 require "log"
 
+{{#imports}}
+{{#import}}require "./{{.}}" {{/import}}
+{{/imports}}
+
 module {{moduleName}}
 {{#models}}
 {{#model}}

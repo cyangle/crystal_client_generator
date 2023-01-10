@@ -3,6 +3,10 @@
 require "uri"
 require "../api_client"
 
+{{#imports}}
+{{#import}}require "../models/{{.}}" {{/import}}
+{{/imports}}
+
 module {{moduleName}}
 {{#operations}}
   class {{classname}}
