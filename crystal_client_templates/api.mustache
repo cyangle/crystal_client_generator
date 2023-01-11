@@ -1,7 +1,10 @@
 # {{#lambdaPrefixWithHash}}{{> api_info}}{{/lambdaPrefixWithHash}}
 
-require "uri"
-require "../api_client"
+require "../../core"
+
+{{#imports}}
+{{#import}}require "../models/{{.}}" {{/import}}
+{{/imports}}
 
 module {{moduleName}}
 {{#operations}}

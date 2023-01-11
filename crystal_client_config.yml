@@ -1,6 +1,10 @@
 templateDir: crystal_client_templates
 files:
   .ameba.yml: {}
+  core.mustache:
+    folder: src/
+    destinationFilename: core.cr
+    templateType: SupportingFiles
   ext/time.cr:
     folder: src/ext
     destinationFilename: time.cr

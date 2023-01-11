@@ -1,8 +1,10 @@
 # {{#lambdaPrefixWithHash}}{{> api_info}}{{/lambdaPrefixWithHash}}
 
-require "json"
-require "time"
-require "log"
+require "../../core"
+
+{{#imports}}
+{{#import}}require "./{{.}}" {{/import}}
+{{/imports}}
 
 module {{moduleName}}
 {{#models}}

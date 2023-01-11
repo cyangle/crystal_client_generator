@@ -38,19 +38,6 @@
 
     {{/-last}}
     {{/anyOf}}
-    {{#allOf}}
-    {{#-first}}
-    # List of class defined in allOf (OpenAPI v3)
-    def self.openapi_all_of
-      [
-    {{/-first}}
-      {{moduleName}}::{{{.}}}{{^-last}},{{/-last}}
-    {{#-last}}
-      ]
-    end
-
-    {{/-last}}
-    {{/allOf}}
     {{#discriminator}}
 
     {{#propertyName}}
