@@ -3,7 +3,9 @@
 
 require "json"
 require "pry"
+require "pry-byebug"
 require "active_support/all"
+require_relative "./helpers"
 
 ADDITIONAL_PROPERTIES = {
   type: "string",
@@ -167,6 +169,12 @@ CALL_EVENT = {
 HTTP_METHOD = {
   "$ref": "#/components/schemas/http_method"
 }
+# /2010-04-01/Accounts/
+TAG_REGEX = /^\/2010-04-01\/Accounts\/{AccountSid}\/([^\/\.]+)/.freeze
+TAG_MAPPING = {
+  "/2010-04-01/Accounts.json" => "Accounts",
+  "/2010-04-01/Accounts/{Sid}.json" => "SubAccounts"
+}
 
 spec_path = File.join(__dir__, ARGV[0] || "twilio_api_v2010.json")
 out_file_path = File.join(__dir__, ARGV[1] || "twilio_api_v2010_fixed.json")
@@ -286,6 +294,8 @@ end
 3.times do
   spec = dedupe_schemas(spec)
 end
+
+Helpers.add_tags(spec, TAG_REGEX, TAG_MAPPING)
 
 spec_str = JSON.pretty_generate(spec)
 

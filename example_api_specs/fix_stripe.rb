@@ -3,8 +3,10 @@
 
 require "json"
 require "pry"
+require "pry-byebug"
 require "active_support/all"
 require "deepsort"
+require_relative "./helpers"
 
 MISSING_SCHEMAS = {}.freeze
 
@@ -232,16 +234,7 @@ spec["paths"].each do |path, value|
   value["delete"].delete("requestBody") if value["delete"] && value["delete"].is_a?(Hash) && value.dig("delete", "requestBody", "content", "application/x-www-form-urlencoded", "schema", "properties").empty?
 end
 
-all_tags = []
-spec["paths"].each do |path, value|
-  tag = TAG_REGEX.match(path)[1]
-  all_tags.push(tag)
-  value.each do |key, operation|
-    operation["tags"] = [tag]
-  end
-end
-
-spec["tags"] = all_tags.uniq.map {|tag| {"name" => tag}}
+Helpers.add_tags(spec, TAG_REGEX)
 
 File.write(grouped_schemas_path, JSON.pretty_generate(uniq_grouped_schemas.deep_sort))
 File.write(new_schemas_path, JSON.pretty_generate(new_schemas.deep_sort))
