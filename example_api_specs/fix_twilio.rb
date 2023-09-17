@@ -252,47 +252,8 @@ spec_str
 
 spec = JSON.parse(spec_str)
 
-def dedupe_schemas(spec_hash)
-  schemas_dup = spec_hash["components"]["schemas"].deep_dup
-  schemas_dup.each do |k, v|
-    v.delete("description")
-  end
-  duplicate_schemas_keys = schemas_dup
-    .group_by { |k,v| v.hash.to_s }
-    .select { |k,v| v.count > 1 }
-    .map { |k,v| v.map(&:first) }
-    .each_with_object({}) do |values, hash|
-      groups = values.group_by { |values| values.length }
-      new_key = groups[groups.keys.min].sort.first
-      new_key = "subresource_uris" if values.include?("subresource_uris")
-      hash[new_key] = values.dup.tap do |new_values|
-        new_values.delete(new_key)
-      end
-    end
-
-  duplicate_schemas_keys.each do |key, value|
-    value.each do |schema_key|
-      schemas_dup.delete(schema_key)
-    end
-  end
-
-  inverted_duplicate_schemas_keys = duplicate_schemas_keys.each_with_object({}) do |(key,value), hash|
-    value.each do |inverted_key|
-      hash[inverted_key] = key
-    end
-  end
-  spec_hash["components"]["schemas"] = schemas_dup
-  spec_string = spec_hash.to_json
-
-  inverted_duplicate_schemas_keys.each do |key, value|
-    spec_string.gsub!("components/schemas/#{key}\"", "components/schemas/#{value}\"")
-  end
-
-  JSON.parse(spec_string)
-end
-
 3.times do
-  spec = dedupe_schemas(spec)
+  spec = Helpers.dedupe_schemas(spec)
 end
 
 Helpers.add_tags(spec, TAG_REGEX, TAG_MAPPING)
