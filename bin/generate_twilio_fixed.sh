@@ -5,7 +5,7 @@ BASEDIR=$(dirname "$0")
 cd "$BASEDIR/.."
 
 export shard_version=${shard_version:-1.29.2}
-export image=${image:-'openapitools/openapi-generator-cli:latest'}
+export image=${image:-'openapitools/openapi-generator-cli:latest-release'}
 export spec_file_path='example_api_specs/twilio_api_v2010_fixed.json'
 export out_dir='/gen/twilio'
 export generate_form_as_model=${generate_form_as_model:-"false"}
