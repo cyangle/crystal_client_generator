@@ -1,6 +1,7 @@
 templateDir: crystal_client_templates
 files:
   .ameba.yml: {}
+  .github/workflows/ci.yml: {}
   core.mustache:
     folder: src/
     destinationFilename: core.cr
