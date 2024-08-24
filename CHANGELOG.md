@@ -1,5 +1,13 @@
 # ...
 
+# 0.3.1
+
+## Improvements
+
+Add Github Actions CI config file
+
+Fix ameba errors
+
 ## Bug fixes
 
 Bump crest minimum version to 1.3.0 to allow passing IO/File directly to request as form param, so that we can upload a file as the sole post payload.

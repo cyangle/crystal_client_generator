@@ -8,7 +8,7 @@ OpenAPI Generator supports [User-defined Templates](https://github.com/OpenAPITo
 
 `crystal_client_generator` provides custom OpenAPI Generator templates for generating crystal client libraries.
 
-This readme is for version 0.3.0
+This readme is for version 0.3.1
 
 ## Usage
 
