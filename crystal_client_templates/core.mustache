@@ -11,9 +11,9 @@ require "uri"
 # Project files
 require "./ext/**"
 require "./validators/**"
-require "./{{shardName}}/configuration.cr"
-require "./{{shardName}}/api_error.cr"
-require "./{{shardName}}/api_client.cr"
+require "./{{shardName}}/configuration"
+require "./{{shardName}}/api_error"
+require "./{{shardName}}/api_client"
 
 module {{moduleName}}
   Log = ::Log.for("{{moduleName}}") # => Log for {{moduleName}} source
