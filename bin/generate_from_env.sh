@@ -45,6 +45,7 @@ docker run --rm -it -v "${repo_parent_dir}:/gen" --user "$user:$user" --workdir 
     -c crystal_client_config.yml \
     -i $spec_file_path \
     -o $out_dir \
+    --openapi-normalizer=SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING=true,REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY=true,REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true \
     --additional-properties="$additional_properties"
 set +x
 

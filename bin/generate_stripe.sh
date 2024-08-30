@@ -4,7 +4,7 @@ BASEDIR=$(dirname "$0")
 
 cd "$BASEDIR/.."
 
-export shard_version=${shard_version:-0.0.1}
+export shard_version=${shard_version:-0.0.3}
 export image=${image:-'openapitools/openapi-generator-cli:latest-release'}
 export spec_file_path='example_api_specs/stripe_api_spec_fixed.json'
 export out_dir='/gen/stripe'
