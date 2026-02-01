@@ -38,14 +38,17 @@ The generated code would be written to `out/google_drive`.
 ### Preprocess Steps
 
 Sometimes the OpenAPI spec file needs to be cleaned up or modified before generation.
+
 For example, you might want to normalize endpoint names, fix missing schema definitions, or group operations.
 
 You can find examples of preprocessing scripts in `example_api_specs/`.
+
 See `example_api_specs/fix_stripe.rb` for a complex example that handles schema grouping and fixes.
 
 ### Postprocess Steps
 
 The generated client includes a [`post_process`](https://github.com/cyangle/post_process) tool as a development dependency.
+
 This tool allows you to automate find-and-replace tasks on the generated code using regex patterns.
 
 1.  Create a `.post_process.yml` configuration file in your generated project root.
