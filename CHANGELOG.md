@@ -1,5 +1,17 @@
 # ...
 
+# 0.3.2
+
+## Improvements
+
+Add manual workflow dispatch to CI
+
+Adjust cron schedule to run on the 1st day of every month
+
+Improve apt-get command in CI to include -y flag
+
+Fix line ending missing issue with latest OpenApi generator
+
 # 0.3.1
 
 ## Improvements
