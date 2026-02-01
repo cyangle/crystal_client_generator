@@ -33,6 +33,44 @@ Example command to generate google_drive library with api spec file `example_api
 
 The generated code would be written to `out/google_drive`.
 
+## Advanced Usage
+
+### Preprocess Steps
+
+Sometimes the OpenAPI spec file needs to be cleaned up or modified before generation.
+For example, you might want to normalize endpoint names, fix missing schema definitions, or group operations.
+
+You can find examples of preprocessing scripts in `example_api_specs/`.
+See `example_api_specs/fix_stripe.rb` for a complex example that handles schema grouping and fixes.
+
+### Postprocess Steps
+
+The generated client includes a [`post_process`](https://github.com/cyangle/post_process) tool as a development dependency.
+This tool allows you to automate find-and-replace tasks on the generated code using regex patterns.
+
+1.  Create a `.post_process.yml` configuration file in your generated project root.
+2.  Define tasks to modify files.
+
+Example `.post_process.yml`:
+
+```yaml
+tasks:
+  - name: "update api files"
+    file_glob: './src/google_drive/api/*.cr'
+    changes:
+      -
+        name: 'Remove common method prefix'
+        pattern: 'drive_%{api_name}_'
+        new_value: ''
+```
+
+Run the tool with:
+```sh
+./bin/post_process
+```
+
+For more details on `post_process`, see [post_process shard](https://github.com/cyangle/post_process).
+
 ## SDKs generated with this repo
 
 [Twilio](https://github.com/cyangle/twilio)
