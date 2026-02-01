@@ -71,6 +71,8 @@ Run the tool with:
 
 For more details on `post_process`, see [post_process shard](https://github.com/cyangle/post_process).
 
+For example post_process config files, see [google_drive_post_process_config](https://github.com/cyangle/google_drive/blob/dae0e1ad9e28fa46dd9477a2835c0f2fe2fe2dd3/.post_process.yml) and [stripe_post_process_config](https://github.com/cyangle/stripe/blob/e14533c9cab09909a749834bc14a18ad20fb5d47/.post_process.yml).
+
 ## SDKs generated with this repo
 
 [Twilio](https://github.com/cyangle/twilio)
