@@ -50,7 +50,6 @@ See `example_api_specs/fix_stripe.rb` for a complex example that handles schema 
 Writing custom scripts can be tedious. Consider using these specialized tools to normalize and deduplicate OpenAPI specs:
 
 *   **[Redocly CLI](https://github.com/Redocly/redocly-cli)**: Industry standard (1.3k+ stars). To deduplicate inline schemas, use the **`split`** command (extracts inline schemas to components), followed by **`bundle`** (merges them back into a single normalized file).
-*   **[go-swagger](https://github.com/go-swagger/go-swagger)**: Contains a powerful **`flatten`** command (`swagger flatten`) that extracts inline schemas and complex constructs into distinct definitions in a single step.
 *   **[openapi-format](https://github.com/thim81/openapi-format)**: Highly active tool (700+ stars) for sorting fields and filtering unused components. Essential for minimizing git diffs in generated code.
 *   **[Vacuum](https://github.com/daveshanley/vacuum)**: The world's fastest OpenAPI linter (~1k stars). Use it to instantly validate massive specs like Stripe/Twilio and find inline schema violations.
 
