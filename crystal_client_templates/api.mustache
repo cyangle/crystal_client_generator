@@ -187,7 +187,7 @@ module {{moduleName}}
       end
 
       # resource path
-      local_var_path = "{{{path}}}"{{#pathParams}}.sub("{" + "{{baseName}}" + "}", URI.encode_path({{paramName}}.to_s){{^strictSpecBehavior}}.gsub("%2F", "/"){{/strictSpecBehavior}}){{/pathParams}}
+      local_var_path = "{{{path}}}"{{#pathParams}}.sub("{" + "{{baseName}}" + "}", URI.encode_path({{paramName}}.to_s)){{/pathParams}}
 
       # header parameters
       header_params : Hash(String, String) = Hash(String, String).new
