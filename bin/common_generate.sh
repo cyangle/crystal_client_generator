@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-set -e
+set -euo pipefail
 
 BASEDIR=$(dirname "$0")
 cd "$BASEDIR/.."
@@ -15,13 +15,13 @@ echo "Running in folder: ${PWD}"
 
 export shard_version
 echo "Generate ${name} client"
-$generate_script_path
+"$generate_script_path"
 
 [ "$REMOTE_CONTAINERS" = "true" ] || exit 0
 
-cd $client_repo_path
+cd "$client_repo_path"
 echo "Running in folder: ${PWD}"
-rm ./git_push.sh
+rm -f ./git_push.sh
 echo "Post process code"
 ./bin/post_process
 echo "Run crystal tool format"
@@ -35,6 +35,8 @@ shards update
 echo "Run ameba"
 ./bin/ameba
 echo "Apply git patches"
-[ -d "patches" ] && find ./patches -type f -name *.patch -exec git apply {} \;
+[ -d "patches" ] && find ./patches -type f -name "*.patch" -exec git apply {} \;
+echo "Run post generate script"
+[ -f "./post_generation_fixes.sh" ] && ./post_generation_fixes.sh
 echo "Run tests"
 crystal spec

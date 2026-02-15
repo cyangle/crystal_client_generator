@@ -1,4 +1,5 @@
 require "active_support/all"
+require "digest"
 
 class Helpers
   def self.add_tags(spec, regex, mappings = {})
@@ -28,7 +29,7 @@ class Helpers
       v.delete("description")
     end
     duplicate_schemas_keys = schemas_dup
-      .group_by { |k,v| v.hash.to_s }
+      .group_by { |k,v| Digest::SHA256.hexdigest(v.to_json) }
       .select { |k,v| v.count > 1 }
       .map { |k,v| v.map(&:first) }
       .each_with_object({}) do |values, hash|
