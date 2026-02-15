@@ -1,5 +1,11 @@
 # ...
 
+# 0.3.3
+
+## Improvements
+
+Add ssl and proxy support and other minor fixes
+
 # 0.3.2
 
 ## Improvements
