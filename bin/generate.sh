@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -euo pipefail
+
 BASEDIR=$(dirname "$0")
 
 cd "$BASEDIR/.."
