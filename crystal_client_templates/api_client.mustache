@@ -242,8 +242,8 @@ module {{moduleName}}
     ) : Crest::Request
       # ssl_options = {
       #   "ca_file" => @config.ssl_ca_cert,
-      #   "verify" => @config.verify_ssl,
-      #   "verify_mode" => @config.verify_ssl,
+      #   "verify" => @config.verify_ssl?,
+      #   "verify_mode" => @config.verify_ssl?,
       #   "client_cert" => @config.cert_file,
       #   "client_key" => @config.key_file
       # }
@@ -251,25 +251,25 @@ module {{moduleName}}
 
       # Only configure custom SSL context if verification is disabled or custom certificates are provided.
       # Otherwise, use the default secure settings (tls = nil).
-      if !@config.verify_ssl || @config.ssl_ca_cert || @config.cert_file || @config.key_file
+      if !@config.verify_ssl? || @config.ssl_ca_cert || @config.cert_file || @config.key_file
         context = OpenSSL::SSL::Context::Client.new
 
-        if @config.verify_ssl
+        if @config.verify_ssl?
           context.verify_mode = OpenSSL::SSL::VerifyMode::PEER
         else
           context.verify_mode = OpenSSL::SSL::VerifyMode::NONE
         end
 
         if ca_cert = @config.ssl_ca_cert
-          context.ca_file = ca_cert
+          context.ca_certificates = ca_cert
         end
 
         if cert_file = @config.cert_file
-          context.certificate_file = cert_file
+          context.certificate_chain = cert_file
         end
 
         if key_file = @config.key_file
-          context.private_key_file = key_file
+          context.private_key = key_file
         end
 
         tls = context
