@@ -37,6 +37,6 @@ echo "Run ameba"
 echo "Apply git patches"
 [ -d "patches" ] && find ./patches -type f -name "*.patch" -exec git apply {} \;
 echo "Run post generate script"
-./post_generation_fixes.sh
+[ -f "./post_generation_fixes.sh" ] && ./post_generation_fixes.sh
 echo "Run tests"
 crystal spec
