@@ -61,6 +61,11 @@ module {{moduleName}}
     # @return [true, false]
     property? debugging : Bool
 
+    # Defines the proxy url.
+    #
+    # @return [String]
+    property proxy_url : String?
+
     # Defines the temporary folder to store downloaded files
     # (for API endpoints that have file response).
     # Default to use `Tempfile`.
@@ -151,6 +156,7 @@ module {{moduleName}}
       @username = nil
       @password = nil
       @access_token = nil
+      @proxy_url = nil
       @temp_folder_path = nil
     end
 

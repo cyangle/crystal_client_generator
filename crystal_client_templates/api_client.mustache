@@ -1,6 +1,7 @@
 # {{#lambdaPrefixWithHash}}{{> api_info}}{{/lambdaPrefixWithHash}}
 
 require "log"
+require "uri"
 require "./configuration"
 require "./api_error"
 
@@ -274,6 +275,19 @@ module {{moduleName}}
         tls = context
       end
 
+      p_addr : String? = nil
+      p_port : Int32? = nil
+      p_user : String? = nil
+      p_pass : String? = nil
+
+      if proxy_url = @config.proxy_url
+        uri = URI.parse(proxy_url)
+        p_addr = uri.host
+        p_port = uri.port
+        p_user = uri.user
+        p_pass = uri.password
+      end
+
       update_params_for_auth! header_params, cookie_params, query_params, auth_names
       header_params.merge!(default_headers)
       cookie_params.merge!(default_cookies)
@@ -294,6 +308,10 @@ module {{moduleName}}
         headers: header_params,
         cookies: cookie_params,
         form: form_or_body,
+        p_addr: p_addr,
+        p_port: p_port,
+        p_user: p_user,
+        p_pass: p_pass,
         logging: @config.debugging?,
         handle_errors: false,
         params_encoder: Crest::NestedParamsEncoder,
